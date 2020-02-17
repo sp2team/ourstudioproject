@@ -333,13 +333,13 @@ void SceneText::RenderSkybox()
 		modelStack.Scale(100.f, 100.f, 100.f);
 		RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
-	/*modelStack.PushMatrix();
-		scale, translate, rotate 
+	modelStack.PushMatrix();
+		///scale, translate, rotate 
 		modelStack.Translate(0.f, 0.f, 50.f);
 		modelStack.Scale(100.f, 100.f, 100.f);
 		modelStack.Rotate(180.f, 0.f, 1.f, 0.f);
 		RenderMesh(meshList[GEO_BACK], false);
-	modelStack.PopMatrix();*/
+	modelStack.PopMatrix();
 }
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
