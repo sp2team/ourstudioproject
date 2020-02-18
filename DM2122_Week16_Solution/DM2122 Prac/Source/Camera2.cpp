@@ -5,6 +5,7 @@
 
 Camera2::Camera2()
 {
+
 }
 
 Camera2::~Camera2()
@@ -25,7 +26,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 void Camera2::Update(double dt)
 {
 	static const float CAMERA_SPEED = 50.f;
-	if(Application::IsKeyPressed(VK_LEFT) || Application::IsKeyPressed('A'))
+	if(Application::IsKeyPressed(VK_LEFT))
 	{
 		float yaw = (float)(-CAMERA_SPEED * dt);
 		Mtx44 rotation;
@@ -33,7 +34,7 @@ void Camera2::Update(double dt)
 		position = rotation * position;
 		up = rotation * up;
 	}
-	if(Application::IsKeyPressed(VK_RIGHT) || Application::IsKeyPressed('D'))
+	if(Application::IsKeyPressed(VK_RIGHT))
 	{
 		float yaw = (float)(CAMERA_SPEED * dt);
 		Mtx44 rotation;
@@ -41,7 +42,7 @@ void Camera2::Update(double dt)
 		position = rotation * position;
 		up = rotation * up;
 	}
-	if(Application::IsKeyPressed(VK_UP) || Application::IsKeyPressed('W'))
+	if(Application::IsKeyPressed(VK_UP))
 	{
 		float pitch = (float)(-CAMERA_SPEED * dt);
 		Vector3 view = (target - position).Normalized();
@@ -53,7 +54,7 @@ void Camera2::Update(double dt)
 		rotation.SetToRotation(pitch, right.x, right.y, right.z);
 		position = rotation * position;
 	}
-	if(Application::IsKeyPressed(VK_DOWN) || Application::IsKeyPressed('S'))
+	if(Application::IsKeyPressed(VK_DOWN))
 	{
 		float pitch = (float)(CAMERA_SPEED * dt);
 		Vector3 view = (target - position).Normalized();
@@ -90,4 +91,51 @@ void Camera2::Reset()
 	position = defaultPosition;
 	target = defaultTarget;
 	up = defaultUp;
+}
+
+void Camera2::MouseControl()
+{
+	Vector3 view = (target - position).Normalized();
+	Vector3 right = view.Cross(up).Normalized();
+	POINT mouseposition;
+	GetCursorPos(&mouseposition);
+
+	int positionX = mouseposition.x;
+	int positionY = mouseposition.y;
+
+	if (MouseState)
+	{
+		lastX = positionX;
+		lastY = positionY;
+		MouseState = false;
+	}
+
+	float offsetx = positionX - lastX;
+	float offsety = positionY - lastY;
+	lastX = positionX;
+	lastY = positionY;
+
+	float sens = 0.3f; // sensitivity of mouse
+	offsetx *= sens;
+	offsety *= sens;
+
+	yaw += offsetx; // for left and right 
+	pitch -= offsety; // for up and down
+
+	if (pitch > 89.0f) // to set the limit to how far the player can look around
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	Vector3 front;
+	front.x = cos(Math::DegreeToRadian(yaw)) * cos(Math::DegreeToRadian(pitch));
+	front.y = sin(Math::DegreeToRadian(pitch));
+	front.z = sin(Math::DegreeToRadian(yaw)) * cos(Math::DegreeToRadian(pitch));
+
+	view = front.Normalized();
+	right.y = 0;
+	right.Normalize();
+	up = right.Cross(view).Normalized();
+	right = view.Cross(up).Normalized();
+	target = position + view;
 }

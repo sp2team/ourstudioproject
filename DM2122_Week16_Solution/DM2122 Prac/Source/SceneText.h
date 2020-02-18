@@ -20,6 +20,7 @@ class SceneText : public Scene
 		GEO_BACK,
 		GEO_CHAR,
 		GEO_DICE,
+		GEO_CAR,
 		GEO_LIGHTSPHERE,
 		GEO_TEXT,
 		NUM_GEOMETRY,
@@ -65,7 +66,10 @@ private:
 	unsigned m_parameters[U_TOTAL];
 
 	MS modelStack, viewStack, projectionStack;
+
 	Light light[1];
+
+	Vector3 playerPos;
 
 	Camera2 camera;
 	
