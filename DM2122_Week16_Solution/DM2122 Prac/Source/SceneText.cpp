@@ -35,7 +35,10 @@ void SceneText::Init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera[0].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 0);
+	camera[1].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
+
+	screen = 0;
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -179,17 +182,14 @@ void SceneText::Update(double dt)
 		//to do: switch light type to SPOT and pass the information to
 		light[0].type = Light::LIGHT_SPOT;
 	}
-	camera.Update(dt);
+	camera[screen].Update(dt);
 	CalculateFrameRate();
 }
 
 void SceneText::Render()
 {
-	//Clear color & depth buffer every frame
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	viewStack.LoadIdentity();
-	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
+	viewStack.LookAt(camera[screen].position.x, camera[screen].position.y, camera[screen].position.z, camera[screen].target.x, camera[screen].target.y, camera[screen].target.z, camera[screen].up.x, camera[screen].up.y, camera[screen].up.z);
 	modelStack.LoadIdentity();
 
 	// passing the light direction if it is a direction light	
@@ -427,4 +427,18 @@ void SceneText::CalculateFrameRate()
 		fps = (int)framesPerSecond;
 		framesPerSecond = 0;
 	}
+}
+
+void SceneText::RenderLeftScreen()
+{
+	screen = 0;
+	glViewport(0, 0, 1920 / 2, 1000);
+	SceneText::Render();
+}
+
+void SceneText::RenderRightScreen()
+{
+	screen = 1;
+	glViewport(1920 / 2, 0, 1920 / 2, 1000);
+	SceneText::Render();
 }

@@ -67,13 +67,17 @@ private:
 	MS modelStack, viewStack, projectionStack;
 	Light light[1];
 
-	Camera2 camera;
+	Camera2 camera[2];
+
+	int screen;
 	
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderSkybox();
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderLeftScreen();
+	void RenderRightScreen();
 	void CalculateFrameRate();
 
 public:

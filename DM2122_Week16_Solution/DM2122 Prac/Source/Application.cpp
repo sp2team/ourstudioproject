@@ -70,7 +70,7 @@ void Application::Init()
 
 
 	//Create a window and create its OpenGL context
-	m_window = glfwCreateWindow(800, 600, "Test Window", NULL, NULL);
+	m_window = glfwCreateWindow(1920, 1000, "Test Window", NULL, NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -109,16 +109,31 @@ void Application::Run()
 
 	scene->Init();
 
-	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+	m_timer1.startTimer();    // Start timer to calculate how long it takes to render this frame
+	m_timer2.startTimer();
+
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-		scene->Update(m_timer.getElapsedTime());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		//Render Single Screen
+		/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glViewport(0, 0, 1920, 1000);
 		scene->Render();
+		scene->Update(m_timer1.getElapsedTime());*/
+
+		// Render Split Screen
+		scene->RenderRightScreen();
+		scene->Update((m_timer1.getElapsedTime()));
+		scene->RenderLeftScreen();
+		scene->Update(m_timer2.getElapsedTime());
+
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
-        m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
+        m_timer1.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
+		m_timer2.waitUntil(frameTime);
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene->Exit();

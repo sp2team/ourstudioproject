@@ -15,9 +15,9 @@ public:
 	static bool IsKeyPressed(unsigned short key);
 
 private:
-
 	//Declare a window object
-	StopWatch m_timer;
+	StopWatch m_timer1;
+	StopWatch m_timer2;
 };
 
 #endif
