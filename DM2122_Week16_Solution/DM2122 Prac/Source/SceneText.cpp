@@ -139,6 +139,8 @@ void SceneText::Update(double dt)
 	currentTime += dt;
 	isAcceleratingA = false;
 	isAcceleratingB = false;
+	isDeceleratingA = false;
+	isDeceleratingB = false;
 
 	if (Application::IsKeyPressed(0x31))
 	{
@@ -194,12 +196,15 @@ void SceneText::Update(double dt)
 		isAcceleratingA = true;
 	}
 	if (Application::IsKeyPressed('V')) {
-		isAcceleratingB = true;
+		isDeceleratingA = true;
+		//isAcceleratingB = true;
 	}
 	currentTime += dt;
 	
 	objectA.SetisAccelerating(isAcceleratingA);
-	accelerationA = objectA.returnAcceleration(dt, currentTime);
+	//accelerationA = objectA.returnAcceleration(dt, currentTime);
+	objectA.SetisDecelerating(isDeceleratingA);
+	accelerationA = objectA.returnAcceleration(dt, currentTime) + objectA.returnDeceleration(dt, currentTime);
 
 	objectB.SetisAccelerating(isAcceleratingB);
 	accelerationB = objectB.returnAcceleration(dt, currentTime);

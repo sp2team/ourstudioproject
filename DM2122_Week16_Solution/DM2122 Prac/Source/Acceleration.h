@@ -3,15 +3,25 @@ class Acceleration
 {
 private:
 	bool isAccelerating;
-	float velocity;
-	bool hasStopped;
+	bool isDecelerating;
+
+	bool hasStoppedA;
+	bool hasStoppedD;
+
+	float velocityA;
+	float velocityD;
+
 	float acceleration;
-	float lastTime;
+
+	float lastTimeA;
+	float lastTimeD;
 public:
 	Acceleration();
 	~Acceleration();
 
 	void SetisAccelerating(bool change);
+	void SetisDecelerating(bool change);
 	float returnAcceleration(double dt, float currentTime);
+	float returnDeceleration(double dt, float currentTime);
 };
 

@@ -3,10 +3,14 @@
 Acceleration::Acceleration()
 {
 	isAccelerating = false;
-	velocity = 0;
-	hasStopped = false;
+	isDecelerating = false;
+	velocityA = 0;
+	velocityD = 0;
+	hasStoppedA = false;
+	hasStoppedD = false;
 	acceleration = 0;
-	lastTime = 0;
+	lastTimeA = 0;
+	lastTimeD = 0;
 }
 
 Acceleration::~Acceleration()
@@ -18,22 +22,45 @@ void Acceleration::SetisAccelerating(bool change)
 	isAccelerating = change;
 }
 
+void Acceleration::SetisDecelerating(bool change)
+{
+	isDecelerating = change;
+}
+
 float Acceleration::returnAcceleration(double dt, float currentTime)
 {
-	if (currentTime - lastTime > 0.5f && isAccelerating == true) {
-		velocity++;
-		lastTime = currentTime;
+	if (currentTime - lastTimeA > 0.5f && isAccelerating == true) {
+		velocityA++;
+		lastTimeA = currentTime;
 	}
-	isAccelerating = false;
-	hasStopped = false;
-	if (isAccelerating == false && hasStopped == false && velocity != 0) {
-		if (currentTime - lastTime > 0.5f) {
-			velocity--;
-			lastTime = currentTime;
+	hasStoppedA = false;
+	if (isAccelerating == false && hasStoppedA == false && velocityA != 0) {
+		if (currentTime - lastTimeA > 0.5f) {
+			velocityA--;
+			lastTimeA = currentTime;
 		}
-		hasStopped = true;
+		hasStoppedA = true;
 	}
-	acceleration += velocity * dt;
+	acceleration += velocityA * dt;
+
+	return acceleration;
+}
+
+float Acceleration::returnDeceleration(double dt, float currentTime)
+{
+	if (currentTime - lastTimeD > 0.5f && isDecelerating == true) {
+		velocityD--;
+		lastTimeD = currentTime;
+	}
+	hasStoppedD = false;
+	if (isDecelerating == false && hasStoppedD == false && velocityD != 0) {
+		if (currentTime - lastTimeD > 0.5f) {
+			velocityD++;
+			lastTimeD = currentTime;
+		}
+		hasStoppedD = true;
+	}
+	acceleration += velocityD * dt;
 
 	return acceleration;
 }

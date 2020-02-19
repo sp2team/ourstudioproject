@@ -1,8 +1,8 @@
-﻿  Application.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\minwindef.h(130,1): warning C4005:  'APIENTRY': macro redefinition
+﻿  Acceleration.cpp
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Acceleration.cpp(44,32): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
   SceneText.cpp
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\glfw\include\GLFW\glfw3.h(104): message :  see previous definition of 'APIENTRY'
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Acceleration.cpp(63,32): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
 C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(139,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
   Generating Code...
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(199,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(202,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
   DM2122 Prac.vcxproj -> C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\Debug\DM2122 Prac.exe

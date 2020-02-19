@@ -79,9 +79,14 @@ private:
 
 
 	bool isAcceleratingA;
+	bool isDeceleratingA;
 	float accelerationA;
+	//float decelerationA;
 	bool isAcceleratingB;
+	bool isDeceleratingB;
 	float accelerationB;
+	//float decelerationB;
+
 	
 	float currentTime;
 
