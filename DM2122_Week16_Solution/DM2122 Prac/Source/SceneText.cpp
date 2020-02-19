@@ -131,10 +131,15 @@ void SceneText::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
+	currentTime = 0;
 }
 
 void SceneText::Update(double dt)
 {
+	currentTime += dt;
+	isAcceleratingA = false;
+	isAcceleratingB = false;
+
 	if (Application::IsKeyPressed(0x31))
 	{
 		glDisable(GL_CULL_FACE);
@@ -179,6 +184,26 @@ void SceneText::Update(double dt)
 		//to do: switch light type to SPOT and pass the information to
 		light[0].type = Light::LIGHT_SPOT;
 	}
+	if (Application::IsKeyPressed('R'))
+	{
+		/*accelerationA = 0;
+		accelerationB = 0;*/
+	}
+	//for sudo acceleration
+	if (Application::IsKeyPressed('B')) {
+		isAcceleratingA = true;
+	}
+	if (Application::IsKeyPressed('V')) {
+		isAcceleratingB = true;
+	}
+	currentTime += dt;
+	
+	objectA.SetisAccelerating(isAcceleratingA);
+	accelerationA = objectA.returnAcceleration(dt, currentTime);
+
+	objectB.SetisAccelerating(isAcceleratingB);
+	accelerationB = objectB.returnAcceleration(dt, currentTime);
+
 	camera.Update(dt);
 	CalculateFrameRate();
 }
@@ -221,10 +246,15 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_LIGHTSPHERE], false);
 	modelStack.PopMatrix();
 
-	//modelStack.PushMatrix();
-	//modelStack.Translate(0, -3, 0);
-	//RenderMesh(meshList[GEO_DICE], true);
-	//modelStack.PopMatrix();
+	modelStack.PushMatrix();
+	modelStack.Translate(accelerationA, -3, 0);
+	RenderMesh(meshList[GEO_DICE], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(accelerationB, -3, 0);
+	RenderMesh(meshList[GEO_DICE], true);
+	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	//scale, translate, rotate

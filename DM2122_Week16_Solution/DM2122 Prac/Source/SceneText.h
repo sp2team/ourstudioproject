@@ -6,6 +6,7 @@
 #include "Camera2.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "Acceleration.h"
 
 class SceneText : public Scene
 {
@@ -76,6 +77,17 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void CalculateFrameRate();
 
+
+	bool isAcceleratingA;
+	float accelerationA;
+	bool isAcceleratingB;
+	float accelerationB;
+	
+	float currentTime;
+
+	Acceleration objectA;
+	Acceleration objectB;
+
 public:
 	SceneText();
 	~SceneText();
@@ -84,6 +96,8 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
+
+	
 };
 
 #endif
