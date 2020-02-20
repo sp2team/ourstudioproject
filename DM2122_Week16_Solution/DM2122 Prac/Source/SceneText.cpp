@@ -35,7 +35,7 @@ void SceneText::Init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0,10,15), playerPos, Vector3(0, 1, 0)); 
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -133,6 +133,7 @@ void SceneText::Init()
 
 	rotationAngle = 0;
 	currentTime = 0;
+	
 }
 
 void SceneText::Update(double dt)
@@ -142,7 +143,6 @@ void SceneText::Update(double dt)
 	isAcceleratingB = false;
 	isDeceleratingA = false;
 	isDeceleratingB = false;
-	
 
 	if (Application::IsKeyPressed(0x31))
 	{
@@ -169,7 +169,9 @@ void SceneText::Update(double dt)
 	if (Application::IsKeyPressed('L'))
 		light[0].position.x += (float)(LSPEED * dt);
 	if (Application::IsKeyPressed('O'))
+	{
 		light[0].position.y -= (float)(LSPEED * dt);
+	}
 	if (Application::IsKeyPressed('P'))
 		light[0].position.y += (float)(LSPEED * dt);
 
@@ -178,7 +180,7 @@ void SceneText::Update(double dt)
 		//to do: switch light type to POINT and pass the information to
 		light[0].type = Light::LIGHT_POINT;
 	}
-	else if (Application::IsKeyPressed('W'))
+	else if (Application::IsKeyPressed('T'))
 	{
 		//to do: switch light type to DIRECTIONAL and pass the
 		light[0].type = Light::LIGHT_DIRECTIONAL;
@@ -216,6 +218,30 @@ void SceneText::Update(double dt)
 	objectB.SetisAccelerating(isAcceleratingB);
 	accelerationB = objectB.returnAcceleration(dt, currentTime, 1.f);;
 
+	if (Application::IsKeyPressed('W'))
+	{
+		playerPos.z -= (float)(LSPEED * dt);
+		camera.position.z -= (float)(LSPEED * dt);
+	}
+	if (Application::IsKeyPressed('S'))
+	{
+		playerPos.z += (float)(LSPEED * dt);
+		camera.position.z += (float)(LSPEED * dt);
+	}
+	if (Application::IsKeyPressed('D'))
+	{
+		playerPos.x += (float)(LSPEED * dt);
+		camera.position.x += (float)(LSPEED * dt);
+	}
+	if (Application::IsKeyPressed('A'))
+	{
+		playerPos.x -= (float)(LSPEED * dt);
+		camera.position.x -= (float)(LSPEED * dt);
+	}
+
+	camera.Init(camera.position , playerPos, Vector3(0, 1, 0));  // option 2 for 3rd person cam
+
+	//camera.MouseControl();
 	camera.Update(dt);
 	CalculateFrameRate();
 }
@@ -253,8 +279,13 @@ void SceneText::Render()
 
 	RenderSkybox();
 
+	Vector3 lightPos;
+	lightPos.x = light[0].position.x;
+	lightPos.y = light[0].position.y;
+	lightPos.z = light[0].position.z;
+
 	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+	modelStack.Translate(lightPos.x, lightPos.y, lightPos.z);
 	RenderMesh(meshList[GEO_LIGHTSPHERE], false);
 	modelStack.PopMatrix();
 
@@ -267,6 +298,9 @@ void SceneText::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(accelerationB, -3, 0);
 	RenderMesh(meshList[GEO_DICE], true);
+
+	modelStack.Translate(playerPos.x, -3 + playerPos.y, playerPos.z);
+	RenderMesh(meshList[GEO_DICE], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
