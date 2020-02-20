@@ -21,7 +21,7 @@ public:
 
 	void SetisAccelerating(bool change);
 	void SetisDecelerating(bool change);
-	float returnAcceleration(double dt, float currentTime);
-	float returnDeceleration(double dt, float currentTime);
+	float returnAcceleration(double dt, float currentTime, float max);
+	float returnDeceleration(double dt, float currentTime, float max);
 };
 

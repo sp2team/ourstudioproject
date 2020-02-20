@@ -27,9 +27,9 @@ void Acceleration::SetisDecelerating(bool change)
 	isDecelerating = change;
 }
 
-float Acceleration::returnAcceleration(double dt, float currentTime)
+float Acceleration::returnAcceleration(double dt, float currentTime, float max)
 {
-	if (currentTime - lastTimeA > 0.5f && isAccelerating == true) {
+	if (currentTime - lastTimeA > 0.5f && isAccelerating == true && velocityA != max) {
 		velocityA++;
 		lastTimeA = currentTime;
 	}
@@ -46,9 +46,9 @@ float Acceleration::returnAcceleration(double dt, float currentTime)
 	return acceleration;
 }
 
-float Acceleration::returnDeceleration(double dt, float currentTime)
+float Acceleration::returnDeceleration(double dt, float currentTime, float max)
 {
-	if (currentTime - lastTimeD > 0.5f && isDecelerating == true) {
+	if (currentTime - lastTimeD > 0.5f && isDecelerating == true && velocityD != -max) {
 		velocityD--;
 		lastTimeD = currentTime;
 	}

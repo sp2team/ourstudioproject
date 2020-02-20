@@ -131,6 +131,7 @@ void SceneText::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
+	rotationAngle = 0;
 	currentTime = 0;
 }
 
@@ -141,6 +142,7 @@ void SceneText::Update(double dt)
 	isAcceleratingB = false;
 	isDeceleratingA = false;
 	isDeceleratingB = false;
+	
 
 	if (Application::IsKeyPressed(0x31))
 	{
@@ -192,22 +194,27 @@ void SceneText::Update(double dt)
 		accelerationB = 0;*/
 	}
 	//for sudo acceleration
-	if (Application::IsKeyPressed('B')) {
+	if (Application::IsKeyPressed('W')) {
 		isAcceleratingA = true;
 	}
-	if (Application::IsKeyPressed('V')) {
+	if (Application::IsKeyPressed('S')) {
 		isDeceleratingA = true;
 		//isAcceleratingB = true;
+	}
+	if (Application::IsKeyPressed('A')) {
+		rotationAngle += dt;
+	}
+	if (Application::IsKeyPressed('D')) {
+		rotationAngle -= dt;
 	}
 	currentTime += dt;
 	
 	objectA.SetisAccelerating(isAcceleratingA);
-	//accelerationA = objectA.returnAcceleration(dt, currentTime);
 	objectA.SetisDecelerating(isDeceleratingA);
-	accelerationA = objectA.returnAcceleration(dt, currentTime) + objectA.returnDeceleration(dt, currentTime);
+	accelerationA = objectA.returnAcceleration(dt, currentTime, 4.f) + objectA.returnDeceleration(dt, currentTime, 2.f);
 
 	objectB.SetisAccelerating(isAcceleratingB);
-	accelerationB = objectB.returnAcceleration(dt, currentTime);
+	accelerationB = objectB.returnAcceleration(dt, currentTime, 1.f);;
 
 	camera.Update(dt);
 	CalculateFrameRate();
@@ -252,7 +259,8 @@ void SceneText::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(accelerationA, -3, 0);
+	//modelStack.Rotate(rotationAngle, 0, 1, 0);
+	modelStack.Translate(accelerationA * cos(rotationAngle), -3, accelerationA * sin(rotationAngle));
 	RenderMesh(meshList[GEO_DICE], true);
 	modelStack.PopMatrix();
 

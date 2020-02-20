@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Light.h"
 #include "Acceleration.h"
+#include <math.h>
 
 class SceneText : public Scene
 {
@@ -87,6 +88,7 @@ private:
 	float accelerationB;
 	//float decelerationB;
 
+	float rotationAngle;
 	
 	float currentTime;
 
