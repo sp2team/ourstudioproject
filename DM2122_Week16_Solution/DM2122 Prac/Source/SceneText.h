@@ -6,8 +6,6 @@
 #include "Camera2.h"
 #include "Mesh.h"
 #include "Light.h"
-#include "Acceleration.h"
-#include <math.h>
 
 class SceneText : public Scene
 {
@@ -20,9 +18,26 @@ class SceneText : public Scene
 		GEO_BOTTOM, 
 		GEO_FRONT, 
 		GEO_BACK,
+		GEO_LEFT2,
+		GEO_RIGHT2,
+		GEO_TOP2,
+		GEO_BOTTOM2,
+		GEO_FRONT2,
+		GEO_BACK2,
 		GEO_CHAR,
 		GEO_DICE,
-		GEO_CAR,
+		GEO_PILLAR,
+		GEO_PILLAR2,
+		GEO_PILLAR3,
+		GEO_PILLAR4,
+		GEO_RACETRACK,
+		GEO_RING,
+		GEO_RACETOP,
+		GEO_RACEBOTTOM,
+		GEO_RACELEFT,
+		GEO_RACERIGHT,
+		GEO_RACEFRONT,
+		GEO_RACEBACK,
 		GEO_LIGHTSPHERE,
 		GEO_TEXT,
 		NUM_GEOMETRY,
@@ -68,10 +83,7 @@ private:
 	unsigned m_parameters[U_TOTAL];
 
 	MS modelStack, viewStack, projectionStack;
-
 	Light light[1];
-
-	Vector3 playerPos;
 
 	Camera2 camera;
 	
@@ -82,22 +94,9 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void CalculateFrameRate();
 
+	float ytranslate;
+	bool skyboxcheck;
 
-	bool isAcceleratingA;
-	bool isDeceleratingA;
-	float accelerationA;
-	//float decelerationA;
-	bool isAcceleratingB;
-	bool isDeceleratingB;
-	float accelerationB;
-	//float decelerationB;
-
-	float rotationAngle;
-	
-	float currentTime;
-
-	Acceleration objectA;
-	Acceleration objectB;
 
 public:
 	SceneText();
@@ -107,8 +106,6 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
-
-	
 };
 
 #endif
