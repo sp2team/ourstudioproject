@@ -16,8 +16,7 @@ public:
 
 private:
 	//Declare a window object
-	StopWatch m_timer1;
-	StopWatch m_timer2;
+	StopWatch m_timer;
 };
 
 #endif

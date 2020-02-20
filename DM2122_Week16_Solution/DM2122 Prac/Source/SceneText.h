@@ -6,6 +6,9 @@
 #include "Camera2.h"
 #include "Mesh.h"
 #include "Light.h"
+#include <iostream>
+#include <irrKlang.h>
+#pragma comment(lib, "irrKlang.lib")
 
 class SceneText : public Scene
 {
@@ -68,6 +71,8 @@ private:
 	Light light[1];
 
 	Camera2 camera[2];
+
+	irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
 
 	int screen;
 	
