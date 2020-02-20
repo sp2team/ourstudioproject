@@ -1,3 +1,28 @@
-﻿  SceneText.cpp
-C:\Users\ZI QIAN\Downloads\StudioProject\DM2122 Prac\Source\SceneText.cpp(506,47): warning C4305: '+=': truncation from 'double' to 'float'
-  DM2122 Prac.vcxproj -> C:\Users\ZI QIAN\Downloads\StudioProject\Debug\DM2122 Prac.exe
+﻿  Application.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\minwindef.h(130,1): warning C4005:  'APIENTRY': macro redefinition
+  Camera.cpp
+  Camera2.cpp
+  LoadOBJ.cpp
+  LoadTGA.cpp
+  main.cpp
+  Mesh.cpp
+  MeshBuilder.cpp
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\glfw\include\GLFW\glfw3.h(104): message :  see previous definition of 'APIENTRY'
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(28,14): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(31,20): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(34,17): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(37,23): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(40,20): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(43,26): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(91,18): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(92,18): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(151,18): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(152,18): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
+  SceneText.cpp
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\MeshBuilder.cpp(153,18): warning C4244:  'initializing': conversion from 'double' to 'float', possible loss of data
+  shader.cpp
+  Utility.cpp
+  Generating Code...
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(506,47): warning C4305:  '+=': truncation from 'double' to 'float'
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  DM2122 Prac.vcxproj -> C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\Debug\DM2122 Prac.exe
