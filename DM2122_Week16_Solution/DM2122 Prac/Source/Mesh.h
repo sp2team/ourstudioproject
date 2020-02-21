@@ -29,6 +29,13 @@ public:
 	void Render(unsigned, unsigned);
 
 	const std::string name;
+	Vector3 vertices[8];
+	float maxX;
+	float maxY;
+	float maxZ;
+	float minX;
+	float minY;
+	float minZ;
 	DRAW_MODE mode;
 	unsigned vertexBuffer;
 	unsigned colorBuffer;

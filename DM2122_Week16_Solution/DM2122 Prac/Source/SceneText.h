@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Light.h"
 #include "Acceleration.h"
+#include "ObjectManager.h"
 #include <math.h>
 #include <irrKlang.h>
 #pragma comment(lib, "irrKlang.lib")
@@ -82,8 +83,9 @@ private:
 	int screen;
 	
 	void RenderMesh(Mesh* mesh, bool enableLight);
+	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);
 	void RenderSkybox();
-
+	void VerticeUpdate(Mesh* mesh, Object meshObject);
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderLeftScreen();

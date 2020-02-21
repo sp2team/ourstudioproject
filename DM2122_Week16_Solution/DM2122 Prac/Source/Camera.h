@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "Vector3.h"
+#include "ObjectManager.h"
 
 class Camera
 {

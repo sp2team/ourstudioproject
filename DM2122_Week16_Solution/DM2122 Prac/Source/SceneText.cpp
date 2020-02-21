@@ -11,6 +11,8 @@
 #define SCALE_LIMIT 5.f;
 #define LSPEED 10.f
 
+extern ObjectManager ObjectList;
+
 SceneText::SceneText()
 {
 	for (int i = 0; i < NUM_GEOMETRY; ++i)
@@ -42,6 +44,7 @@ void SceneText::Init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	ObjectList.Character.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0);
 	camera[0].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 0);
 	camera[1].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
 	
@@ -112,31 +115,31 @@ void SceneText::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 	glUniform1i(m_parameters[U_NUMLIGHTS], 1); 
 
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
 
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
 
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
 
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
 
-	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
 
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
 
-	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_CHAR]->textureID = LoadTGA("Image//char.tga");
 
-	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj");
+	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj", ObjectList.Character.getOffsetX(), ObjectList.Character.getOffsetY(), ObjectList.Character.getOffsetZ());
 	meshList[GEO_DICE]->textureID = LoadTGA("Image//doorman.tga");
 
-	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f);
+	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f, 0, 5, 0);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
@@ -296,19 +299,21 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_LIGHTSPHERE], false);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	//modelStack.Rotate(rotationAngle, 0, 1, 0);
-	modelStack.Translate(accelerationA * cos(rotationAngle), -3, accelerationA * sin(rotationAngle));
-	RenderMesh(meshList[GEO_DICE], true);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	////modelStack.Rotate(rotationAngle, 0, 1, 0);
+	//modelStack.Translate(accelerationA * cos(rotationAngle), -3, accelerationA * sin(rotationAngle));
+	//RenderMesh(meshList[GEO_DICE], true);
+	//modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(accelerationB, -3, 0);
-	RenderMesh(meshList[GEO_DICE], true);
+	RenderMesh(meshList[GEO_DICE], true);*/
 
-	modelStack.Translate(playerPos.x, -3 + playerPos.y, playerPos.z);
+	/*modelStack.Translate(playerPos.x, -3 + playerPos.y, playerPos.z);
 	RenderMesh(meshList[GEO_DICE], false);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
+
+	RenderObject(meshList[GEO_DICE], ObjectList.Character, true);
 
 	modelStack.PushMatrix();
 	//scale, translate, rotate
@@ -375,6 +380,16 @@ void SceneText::RenderMesh(Mesh* mesh, bool enableLight)
 	if(mesh->textureID > 0) glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void SceneText::RenderObject(Mesh* mesh, Object meshObject, bool enableLight)
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(meshObject.getTranslationX(), meshObject.getTranslationY(), meshObject.getTranslationZ());
+	modelStack.Scale(meshObject.getScaleX(), meshObject.getScaleY(), meshObject.getScaleZ());
+	modelStack.Rotate(meshObject.getRotationAmount(), meshObject.getRotateX(), meshObject.getRotateY(), meshObject.getRotateZ());
+	RenderMesh(mesh, enableLight);
+	modelStack.PopMatrix();
+}
+
 void SceneText::RenderSkybox()
 {
 	modelStack.PushMatrix();
@@ -424,6 +439,24 @@ void SceneText::RenderSkybox()
 		modelStack.Rotate(180.f, 0.f, 1.f, 0.f);
 		RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
+}
+
+void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
+{
+	if (meshObject.getLastTranslationX() != meshObject.getTranslationX() || meshObject.getLastTranslationY() != meshObject.getTranslationY() || meshObject.getLastTranslationZ() != meshObject.getTranslationZ()) // Updates the Bounding Box 8-vertices.
+	{
+		for (int counter = 0; counter <= 7; counter++)
+		{
+			mesh->vertices[counter].x = mesh->vertices[counter].x - meshObject.getLastTranslationX() + meshObject.getTranslationX();
+			mesh->vertices[counter].y = mesh->vertices[counter].y - meshObject.getLastTranslationY() + meshObject.getTranslationY();
+			mesh->vertices[counter].z = mesh->vertices[counter].z - meshObject.getLastTranslationZ() + meshObject.getTranslationZ();
+		}
+
+		mesh->maxX = mesh->vertices[6].x, mesh->maxY = mesh->vertices[6].y, mesh->maxZ = mesh->vertices[6].z, mesh->minX = mesh->vertices[0].x, mesh->minY = mesh->vertices[0].y, mesh->minZ = mesh->vertices[0].z;
+		meshObject.setLastTranslationX(meshObject.getTranslationX());
+		meshObject.setLastTranslationY(meshObject.getTranslationY());
+		meshObject.setLastTranslationZ(meshObject.getTranslationZ());
+	}
 }
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)

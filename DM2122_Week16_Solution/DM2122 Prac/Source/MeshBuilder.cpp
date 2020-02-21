@@ -4,6 +4,78 @@
 #include <MyMath.h>
 #include "LoadOBJ.h"
 
+Mesh* MeshBuilder::GenerateBoundingBox(const std::string& meshName, Vector3 vertice[8])
+{
+	Vertex v;
+	std::vector<Vertex> vertex_buffer_data;
+	v.pos.Set(vertice[0].x, vertice[0].y, vertice[0].z); // Bottom Left Back 0 
+	vertex_buffer_data.push_back(v);
+	v.pos.Set(vertice[1].x, vertice[1].y, vertice[1].z); // Bottom Right Back 1
+	vertex_buffer_data.push_back(v);
+	v.pos.Set(vertice[2].x, vertice[2].y, vertice[2].z); // Top Right Back 2
+	vertex_buffer_data.push_back(v);
+	v.pos.Set(vertice[3].x, vertice[3].y, vertice[3].z);  // Top Left Back 3
+	vertex_buffer_data.push_back(v);
+	v.pos.Set(vertice[4].x, vertice[4].y, vertice[4].z);  // Bottom Left Front 4
+	vertex_buffer_data.push_back(v);
+	v.pos.Set(vertice[5].x, vertice[5].y, vertice[5].z); // Bottom Right Front 5
+	vertex_buffer_data.push_back(v);
+	v.pos.Set(vertice[6].x, vertice[6].y, vertice[6].z); // Top Right Front 6
+	vertex_buffer_data.push_back(v);
+	v.pos.Set(vertice[7].x, vertice[7].y, vertice[7].z); // Top Left Front 7
+	vertex_buffer_data.push_back(v);
+
+	std::vector<GLuint> index_buffer_data;
+	index_buffer_data.reserve(24);
+	index_buffer_data.push_back(1); // Behind
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(3);
+
+	index_buffer_data.push_back(4); // Front
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(4);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(6);
+
+	index_buffer_data.push_back(5); // Right
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(5);
+	index_buffer_data.push_back(6);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(2);
+
+	index_buffer_data.push_back(0); // Lefts
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(4);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(7);
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(4);
+
+	Mesh* mesh = new Mesh(meshName);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	mesh->indexSize = index_buffer_data.size();
+	mesh->mode = Mesh::DRAW_LINES;
+
+	return mesh;
+}
 /******************************************************************************/
 /*!
 \brief
@@ -79,9 +151,10 @@ Then generate the VBO/IBO and store them in Mesh object
 \return Pointer to mesh storing VBO/IBO of quad
 */
 /******************************************************************************/
-Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float lengthX, float lengthY)
+Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float lengthX, float lengthY, float offsetX, float offsetY, float offsetZ)
 {
 	Vertex v;
+	float maximumX = 0.00001, minimumX = 0.00001, maximumY = 0.00001, minimumY = 0.00001, maximumZ = 0.00001, minimumZ = 0.0001;
 	std::vector<Vertex> vertex_buffer_data;
 	// a quad has 4 vertices
 	vertex_buffer_data.reserve(4);
@@ -124,6 +197,53 @@ Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float 
 		GL_STATIC_DRAW);
 	mesh->indexSize = index_buffer_data.size();
 	mesh->mode = Mesh::DRAW_TRIANGLES;
+
+	for (int counter = 0; counter < vertex_buffer_data.size(); counter++)
+	{
+		Vertex temp;
+		temp = vertex_buffer_data.at(counter);
+
+		if (temp.pos.x > maximumX)
+		{
+			maximumX = temp.pos.x;
+		}
+
+		if (temp.pos.y > maximumY)
+		{
+			maximumY = temp.pos.y;
+		}
+
+		if (temp.pos.z > maximumZ)
+		{
+			maximumZ = temp.pos.z;
+		}
+
+		if (temp.pos.x < minimumX)
+		{
+			minimumX = temp.pos.x;
+		}
+
+		if (temp.pos.y < minimumY)
+		{
+			minimumY = temp.pos.y;
+		}
+
+		if (temp.pos.z < minimumZ)
+		{
+			minimumZ = temp.pos.z;
+		}
+	}
+
+	mesh->vertices[0].Set(minimumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[1].Set(maximumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[2].Set(maximumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[3].Set(minimumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[4].Set(minimumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[5].Set(maximumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[6].Set(maximumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[7].Set(minimumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->maxX = mesh->vertices[6].x, mesh->maxY = mesh->vertices[6].y, mesh->maxZ = mesh->vertices[6].z, mesh->minX = mesh->vertices[0].x, mesh->minY = mesh->vertices[0].y, mesh->minZ = mesh->vertices[0].z;
+
 	return mesh;
 }
 
@@ -320,9 +440,11 @@ float sphereZ(float phi, float theta) {
 }
 
 /******************************************************************************/
-Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius)
+Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius, float offsetX, float offsetY, float offsetZ)
 {
 	Vertex v;
+	float maximumX = 0.00001, minimumX = 0.00001, maximumY = 0.00001, minimumY = 0.00001, maximumZ = 0.00001, minimumZ = 0.0001;
+
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<GLuint> index_buffer_data;
 	float degreePerStack = 180.f / numStack;
@@ -351,6 +473,52 @@ Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsi
 	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	for (int counter = 0; counter < vertex_buffer_data.size(); counter++)
+	{
+		Vertex temp;
+		temp = vertex_buffer_data.at(counter);
+
+		if (temp.pos.x > maximumX)
+		{
+			maximumX = temp.pos.x;
+		}
+
+		if (temp.pos.y > maximumY)
+		{
+			maximumY = temp.pos.y;
+		}
+
+		if (temp.pos.z > maximumZ)
+		{
+			maximumZ = temp.pos.z;
+		}
+
+		if (temp.pos.x < minimumX)
+		{
+			minimumX = temp.pos.x;
+		}
+
+		if (temp.pos.y < minimumY)
+		{
+			minimumY = temp.pos.y;
+		}
+
+		if (temp.pos.z < minimumZ)
+		{
+			minimumZ = temp.pos.z;
+		}
+	}
+
+	mesh->vertices[0].Set(minimumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[1].Set(maximumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[2].Set(maximumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[3].Set(minimumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[4].Set(minimumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[5].Set(maximumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[6].Set(maximumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[7].Set(minimumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->maxX = mesh->vertices[6].x, mesh->maxY = mesh->vertices[6].y, mesh->maxZ = mesh->vertices[6].z, mesh->minX = mesh->vertices[0].x, mesh->minY = mesh->vertices[0].y, mesh->minZ = mesh->vertices[0].z;
 
 	return mesh;
 }
@@ -534,8 +702,10 @@ Mesh* MeshBuilder::GenerateTorus(const std::string& meshName, Color color, unsig
 	return mesh;
 }
 
-Mesh* MeshBuilder::GenerateOBJ(const std::string& meshname, const std::string& file_path)
+Mesh* MeshBuilder::GenerateOBJ(const std::string& meshname, const std::string& file_path, float offsetX, float offsetY, float offsetZ)
 {
+	float maximumX = 0.00001, minimumX = 0.00001, maximumY = 0.00001, minimumY = 0.00001, maximumZ = 0.00001, minimumZ = 0.00001;
+
 	std::vector<Position> vertices;
 	std::vector<TexCoord> uvs;
 	std::vector<Vector3> normals;
@@ -554,6 +724,52 @@ Mesh* MeshBuilder::GenerateOBJ(const std::string& meshname, const std::string& f
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
 
 	mesh->indexSize = index_buffer_data.size();
+
+	for (int counter = 0; counter < vertex_buffer_data.size(); counter++)
+	{
+		Vertex temp;
+		temp = vertex_buffer_data.at(counter);
+
+		if (temp.pos.x > maximumX)
+		{
+			maximumX = temp.pos.x;
+		}
+
+		if (temp.pos.y > maximumY)
+		{
+			maximumY = temp.pos.y;
+		}
+
+		if (temp.pos.z > maximumZ)
+		{
+			maximumZ = temp.pos.z;
+		}
+
+		if (temp.pos.x < minimumX)
+		{
+			minimumX = temp.pos.x;
+		}
+
+		if (temp.pos.y < minimumY)
+		{
+			minimumY = temp.pos.y;
+		}
+
+		if (temp.pos.z < minimumZ)
+		{
+			minimumZ = temp.pos.z;
+		}
+	}
+
+	mesh->vertices[0].Set(minimumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[1].Set(maximumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[2].Set(maximumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[3].Set(minimumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[4].Set(minimumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[5].Set(maximumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[6].Set(maximumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[7].Set(minimumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->maxX = mesh->vertices[6].x, mesh->maxY = mesh->vertices[6].y, mesh->maxZ = mesh->vertices[6].z, mesh->minX = mesh->vertices[0].x, mesh->minY = mesh->vertices[0].y, mesh->minZ = mesh->vertices[0].z;
 
 	return mesh;
 }
