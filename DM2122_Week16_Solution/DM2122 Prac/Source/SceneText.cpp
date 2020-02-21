@@ -27,10 +27,10 @@ void SceneText::Init()
 {
 	/*Sound Engine*/
 
-	irrklang::ISound* playStart = SoundEngine->play2D("Sounds//pistol.mp3", false);
-	irrklang::ISound* playBG = SoundEngine->play2D("Sounds//ambient.mp3", true);
-	irrklang::ISound* playWind = SoundEngine->play2D("Sounds//wind.mp3", true);
-	irrklang::ISound* playCar = SoundEngine->play2D("Sounds//engine.mp3", true);
+	//irrklang::ISound* playStart = SoundEngine->play2D("Sounds//pistol.mp3", false);
+	//irrklang::ISound* playBG = SoundEngine->play2D("Sounds//ambient.mp3", true);
+	//irrklang::ISound* playWind = SoundEngine->play2D("Sounds//wind.mp3", true);
+	//irrklang::ISound* playCar = SoundEngine->play2D("Sounds//engine.mp3", true);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -446,4 +446,16 @@ void SceneText::RenderRightScreen()
 {
 	screen = 1;
 	SceneText::Render();
+}
+
+int switchscreen = 0;
+
+int SceneText::SwitchScene()
+{
+	if (Application::IsKeyPressed('P'))
+		switchscreen = 1;
+	else if (Application::IsKeyPressed('O'))
+		switchscreen = 0;
+
+	return switchscreen;
 }

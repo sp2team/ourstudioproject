@@ -70,7 +70,7 @@ void Application::Init()
 
 
 	//Create a fullscreen window
-	//GLFWwindow* m_window = glfwCreateWindow(1920, 1000, "Our 'great' Show", glfwGetPrimaryWindow(), NULL); 
+	//m_window = glfwCreateWindow(1920, 1000, "Our 'great' Show", glfwGetPrimaryMonitor(), NULL); 
 
 	//Create a window and create its OpenGL context
 	m_window = glfwCreateWindow(1920, 1000, "Our 'great' Show", NULL, NULL);
@@ -115,10 +115,9 @@ void Application::Run()
 
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+		//Scene manager to manage whether to use split screen or single screen
 		scene->SwitchScreen();
-		scene->Render(m_timer.getElapsedTime());
+		scene->RenderScreen(m_timer.getElapsedTime());
 
 		//Swap buffers
 		glfwSwapBuffers(m_window);

@@ -13,6 +13,7 @@ public:
 	virtual void Exit() = 0;
 	virtual void RenderLeftScreen() = 0;
 	virtual void RenderRightScreen() = 0;
+	virtual int SwitchScene() = 0;
 };
 
 #endif

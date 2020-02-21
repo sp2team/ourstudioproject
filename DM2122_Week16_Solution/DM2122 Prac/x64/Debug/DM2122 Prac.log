@@ -1,0 +1,23 @@
+﻿  Application.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\Application.cpp(2,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  Camera.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\Camera.h(4,10): fatal error C1083: Cannot open include file: 'Vector3.h': No such file or directory
+  Camera2.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\Camera.h(4,10): fatal error C1083: Cannot open include file: 'Vector3.h': No such file or directory
+  LoadOBJ.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\Vertex.h(4,10): fatal error C1083: Cannot open include file: 'Vector3.h': No such file or directory
+  LoadTGA.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\LoadTGA.cpp(4,10): fatal error C1083: Cannot open include file: 'GL\glew.h': No such file or directory
+  main.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\Application.h(5,10): fatal error C1083: Cannot open include file: 'timer.h': No such file or directory
+  Mesh.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\Vertex.h(4,10): fatal error C1083: Cannot open include file: 'Vector3.h': No such file or directory
+  MeshBuilder.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\Vertex.h(4,10): fatal error C1083: Cannot open include file: 'Vector3.h': No such file or directory
+  SceneText.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.h(5,10): fatal error C1083: Cannot open include file: 'MatrixStack.h': No such file or directory
+  shader.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\shader.cpp(12,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  Utility.cpp
+C:\Users\wesly\Downloads\test\DM2122_Week16_Solution\DM2122 Prac\Source\Utility.h(4,10): fatal error C1083: Cannot open include file: 'Mtx44.h': No such file or directory
+  Generating Code...
