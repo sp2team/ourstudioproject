@@ -10,7 +10,7 @@
 
 #include "Application.h"
 
-#include "SceneText.h"
+#include "SceneManager.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -70,7 +70,7 @@ void Application::Init()
 
 
 	//Create a window and create its OpenGL context
-	m_window = glfwCreateWindow(800, 600, "Test Window", NULL, NULL);
+	m_window = glfwCreateWindow(1920, 1000, "Test Window", NULL, NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -105,15 +105,17 @@ void Application::Run()
 {
 	//Main Loop
 
-	Scene* scene = new SceneText();
+	SceneManager* scene = new SceneManager();
 
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-		scene->Update(m_timer.getElapsedTime());
-		scene->Render();
+		//Scene manager to manage whether to use split screen or single screen
+		scene->SwitchScreen();
+		scene->RenderScreen(m_timer.getElapsedTime());
+
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...

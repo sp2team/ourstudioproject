@@ -13,6 +13,7 @@ public:
 	Vector3 defaultPosition;
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
+	int camera;
 
 	bool MouseState = true;
 	float lastX = 400.f;
@@ -23,7 +24,7 @@ public:
 
 	Camera2();
 	~Camera2();
-	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
+	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up, int camera);
 	virtual void Update(double dt);
 	virtual void Reset();
 	void MouseControl();

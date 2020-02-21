@@ -27,6 +27,13 @@ void SceneText::Init()
 {
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
+	/*Sound Engine*/
+
+	//irrklang::ISound* playStart = SoundEngine->play2D("Sounds//pistol.mp3", false);
+	//irrklang::ISound* playBG = SoundEngine->play2D("Sounds//ambient.mp3", true);
+	//irrklang::ISound* playWind = SoundEngine->play2D("Sounds//wind.mp3", true);
+	//irrklang::ISound* playCar = SoundEngine->play2D("Sounds//engine.mp3", true);
+
 	// Generate a default VAO for now
 	glGenVertexArrays(1, &m_vertexArrayID);
 	glBindVertexArray(m_vertexArrayID);
@@ -35,7 +42,10 @@ void SceneText::Init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	camera.Init(Vector3(0,10,15), playerPos, Vector3(0, 1, 0)); 
+	camera[0].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 0);
+	camera[1].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
+	
+	screen = 0;
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -221,38 +231,35 @@ void SceneText::Update(double dt)
 	if (Application::IsKeyPressed('W'))
 	{
 		playerPos.z -= (float)(LSPEED * dt);
-		camera.position.z -= (float)(LSPEED * dt);
+		camera[screen].position.z -= (float)(LSPEED * dt);
 	}
 	if (Application::IsKeyPressed('S'))
 	{
 		playerPos.z += (float)(LSPEED * dt);
-		camera.position.z += (float)(LSPEED * dt);
+		camera[screen].position.z += (float)(LSPEED * dt);
 	}
 	if (Application::IsKeyPressed('D'))
 	{
 		playerPos.x += (float)(LSPEED * dt);
-		camera.position.x += (float)(LSPEED * dt);
+		camera[screen].position.x += (float)(LSPEED * dt);
 	}
 	if (Application::IsKeyPressed('A'))
 	{
 		playerPos.x -= (float)(LSPEED * dt);
-		camera.position.x -= (float)(LSPEED * dt);
+		camera[screen].position.x -= (float)(LSPEED * dt);
 	}
 
-	camera.Init(camera.position , playerPos, Vector3(0, 1, 0));  // option 2 for 3rd person cam
+	//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
 
 	//camera.MouseControl();
-	camera.Update(dt);
+	camera[screen].Update(dt);
 	CalculateFrameRate();
 }
 
 void SceneText::Render()
 {
-	//Clear color & depth buffer every frame
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	viewStack.LoadIdentity();
-	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
+	viewStack.LookAt(camera[screen].position.x, camera[screen].position.y, camera[screen].position.z, camera[screen].target.x, camera[screen].target.y, camera[screen].target.z, camera[screen].up.x, camera[screen].up.y, camera[screen].up.z);
 	modelStack.LoadIdentity();
 
 	// passing the light direction if it is a direction light	
@@ -504,4 +511,28 @@ void SceneText::CalculateFrameRate()
 		fps = (int)framesPerSecond;
 		framesPerSecond = 0;
 	}
+}
+
+void SceneText::RenderLeftScreen()
+{
+	screen = 0;
+	SceneText::Render();
+}
+
+void SceneText::RenderRightScreen()
+{
+	screen = 1;
+	SceneText::Render();
+}
+
+int switchscreen = 0;
+
+int SceneText::SwitchScene()
+{
+	if (Application::IsKeyPressed('P'))
+		switchscreen = 1;
+	else if (Application::IsKeyPressed('O'))
+		switchscreen = 0;
+
+	return switchscreen;
 }

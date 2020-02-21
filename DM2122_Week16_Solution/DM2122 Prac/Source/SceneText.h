@@ -8,6 +8,8 @@
 #include "Light.h"
 #include "Acceleration.h"
 #include <math.h>
+#include <irrKlang.h>
+#pragma comment(lib, "irrKlang.lib")
 
 class SceneText : public Scene
 {
@@ -73,13 +75,19 @@ private:
 
 	Vector3 playerPos;
 
-	Camera2 camera;
+	Camera2 camera[2];
+
+	irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
+
+	int screen;
 	
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderSkybox();
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderLeftScreen();
+	void RenderRightScreen();
 	void CalculateFrameRate();
 
 
@@ -107,7 +115,7 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
-
+	int SwitchScene();
 	
 };
 

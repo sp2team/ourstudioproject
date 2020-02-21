@@ -11,6 +11,9 @@ public:
 	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
 	virtual void Exit() = 0;
+	virtual void RenderLeftScreen() = 0;
+	virtual void RenderRightScreen() = 0;
+	virtual int SwitchScene() = 0;
 };
 
 #endif
