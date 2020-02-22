@@ -144,7 +144,6 @@ void SceneText::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
-	rotationAngle = 0;
 	currentTime = 0;
 	
 }
@@ -203,12 +202,13 @@ void SceneText::Update(double dt)
 		//to do: switch light type to SPOT and pass the information to
 		light[0].type = Light::LIGHT_SPOT;
 	}
+	//reset key
 	if (Application::IsKeyPressed('R'))
 	{
-		/*accelerationA = 0;
-		accelerationB = 0;*/
+		accelerationA = 0;
+		accelerationB = 0;
 	}
-	//for sudo acceleration
+	//for sudo acceleration==================================================================================================
 	if (Application::IsKeyPressed('W')) {
 		isAcceleratingA = true;
 	}
@@ -217,20 +217,21 @@ void SceneText::Update(double dt)
 		//isAcceleratingB = true;
 	}
 	if (Application::IsKeyPressed('A')) {
-		rotationAngle += dt;
+
 	}
 	if (Application::IsKeyPressed('D')) {
-		rotationAngle -= dt;
+		
 	}
 	currentTime += dt;
-	
+	//getting offset from origin 
 	objectA.SetisAccelerating(isAcceleratingA);
 	objectA.SetisDecelerating(isDeceleratingA);
 	accelerationA = objectA.returnAcceleration(dt, currentTime, 4.f) + objectA.returnDeceleration(dt, currentTime, 2.f);
 
 	objectB.SetisAccelerating(isAcceleratingB);
 	accelerationB = objectB.returnAcceleration(dt, currentTime, 1.f);;
-
+	accelerationB = objectB.returnAcceleration(dt, currentTime, 4.f) + objectB.returnDeceleration(dt, currentTime, 2.f);
+	//=========================================================================================================================
 	if (Application::IsKeyPressed('W'))
 	{
 		playerPos.z -= (float)(LSPEED * dt);
