@@ -44,7 +44,16 @@ void SceneText::Init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	ObjectList.Character.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0);
+	// Format Goes like this
+	// ObjectList.[ObjectName].init(translationX, translationY, translationZ, scaleX, scaleY, scaleZ, rotationAmount, rotationAxisX, rotationAxisY, rotationAxisZ);
+	// Please always leave your scaling as 1, 1, 1 unless of course you're doing something that's has nothing to do with collision, because this WILL mess up collision detection.
+	// *Only use different scaling if you're doing something like an onscreen GUI or meshes.*
+
+	ObjectList.Character.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0); // Initializing an object using Wen Xi's Object Class
+
+	// For example you want to move 1 on the x-axis for your object.
+	//ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + 1);
+
 	camera[0].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 0);
 	camera[1].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
 	

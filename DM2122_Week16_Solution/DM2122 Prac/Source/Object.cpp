@@ -1,6 +1,6 @@
 #include "Object.h"
 
-Object::Object()
+Object::Object() // Initialises the object with default values.
 {
 	init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0);
 }
@@ -9,7 +9,7 @@ Object::~Object()
 {
 }
 
-void Object::init(float translateX, float translateY, float translateZ, float scaleX, float scaleY, float scaleZ, float rotationAmt, float rotateXaxis, float rotateYaxis, float rotateZaxis)
+void Object::init(float translateX, float translateY, float translateZ, float scaleX, float scaleY, float scaleZ, float rotationAmt, float rotateXaxis, float rotateYaxis, float rotateZaxis) // Initialises the object with their translation, rotation and scale etc.
 {
 	setTranslationXYZ(translateX, translateY, translateZ);
 	setLastTranslationXYZ(translateX, translateY, translateZ);
