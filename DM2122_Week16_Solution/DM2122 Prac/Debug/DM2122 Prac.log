@@ -1,6 +1,8 @@
-﻿  SceneText.cpp
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(141,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(206,18): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(209,22): warning C4244:  '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(212,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
+﻿  Camera2.cpp
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(25,20): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(26,22): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(121,11): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(122,11): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(128,10): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(129,10): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
   DM2122 Prac.vcxproj -> C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\Debug\DM2122 Prac.exe

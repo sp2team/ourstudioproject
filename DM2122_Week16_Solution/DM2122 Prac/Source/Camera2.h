@@ -13,6 +13,12 @@ public:
 	Vector3 defaultPosition;
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
+	Vector3 view;
+	Vector3 View2;
+	Vector3 right;
+	Vector3 right2;
+	Vector3 TestTarget;
+	Vector3 TestPosition;
 
 	Camera2();
 	~Camera2();

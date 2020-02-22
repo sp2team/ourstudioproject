@@ -188,24 +188,23 @@ void SceneText::Update(double dt)
 		//to do: switch light type to SPOT and pass the information to
 		light[0].type = Light::LIGHT_SPOT;
 	}
-	if (Application::IsKeyPressed('R'))
+	/*if (Application::IsKeyPressed('R'))
 	{
-		/*accelerationA = 0;
-		accelerationB = 0;*/
-	}
+		accelerationA = 0;
+		accelerationB = 0;
+	}*/
 	//for sudo acceleration
 	if (Application::IsKeyPressed('W')) {
 		isAcceleratingA = true;
 	}
 	if (Application::IsKeyPressed('S')) {
 		isDeceleratingA = true;
-		//isAcceleratingB = true;
 	}
 	if (Application::IsKeyPressed('A')) {
-		rotationAngle += dt;
+		//rotationAngle += dt;
 	}
 	if (Application::IsKeyPressed('D')) {
-		rotationAngle -= dt;
+		//rotationAngle -= dt;
 	}
 	currentTime += dt;
 	
@@ -216,6 +215,30 @@ void SceneText::Update(double dt)
 	objectB.SetisAccelerating(isAcceleratingB);
 	accelerationB = objectB.returnAcceleration(dt, currentTime, 1.f);;
 
+	/*if (Application::IsKeyPressed('W'))
+	{
+		playerPos.z -= (float)(LSPEED * dt);
+		camera.position.z -= (float)(LSPEED * dt);
+	}
+	if (Application::IsKeyPressed('S'))
+	{
+		playerPos.z += (float)(LSPEED * dt);
+		camera.position.z += (float)(LSPEED * dt);
+	}
+	if (Application::IsKeyPressed('D'))
+	{
+		playerPos.x += (float)(LSPEED * dt);
+		camera.position.x += (float)(LSPEED * dt);
+	}
+	if (Application::IsKeyPressed('A'))
+	{
+		playerPos.x -= (float)(LSPEED * dt);
+		camera.position.x -= (float)(LSPEED * dt);
+	}*/
+
+	camera.Init(camera.position , playerPos, Vector3(0, 1, 0));  // option 2 for 3rd person cam
+
+	//camera.MouseControl();
 	camera.Update(dt);
 	CalculateFrameRate();
 }
@@ -260,14 +283,19 @@ void SceneText::Render()
 
 	modelStack.PushMatrix();
 	//modelStack.Rotate(rotationAngle, 0, 1, 0);
-	modelStack.Translate(accelerationA * cos(rotationAngle), -3, accelerationA * sin(rotationAngle));
-	RenderMesh(meshList[GEO_DICE], true);
+	modelStack.Translate(camera.TestTarget.x + (accelerationA * cos(rotationAngle)), -3, camera.TestTarget.z + (accelerationA * sin(rotationAngle)));
+	RenderMesh(meshList[GEO_DICE], false);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(accelerationB, -3, 0);
 	RenderMesh(meshList[GEO_DICE], true);
 	modelStack.PopMatrix();
+	RenderMesh(meshList[GEO_DICE], true);*/
+
+	/*modelStack.Translate(playerPos.x, -3 + playerPos.y, playerPos.z);
+	RenderMesh(meshList[GEO_DICE], false);
+	modelStack.PopMatrix();*/
 
 	modelStack.PushMatrix();
 	//scale, translate, rotate
