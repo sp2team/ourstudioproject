@@ -10,6 +10,8 @@
 #include "ObjectManager.h"
 #include <math.h>
 #include <irrKlang.h>
+#include "Cars.h"
+#include "Player.h"
 #pragma comment(lib, "irrKlang.lib")
 
 class SceneText : public Scene
@@ -91,7 +93,20 @@ private:
 	void RenderLeftScreen();
 	void RenderRightScreen();
 	void CalculateFrameRate();
+	void ShopUI(int carnum);
+	void printIndicator();
 
+	bool inrange = false;
+	bool keyPressed;
+	bool abletoPress;
+	bool buy;
+	bool optionselected[3];
+	bool movedown = false;
+	bool moveup = false;
+
+	int selection;
+	double bounceTime;
+	double elapsedTime;
 
 	bool isAcceleratingA;
 	bool isDeceleratingA;
@@ -105,6 +120,11 @@ private:
 
 	Acceleration objectA;
 	Acceleration objectB;
+
+	Cars cars[4];
+
+	Player player1;
+	Player player2;
 
 public:
 	SceneText();

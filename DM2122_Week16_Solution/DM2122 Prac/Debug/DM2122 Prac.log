@@ -1,6 +1,11 @@
-﻿  Camera2.cpp
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(168,11): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(169,11): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(175,10): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(176,10): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
-  DM2122 Prac.vcxproj -> C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\Debug\DM2122 Prac.exe
+﻿  Application.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\minwindef.h(130,1): warning C4005:  'APIENTRY': macro redefinition
+  Player.cpp
+  SceneManager.cpp
+  SceneText.cpp
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\glfw\include\GLFW\glfw3.h(104): message :  see previous definition of 'APIENTRY'
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(184,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(269,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(418,109): warning C4305:  'argument': truncation from 'double' to 'float'
+  DM2122 Prac.vcxproj -> C:\Users\jerom\Documents\GitHub\ourstudioproject\DM2122_Week16_Solution\Debug\DM2122 Prac.exe
