@@ -2,6 +2,7 @@
 #define CAMERA_2_H
 
 #include "Camera.h"
+#include "Acceleration.h"
 
 class Camera2 : public Camera
 {
@@ -14,11 +15,27 @@ public:
 	Vector3 defaultTarget;
 	Vector3 defaultUp;
 	Vector3 view;
+<<<<<<< Updated upstream
 	Vector3 View2;
 	Vector3 right;
 	Vector3 right2;
 	Vector3 TestTarget;
 	Vector3 TestPosition;
+=======
+	Vector3 right;
+
+	Vector3 accel;
+	Vector3 decel;
+
+	int camera;
+
+	bool MouseState = true;
+	float lastX = 400.f;
+	float lastY = 300.f;
+	float yaw = -90.0f;
+	float pitch = 0.0f;
+	float fov = 45.0f;
+>>>>>>> Stashed changes
 
 	Camera2();
 	~Camera2();

@@ -133,6 +133,11 @@ void SceneText::Init()
 
 	rotationAngle = 0;
 	currentTime = 0;
+<<<<<<< Updated upstream
+=======
+	rotation = 0;
+	
+>>>>>>> Stashed changes
 }
 
 void SceneText::Update(double dt)
@@ -201,10 +206,17 @@ void SceneText::Update(double dt)
 		isDeceleratingA = true;
 	}
 	if (Application::IsKeyPressed('A')) {
+<<<<<<< Updated upstream
 		//rotationAngle += dt;
 	}
 	if (Application::IsKeyPressed('D')) {
 		//rotationAngle -= dt;
+=======
+		rotation += 2 * dt;
+	}
+	if (Application::IsKeyPressed('D')) {
+		rotation -= 2 * dt;
+>>>>>>> Stashed changes
 	}
 	currentTime += dt;
 	
@@ -214,7 +226,12 @@ void SceneText::Update(double dt)
 
 	objectB.SetisAccelerating(isAcceleratingB);
 	accelerationB = objectB.returnAcceleration(dt, currentTime, 1.f);;
+<<<<<<< Updated upstream
 
+=======
+	accelerationB = objectB.returnAcceleration(dt, currentTime, 4.f) + objectB.returnDeceleration(dt, currentTime, 2.f);
+	//=========================================================================================================================
+>>>>>>> Stashed changes
 	/*if (Application::IsKeyPressed('W'))
 	{
 		playerPos.z -= (float)(LSPEED * dt);
@@ -233,7 +250,11 @@ void SceneText::Update(double dt)
 	if (Application::IsKeyPressed('A'))
 	{
 		playerPos.x -= (float)(LSPEED * dt);
+<<<<<<< Updated upstream
 		camera.position.x -= (float)(LSPEED * dt);
+=======
+		camera[screen].position.x -= (float)(LSPEED * dt);
+>>>>>>> Stashed changes
 	}*/
 
 	camera.Init(camera.position , playerPos, Vector3(0, 1, 0));  // option 2 for 3rd person cam
@@ -297,6 +318,11 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_DICE], false);
 	modelStack.PopMatrix();*/
 
+<<<<<<< Updated upstream
+=======
+	//RenderObject(meshList[GEO_DICE], ObjectList.Character, true);
+
+>>>>>>> Stashed changes
 	modelStack.PushMatrix();
 	//scale, translate, rotate
 	RenderText(meshList[GEO_TEXT], "HELLO WORLD", Color(0, 1, 0));
@@ -304,6 +330,17 @@ void SceneText::Render()
 
 	//No transform needed
 	RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
+
+	camera->accel.x = accelerationA * sin(rotation);
+	camera->accel.z = accelerationA * cos(rotation);
+
+	camera->decel.x = accelerationA * sin(rotation);
+	camera->decel.z = accelerationA * cos(rotation);
+
+	ObjectList.Character2.setTranslationXYZ(camera->target.x, camera->target.y, camera->target.z);
+	ObjectList.Character2.setRotationAmount(rotation);
+	ObjectList.Character2.setRotateY(1);
+	RenderObject(meshList[GEO_DICE], ObjectList.Character2, true);
 
 }
 

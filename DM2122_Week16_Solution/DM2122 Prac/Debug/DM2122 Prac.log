@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿  Camera2.cpp
 C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(25,20): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(26,22): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
@@ -5,4 +6,11 @@ C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\S
 C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(122,11): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(128,10): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\Camera2.cpp(129,10): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
+=======
+﻿  SceneText.cpp
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(163,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(230,21): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(233,21): warning C4244:  '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\DM2122 Prac\Source\SceneText.cpp(235,19): warning C4244:  '+=': conversion from 'double' to 'float', possible loss of data
+>>>>>>> Stashed changes
   DM2122 Prac.vcxproj -> C:\Users\rage\Downloads\sp\ourstudioproject\DM2122_Week16_Solution\Debug\DM2122 Prac.exe

@@ -43,7 +43,8 @@ float Acceleration::returnAcceleration(double dt, float currentTime, float max)
 	}
 	acceleration += velocityA * dt;
 
-	return acceleration;
+	//return acceleration;
+	return velocityA;
 }
 
 float Acceleration::returnDeceleration(double dt, float currentTime, float max)
@@ -62,5 +63,6 @@ float Acceleration::returnDeceleration(double dt, float currentTime, float max)
 	}
 	acceleration += velocityD * dt;
 
-	return acceleration;
+	//return acceleration;
+	return velocityD;
 }

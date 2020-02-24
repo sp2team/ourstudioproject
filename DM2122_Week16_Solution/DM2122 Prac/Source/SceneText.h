@@ -86,9 +86,14 @@ private:
 	bool isAcceleratingB;
 	bool isDeceleratingB;
 	float accelerationB;
+<<<<<<< Updated upstream
 	//float decelerationB;
 
 	float rotationAngle;
+=======
+
+	float rotation;
+>>>>>>> Stashed changes
 	
 	float currentTime;
 
