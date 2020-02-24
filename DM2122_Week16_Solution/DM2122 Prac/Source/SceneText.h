@@ -17,17 +17,18 @@ class SceneText : public Scene
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES = 0,
-		GEO_LEFT, 
-		GEO_RIGHT, 
-		GEO_TOP, 
-		GEO_BOTTOM, 
-		GEO_FRONT, 
+		GEO_LEFT,
+		GEO_RIGHT,
+		GEO_TOP,
+		GEO_BOTTOM,
+		GEO_FRONT,
 		GEO_BACK,
 		GEO_CHAR,
 		GEO_DICE,
 		GEO_CAR,
 		GEO_LIGHTSPHERE,
 		GEO_TEXT,
+		GEO_DECAL,
 		NUM_GEOMETRY,
 	};
 
@@ -90,6 +91,7 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderLeftScreen();
 	void RenderRightScreen();
+	void RenderAnimation(Mesh* mesh);
 	void CalculateFrameRate();
 
 
@@ -106,6 +108,8 @@ private:
 	Acceleration objectA;
 	Acceleration objectB;
 
+	int decal;
+	float decalLastTime;
 public:
 	SceneText();
 	~SceneText();

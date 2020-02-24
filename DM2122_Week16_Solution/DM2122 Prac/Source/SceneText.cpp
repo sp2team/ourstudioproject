@@ -153,8 +153,11 @@ void SceneText::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
+	meshList[GEO_DECAL] = MeshBuilder::GenerateAnimation("decal", 4, 4);
+	meshList[GEO_DECAL]->textureID = LoadTGA("Image//decal.tga");
+
 	currentTime = 0;
-	
+	decal = 0;
 }
 
 void SceneText::Update(double dt)
@@ -225,8 +228,13 @@ void SceneText::Update(double dt)
 		isDeceleratingA = true;
 		//isAcceleratingB = true;
 	}
-	if (Application::IsKeyPressed('A')) {
-
+	if (Application::IsKeyPressed('Z')) {
+		if (currentTime - decalLastTime > 0.5f) {
+			decal += 1;
+			if (decal == 16)
+				decal = 0;
+			decalLastTime = currentTime;
+		}
 	}
 	if (Application::IsKeyPressed('D')) {
 		
@@ -325,14 +333,17 @@ void SceneText::Render()
 
 	RenderObject(meshList[GEO_DICE], ObjectList.Character, true);
 
+	//modelStack.PushMatrix();
+	////scale, translate, rotate
+	//RenderText(meshList[GEO_TEXT], "HELLO WORLD", Color(0, 1, 0));
+	//modelStack.PopMatrix();
+
+	////No transform needed
+	//RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
+
 	modelStack.PushMatrix();
-	//scale, translate, rotate
-	RenderText(meshList[GEO_TEXT], "HELLO WORLD", Color(0, 1, 0));
+	RenderAnimation(meshList[GEO_DECAL]);
 	modelStack.PopMatrix();
-
-	//No transform needed
-	RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
-
 }
 
 void SceneText::Exit()
@@ -537,6 +548,24 @@ void SceneText::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	viewStack.PopMatrix();
 	modelStack.PopMatrix();
 
+	glEnable(GL_DEPTH_TEST);
+}
+
+void SceneText::RenderAnimation(Mesh* mesh)
+{
+	if (!mesh || mesh->textureID <= 0)
+		return;
+
+	glDisable(GL_DEPTH_TEST);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+	mesh->Render(decal * 6, 6);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	glEnable(GL_DEPTH_TEST);
 }
 

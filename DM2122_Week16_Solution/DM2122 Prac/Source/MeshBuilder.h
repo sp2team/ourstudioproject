@@ -23,6 +23,7 @@ public:
 	static Mesh* GenerateTorus(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float outerR, float innerR);
 	static Mesh* GenerateOBJ(const std::string& meshname, const std::string& file_path, float offsetX, float offsetY, float offsetZ);
 	static Mesh* GenerateText(const std::string& meshName, unsigned numRow, unsigned numCol);
+	static Mesh* GenerateAnimation(const std::string& meshName, unsigned numRow, unsigned numCol);
 
 };
 

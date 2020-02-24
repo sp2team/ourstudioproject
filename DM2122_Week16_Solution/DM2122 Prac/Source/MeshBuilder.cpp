@@ -830,3 +830,51 @@ Mesh* MeshBuilder::GenerateText(const std::string& meshName, unsigned numRow, un
 	return mesh;
 
 }
+
+Mesh* MeshBuilder::GenerateAnimation(const std::string& meshName, unsigned numRow, unsigned numCol)
+{
+	Vertex v;
+	v.normal.Set(0, 0, 1.0f);
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
+	vertex_buffer_data.reserve(numRow * numCol * 4);
+	index_buffer_data.reserve(numRow * numCol * 6);
+	int nCnt = 0;
+	float width = 1.f / numCol;
+	float height = 1.f / numRow;
+	for (unsigned j = 0; j < numRow; ++j) {
+		for (unsigned i = 0; i < numCol; ++i) {
+			v.pos.Set(0, 1, 0);
+			v.texCoord.Set(width * i, height * (numRow - j));
+			vertex_buffer_data.push_back(v);
+
+			v.pos.Set(0, 0, 0);
+			v.texCoord.Set(width * i, height * (numRow - j - 1));
+			vertex_buffer_data.push_back(v);
+
+			v.pos.Set(1, 1, 0);
+			v.texCoord.Set(width * (i + 1), height * (numRow - j));
+			vertex_buffer_data.push_back(v);
+
+			v.pos.Set(1, 0, 0);
+			v.texCoord.Set(width * (i + 1), height * (numRow - j - 1));
+			vertex_buffer_data.push_back(v);
+
+			index_buffer_data.push_back(nCnt);
+			index_buffer_data.push_back(nCnt + 1);
+			index_buffer_data.push_back(nCnt + 2);
+			index_buffer_data.push_back(nCnt + 2);
+			index_buffer_data.push_back(nCnt + 1);
+			index_buffer_data.push_back(nCnt + 3);
+			nCnt = nCnt + 4;
+		}
+	}
+	Mesh* mesh = new Mesh(meshName);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+	mesh->indexSize = index_buffer_data.size();
+	mesh->mode = Mesh::DRAW_TRIANGLES;
+	return mesh;
+}
