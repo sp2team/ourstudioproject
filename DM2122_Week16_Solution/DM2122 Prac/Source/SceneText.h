@@ -25,20 +25,23 @@ class SceneText : public Scene
 		GEO_FRONT2,
 		GEO_BACK2,
 		GEO_CHAR,
-		GEO_DICE,
+		GEO_CAR1,
+		GEO_CAR2,
+		GEO_CAR3,
+		GEO_CAR4,
+		GEO_TURNTABLE1,
+		GEO_TURNTABLE2,
+		GEO_TURNTABLE3,
+		GEO_TURNTABLE4,
 		GEO_PILLAR,
 		GEO_PILLAR2,
 		GEO_PILLAR3,
 		GEO_PILLAR4,
 		GEO_RACETRACK,
 		GEO_RING,
-		GEO_RACETOP,
-		GEO_RACEBOTTOM,
-		GEO_RACELEFT,
-		GEO_RACERIGHT,
-		GEO_RACEFRONT,
-		GEO_RACEBACK,
+		GEO_RING2,
 		GEO_LIGHTSPHERE,
+		GEO_LIGHTSPHERE2,
 		GEO_TEXT,
 		NUM_GEOMETRY,
 	};
@@ -65,6 +68,19 @@ class SceneText : public Scene
 		U_LIGHT0_COSCUTOFF,
 		U_LIGHT0_COSINNER,
 		U_LIGHT0_EXPONENT,
+
+		U_LIGHT1_POSITION,
+		U_LIGHT1_COLOR,
+		U_LIGHT1_POWER,
+		U_LIGHT1_KC,
+		U_LIGHT1_KL,
+		U_LIGHT1_KQ,
+		U_LIGHT1_TYPE,
+		U_LIGHT1_SPOTDIRECTION,
+		U_LIGHT1_COSCUTOFF,
+		U_LIGHT1_COSINNER,
+		U_LIGHT1_EXPONENT,
+
 		U_NUMLIGHTS,
 		// add these enum for texture
 		U_COLOR_TEXTURE_ENABLED,
@@ -83,7 +99,7 @@ private:
 	unsigned m_parameters[U_TOTAL];
 
 	MS modelStack, viewStack, projectionStack;
-	Light light[1];
+	Light light[2];
 
 	Camera2 camera;
 	
@@ -95,8 +111,15 @@ private:
 	void CalculateFrameRate();
 
 	float ytranslate;
-	bool skyboxcheck;
+	float ytranslate2;
+	float rotation1;
+	float rotation2;
+	float lightposx;
+	float lightposz;
+	float ringposx;
+	float ringposz;
 
+	bool scenecheck;
 
 public:
 	SceneText();
@@ -106,6 +129,7 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
+	virtual bool skyboxcheck();
 };
 
 #endif

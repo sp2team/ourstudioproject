@@ -26,7 +26,13 @@ SceneText::~SceneText()
 void SceneText::Init()
 {
 	ytranslate = 0.f;
-	skyboxcheck = false;
+	ytranslate2 = 0.f;
+	scenecheck = false;
+	rotation1 = rotation2 = 0.f;
+	lightposx = -48.f;
+	lightposz = -48.f;
+	ringposx = 55.f;
+	ringposz = 55.f;
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -69,6 +75,18 @@ void SceneText::Init()
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 
+	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
+	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
+	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
+	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
+	m_parameters[U_LIGHT1_KL] = glGetUniformLocation(m_programID, "lights[1].kL");
+	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");
+	m_parameters[U_LIGHT1_TYPE] = glGetUniformLocation(m_programID, "lights[1].type");
+	m_parameters[U_LIGHT1_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[0].spotDirection");
+	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
+	m_parameters[U_LIGHT1_COSINNER] = glGetUniformLocation(m_programID, "lights[1].cosInner");
+	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
+
 	//Get a handle for our "colorTexture" uniform
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
 	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
@@ -82,7 +100,7 @@ void SceneText::Init()
 	glEnable(GL_DEPTH_TEST);
 
 	light[0].type = Light::LIGHT_POINT;
-	light[0].position.Set(0, 5, 0);
+	light[0].position.Set(0, 0, 0);
 	light[0].color.Set(0.5f, 0.5f, 0.5f);
 	light[0].power = 3;
 	light[0].kC = 1.f;
@@ -92,6 +110,18 @@ void SceneText::Init()
 	light[0].cosInner = cos(Math::DegreeToRadian(30));
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);
+
+	light[1].type = Light::LIGHT_POINT;
+	light[1].position.Set(lightposx, 50, lightposz);
+	light[1].color.Set(0.f, 0.5f, 0.f);
+	light[1].power = 10;
+	light[1].kC = 1.f;
+	light[1].kL = 0.01f;
+	light[1].kQ = 0.001f;
+	light[1].cosCutoff = cos(Math::DegreeToRadian(35));
+	light[1].cosInner = cos(Math::DegreeToRadian(45));
+	light[1].exponent = 3.f;
+	light[1].spotDirection.Set(0.f, 1.f, 0.f);
 
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
@@ -103,7 +133,21 @@ void SceneText::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
-	glUniform1i(m_parameters[U_NUMLIGHTS], 1); 
+
+	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
+
+	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
+	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
+	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
+	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
+	glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &light[1].spotDirection.x);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
+
+	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
 	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj");
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//walltexture.tga");
@@ -165,54 +209,87 @@ void SceneText::Init()
 	meshList[GEO_BACK2] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_BACK2]->textureID = LoadTGA("Image//space2.tga");
 
-	/*
-	meshList[GEO_RACETOP] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACETOP]->textureID = LoadTGA("Image//space3.tga");
-
-	meshList[GEO_RACEBOTTOM] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACEBOTTOM]->textureID = LoadTGA("Image//space3.tga");
-
-	meshList[GEO_RACELEFT] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACELEFT]->textureID = LoadTGA("Image//space3.tga");
-
-	meshList[GEO_RACERIGHT] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACERIGHT]->textureID = LoadTGA("Image//space3.tga");
-
-	meshList[GEO_RACEFRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACEFRONT]->textureID = LoadTGA("Image//space3.tga");
-
-	meshList[GEO_RACEBACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACEBACK]->textureID = LoadTGA("Image//space3.tga");
-	*/
-
 	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_CHAR]->textureID = LoadTGA("Image//char.tga");
 
-	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("Dice","OBJ//newcar2.obj");
-	//meshList[GEO_DICE]->textureID = LoadTGA("Image//doorman.tga");
+	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice","OBJ//newcar2.obj");
+	meshList[GEO_CAR1]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
 
-	//meshList[GEO_RACETRACK] = MeshBuilder::GenerateOBJ("Dice", "OBJ//racetrack.obj");
-	//meshList[GEO_RACETRACK]->textureID = LoadTGA("Image//racetrack.tga");
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj");
+	meshList[GEO_CAR2]->textureID = LoadTGA("Image//texture_car.tga");
+
+	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj");
+	meshList[GEO_CAR3]->textureID = LoadTGA("Image//texture_car.tga");
+
+	meshList[GEO_TURNTABLE1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj");
+	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TURNTABLE1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TURNTABLE1]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TURNTABLE1]->material.kShininess = 1.f;
+
+	meshList[GEO_TURNTABLE2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj");
+	meshList[GEO_TURNTABLE2]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE2]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TURNTABLE2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TURNTABLE2]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TURNTABLE2]->material.kShininess = 1.f;
+
+	meshList[GEO_TURNTABLE3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj");
+	meshList[GEO_TURNTABLE3]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE3]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TURNTABLE3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TURNTABLE3]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TURNTABLE3]->material.kShininess = 1.f;
+
+	meshList[GEO_TURNTABLE4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj");
+	meshList[GEO_TURNTABLE4]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE4]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TURNTABLE4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TURNTABLE4]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TURNTABLE4]->material.kShininess = 1.f;
 
 	meshList[GEO_PILLAR] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj");
 	meshList[GEO_PILLAR]->textureID = LoadTGA("Image//pillar.tga");
+	meshList[GEO_PILLAR]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR]->material.kShininess = 1.f;
 
 	meshList[GEO_PILLAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj");
 	meshList[GEO_PILLAR2]->textureID = LoadTGA("Image//pillar.tga");
+	meshList[GEO_PILLAR2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR2]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR2]->material.kShininess = 1.f;
 
 	meshList[GEO_PILLAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj");
 	meshList[GEO_PILLAR3]->textureID = LoadTGA("Image//pillar.tga");
+	meshList[GEO_PILLAR3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR3]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR3]->material.kShininess = 1.f;
 
 	meshList[GEO_PILLAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj");
 	meshList[GEO_PILLAR4]->textureID = LoadTGA("Image//pillar.tga");
+	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR4]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR4]->material.kShininess = 1.f;
 
 	meshList[GEO_RING] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring.obj");
 	meshList[GEO_RING]->textureID = LoadTGA("Image//greenring.tga");
 
-	//meshList[GEO_TOP]->textureID = LoadTGA("Image//silver.tga");
-	//meshList[GEO_DICE]->textureID = LoadTGA("Image//doorman.tga");
+	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj");
+	meshList[GEO_RING2]->textureID = LoadTGA("Image//greenring.tga");
 
-	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f);
+	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f);
+
+	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
@@ -266,18 +343,64 @@ void SceneText::Update(double dt)
 		light[0].type = Light::LIGHT_SPOT;
 	}
 
-	if (camera.position.x > 34 && camera.position.x < 45 && camera.position.z < 6 && camera.position.z > -7)
-	{
-		skyboxcheck = true;
-	}
-
 	if (ytranslate >= 10.f)
 	{
 		ytranslate += -10;
 	}
 
+	if (ytranslate2 >= 50.f)
+	{
+		ytranslate2 += -50;
+	}
+
+	if (camera.position.x > 0)
+	{
+		lightposx = 48.f;
+		ringposx = 55.f;
+		if (camera.position.z > 0)
+		{
+			lightposz = 48.f;
+			ringposz = 55.f;
+		}
+		else
+		{
+			lightposz = -48.f;
+			ringposz = -55.f;
+		}
+
+		light[1].position.Set(lightposx, 50, lightposz);
+	}
+	else
+	{
+		lightposx = -48.f;
+		ringposx = -55.f;
+		if (camera.position.z > 0)
+		{
+			lightposz = 48.f;
+			ringposz = 55.f;
+		}
+		else
+		{
+			lightposz = -48.f;
+			ringposz = -55.f;
+		}
+
+		light[1].position.Set(lightposx, 50, lightposz);
+	}
+
+	rotation1++;
+	rotation2--;
+
 	camera.Update(dt);
 	CalculateFrameRate();
+}
+
+bool SceneText::skyboxcheck()
+{
+	if (camera.position.x > 83 && camera.position.x < 100 && camera.position.z < 10 && camera.position.z > -10)
+	{
+		return true;
+	}
 }
 
 void SceneText::Render()
@@ -311,11 +434,37 @@ void SceneText::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
+	if (light[1].type == Light::LIGHT_DIRECTIONAL)
+	{
+		Vector3 lightDir(light[1].position.x, light[1].position.y, light[1].position.z);
+		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightDirection_cameraspace.x);
+	}
+	// if it is spot light, pass in position and direction 
+	else if (light[1].type == Light::LIGHT_SPOT)
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * light[1].position;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
+		Vector3 spotDirection_cameraspace = viewStack.Top() * light[1].spotDirection;
+		glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
+	}
+	else
+	{
+		// default is point light (only position since point light is 360 degrees)
+		Position lightPosition_cameraspace = viewStack.Top() * light[1].position;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
+	}
+
 	RenderSkybox();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
 	RenderMesh(meshList[GEO_LIGHTSPHERE], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
+	RenderMesh(meshList[GEO_LIGHTSPHERE2], false);
 	modelStack.PopMatrix();
 
 	//modelStack.PushMatrix();
@@ -508,23 +657,68 @@ void SceneText::RenderSkybox()
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
+		modelStack.Translate(ringposx, ytranslate2 += 0.5, ringposz);
+		RenderMesh(meshList[GEO_RING2], false);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
 		modelStack.Translate(88.f, 0.f, 83.f);
-		RenderMesh(meshList[GEO_PILLAR], false);
+		RenderMesh(meshList[GEO_PILLAR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
 		modelStack.Translate(-88.f, 0.f, 83.f);
-		RenderMesh(meshList[GEO_PILLAR2], false);
+		RenderMesh(meshList[GEO_PILLAR2], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
 		modelStack.Translate(88.f, 0.f, -83.f);
-		RenderMesh(meshList[GEO_PILLAR3], false);
+		RenderMesh(meshList[GEO_PILLAR3], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
 		modelStack.Translate(-88.f, 0.f, -83.f);
-		RenderMesh(meshList[GEO_PILLAR4], false);
+		RenderMesh(meshList[GEO_PILLAR4], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(55.f, 20.f, 55.f);
+		modelStack.Rotate(rotation1, 0.f, 1.f, 0.f);
+		RenderMesh(meshList[GEO_TURNTABLE1], true);
+		modelStack.PushMatrix();
+		modelStack.Translate(5.f, 10.f, -5.f);
+		RenderMesh(meshList[GEO_CAR1], false);
+		modelStack.PopMatrix();
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(55.f, 20.f, -55.f);
+		modelStack.Rotate(rotation1, 0.f, 1.f, 0.f);
+		RenderMesh(meshList[GEO_TURNTABLE2], true);
+		modelStack.PushMatrix();
+		modelStack.Translate(5.f, 10.f, -5.f);
+		RenderMesh(meshList[GEO_CAR2], false);
+		modelStack.PopMatrix();
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-55.f, 20.f, 55.f);
+		modelStack.Rotate(rotation2, 0.f, 1.f, 0.f);
+		RenderMesh(meshList[GEO_TURNTABLE3], true);
+		modelStack.PushMatrix();
+		modelStack.Translate(-5.f, 10.f, -5.f);
+		RenderMesh(meshList[GEO_CAR3], false);
+		modelStack.PopMatrix();
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-55.f, 20.f, -55.f);
+		modelStack.Rotate(rotation2, 0.f, 1.f, 0.f);
+		RenderMesh(meshList[GEO_TURNTABLE4], true);
+		modelStack.PushMatrix();
+		modelStack.Translate(-5.f, 10.f, 5.f);
+		RenderMesh(meshList[GEO_CAR1], false);
+		modelStack.PopMatrix();
 		modelStack.PopMatrix();
 }
 
