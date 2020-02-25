@@ -28,6 +28,26 @@ class SceneText2 : public Scene
 		GEO_CHAR,
 		GEO_DICE,
 		GEO_CAR,
+		GEO_RACETRACK,
+		GEO_RING,
+		GEO_RACETOP,
+		GEO_RACEBOTTOM,
+		GEO_RACELEFT,
+		GEO_RACERIGHT,
+		GEO_RACEFRONT,
+		GEO_RACEBACK,
+		GEO_STRACK1,
+		GEO_STRACK2,
+		GEO_STRACK3,
+		GEO_STRACK4,
+		GEO_CTRACK1,
+		GEO_CTRACK2,
+		GEO_CTRACK3,
+		GEO_CTRACK4,
+		GEO_CAR1,
+		GEO_CAR2,
+		GEO_CAR3,
+		GEO_CAR4,
 		GEO_LIGHTSPHERE,
 		GEO_TEXT,
 		NUM_GEOMETRY,
@@ -126,6 +146,13 @@ private:
 	Player player1;
 	Player player2;
 
+	void RenderMesh(Mesh* mesh, bool enableLight);
+	void RenderSkybox();
+
+	void RenderText(Mesh* mesh, std::string text, Color color);
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void CalculateFrameRate();
+
 public:
 	SceneText2();
 	~SceneText2();
@@ -135,7 +162,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 	int SwitchScene();
-	
+	virtual bool skyboxcheck();
 };
 
 #endif
