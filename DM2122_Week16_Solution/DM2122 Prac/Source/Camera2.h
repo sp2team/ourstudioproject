@@ -15,6 +15,17 @@ public:
 	Vector3 defaultUp;
 	int camera;
 
+	Vector3 view;
+
+	Vector3 View2;
+	Vector3 right;
+	Vector3 right2;
+	Vector3 TestTarget;
+	Vector3 TestPosition;
+
+	Vector3 accel;
+	Vector3 decel;
+
 	bool MouseState = true;
 	float lastX = 400.f;
 	float lastY = 300.f;

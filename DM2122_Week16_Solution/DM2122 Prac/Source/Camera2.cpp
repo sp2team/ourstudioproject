@@ -16,16 +16,26 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up,
 	this->camera = camera;
 	this->position = defaultPosition = pos;
 	this->target = defaultTarget = target;
-	Vector3 view = (target - position).Normalized();
-	Vector3 right = view.Cross(up);
+	view = (target - position).Normalized();
+	right = view.Cross(up);
 	right.y = 0;
 	right.Normalize();
 	this->up = defaultUp = right.Cross(view).Normalized();
+
+	TestTarget = (0, 0, 1);
+	TestPosition = (0, 0, 0);
+
+	View2 = (TestTarget - TestPosition).Normalized();
+	right2 = View2.Cross(up);
+	right2.y = 0;
+	right2.Normalize();
+	this->up = defaultUp = right2.Cross(View2).Normalized();
+	accel = (0, 0, 0);
 }
 
 void Camera2::Update(double dt)
 {
-	static const float CAMERA_SPEED = 50.f;
+	/*static const float CAMERA_SPEED = 50.f;
 	if (camera == 0)
 	{
 		if (Application::IsKeyPressed('A'))
@@ -43,7 +53,43 @@ void Camera2::Update(double dt)
 			rotation.SetToRotation(yaw, 0, 1, 0);
 			position = rotation * position;
 			up = rotation * up;
+		}*/
+	static const float CAMERA_SPEED = 50.f;
+	if (Application::IsKeyPressed(VK_LEFT) || Application::IsKeyPressed('A'))
+	{
+		float yaw = (float)(-CAMERA_SPEED * dt);
+		Mtx44 rotation;
+		rotation.SetToRotation(yaw, 0, 1, 0);
+		//position = rotation * position;
+		//up = rotation * up;
+		View2 = rotation * View2;
+		TestTarget = position + View2;
+		if (Application::IsKeyPressed('A'))
+		{
+			float yaw = (float)(-CAMERA_SPEED * dt);
+			Mtx44 rotation;
+			rotation.SetToRotation(yaw, 0, 1, 0);
+			//position = rotation * position;
+			//up = rotation * up;
+
+			view = rotation * view;
+			target = position + view;
 		}
+		if (Application::IsKeyPressed('D'))
+		{
+			float yaw = (float)(CAMERA_SPEED * dt);
+			Mtx44 rotation;
+			rotation.SetToRotation(yaw, 0, 1, 0);
+			//position = rotation * position;
+			//up = rotation * up;
+
+			view = rotation * view;
+			target = position + view;
+		}
+		position += accel * dt;
+		target = position + view;
+		position += decel * dt;
+		target = position + view;
 		if (Application::IsKeyPressed('W'))
 		{
 			float pitch = (float)(-CAMERA_SPEED * dt);

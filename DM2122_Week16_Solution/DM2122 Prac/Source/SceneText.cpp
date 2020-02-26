@@ -35,7 +35,6 @@ void SceneText::Init()
 	lightposz = -48.f;
 	ringposx = 55.f;
 	ringposz = 55.f;
-
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	/*Sound Engine*/
@@ -189,7 +188,8 @@ void SceneText::Init()
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
 
-	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", 0, 0, 0);
+/*
+	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj",0,0,0);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_LEFT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_LEFT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
@@ -330,17 +330,19 @@ void SceneText::Init()
 	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f, 0, 5, 0);
 
 	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj", 0, 0, 0);
+	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj");
 	meshList[GEO_RING2]->textureID = LoadTGA("Image//greenring.tga");
 
 	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, 0, 0, 0);
 
 	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, 0, 0, 0);
+	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f);*/
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
 	currentTime = 0;
-	
+	rotation = 0;
 
 	elapsedTime = 0;
 	bounceTime = 0;
@@ -542,42 +544,53 @@ void SceneText::Update(double dt)
 			lightposx = 48.f;
 			ringposx = 55.f;
 			if (camera[0].position.z > 0)
-			{
-				lightposz = 48.f;
-				ringposz = 55.f;
-			}
-			else
-			{
-				lightposz = -48.f;
-				ringposz = -55.f;
-			}
+				//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
 
-			light[1].position.Set(lightposx, 50, lightposz);
+				//camera.MouseControl();
+				/*camera[screen].Update(dt);
+				if (camera.position.x > 0)
+				{
+					lightposx = 48.f;
+					ringposx = 55.f;
+					if (camera.position.z > 0)
+					{
+						lightposz = 48.f;
+						ringposz = 55.f;
+					}
+					else
+					{
+						lightposz = -48.f;
+						ringposz = -55.f;
+					}
+
+					light[1].position.Set(lightposx, 50, lightposz);
+				}
+				else
+				{
+					lightposx = -48.f;
+					ringposx = -55.f;
+					if (camera[0].position.z > 0)
+					if (camera.position.z > 0)
+					{
+						lightposz = 48.f;
+						ringposz = 55.f;
+					}
+					else
+					{
+						lightposz = -48.f;
+						ringposz = -55.f;
+					}
+
+					light[1].position.Set(lightposx, 50, lightposz);
+				}
+
+				rotation1++;
+				rotation2--;
+				*/
+				camera[0].Update(dt);
+			camera[1].Update(dt);
+			CalculateFrameRate();
 		}
-		else
-		{
-			lightposx = -48.f;
-			ringposx = -55.f;
-			if (camera[0].position.z > 0)
-			{
-				lightposz = 48.f;
-				ringposz = 55.f;
-			}
-			else
-			{
-				lightposz = -48.f;
-				ringposz = -55.f;
-			}
-
-			light[1].position.Set(lightposx, 50, lightposz);
-		}
-
-		rotation1++;
-		rotation2--;
-
-		camera[0].Update(dt);
-		camera[1].Update(dt);
-		CalculateFrameRate();
 	}
 }
 
@@ -589,6 +602,14 @@ bool SceneText::skyboxcheck()
 		return true;
 	}
 }
+
+//bool SceneText::skyboxcheck()
+//{
+//	if (camera.position.x > 83 && camera.position.x < 100 && camera.position.z < 10 && camera.position.z > -10)
+//	{
+//		return true;
+//	}
+//}
 
 void SceneText::Render()
 {
@@ -679,6 +700,18 @@ void SceneText::Render()
 
 	//No transform needed
 	//RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
+
+	camera->accel.x = accelerationA * sin(rotation);
+	camera->accel.z = accelerationA * cos(rotation);
+
+	camera->decel.x = accelerationA * sin(rotation);
+	camera->decel.z = accelerationA * cos(rotation);
+
+	ObjectList.Character2.setTranslationXYZ(camera->target.x, camera->target.y, camera->target.z);
+	ObjectList.Character2.setRotationAmount(rotation);
+	ObjectList.Character2.setRotateY(1);
+	RenderObject(meshList[GEO_DICE], ObjectList.Character2, true);
+
 
 	//=====================Shop Interface============================================
 
@@ -909,6 +942,97 @@ void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
 		modelStack.PopMatrix();
 		modelStack.PopMatrix();
 }
+//void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
+//{
+//	if (meshObject.getLastTranslationX() != meshObject.getTranslationX() || meshObject.getLastTranslationY() != meshObject.getTranslationY() || meshObject.getLastTranslationZ() != meshObject.getTranslationZ()) // Updates the Bounding Box 8-vertices.
+//	{
+//		for (int counter = 0; counter <= 7; counter++)
+//		{
+//			mesh->vertices[counter].x = mesh->vertices[counter].x - meshObject.getLastTranslationX() + meshObject.getTranslationX();
+//			mesh->vertices[counter].y = mesh->vertices[counter].y - meshObject.getLastTranslationY() + meshObject.getTranslationY();
+//			mesh->vertices[counter].z = mesh->vertices[counter].z - meshObject.getLastTranslationZ() + meshObject.getTranslationZ();
+//		}
+//
+//		mesh->maxX = mesh->vertices[6].x, mesh->maxY = mesh->vertices[6].y, mesh->maxZ = mesh->vertices[6].z, mesh->minX = mesh->vertices[0].x, mesh->minY = mesh->vertices[0].y, mesh->minZ = mesh->vertices[0].z;
+//		meshObject.setLastTranslationX(meshObject.getTranslationX());
+//		meshObject.setLastTranslationY(meshObject.getTranslationY());
+//		meshObject.setLastTranslationZ(meshObject.getTranslationZ());
+//	}
+//		RenderMesh(meshList[GEO_BACK2], false);
+//		modelStack.PopMatrix();
+//
+//		//RenderMesh(meshList[GEO_DICE], false);
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(91.f, ytranslate += 0.2, 0.f);
+//		RenderMesh(meshList[GEO_RING], false);
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(ringposx, ytranslate2 += 0.5, ringposz);
+//		RenderMesh(meshList[GEO_RING2], false);
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(88.f, 0.f, 83.f);
+//		RenderMesh(meshList[GEO_PILLAR], true);
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(-88.f, 0.f, 83.f);
+//		RenderMesh(meshList[GEO_PILLAR2], true);
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(88.f, 0.f, -83.f);
+//		RenderMesh(meshList[GEO_PILLAR3], true);
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(-88.f, 0.f, -83.f);
+//		RenderMesh(meshList[GEO_PILLAR4], true);
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(55.f, 20.f, 55.f);
+//		modelStack.Rotate(rotation1, 0.f, 1.f, 0.f);
+//		RenderMesh(meshList[GEO_TURNTABLE1], true);
+//		modelStack.PushMatrix();
+//		modelStack.Translate(5.f, 10.f, -5.f);
+//		RenderMesh(meshList[GEO_CAR1], false);
+//		modelStack.PopMatrix();
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(55.f, 20.f, -55.f);
+//		modelStack.Rotate(rotation1, 0.f, 1.f, 0.f);
+//		RenderMesh(meshList[GEO_TURNTABLE2], true);
+//		modelStack.PushMatrix();
+//		modelStack.Translate(5.f, 10.f, -5.f);
+//		RenderMesh(meshList[GEO_CAR2], false);
+//		modelStack.PopMatrix();
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(-55.f, 20.f, 55.f);
+//		modelStack.Rotate(rotation2, 0.f, 1.f, 0.f);
+//		RenderMesh(meshList[GEO_TURNTABLE3], true);
+//		modelStack.PushMatrix();
+//		modelStack.Translate(-5.f, 10.f, -5.f);
+//		RenderMesh(meshList[GEO_CAR3], false);
+//		modelStack.PopMatrix();
+//		modelStack.PopMatrix();
+//
+//		modelStack.PushMatrix();
+//		modelStack.Translate(-55.f, 20.f, -55.f);
+//		modelStack.Rotate(rotation2, 0.f, 1.f, 0.f);
+//		RenderMesh(meshList[GEO_TURNTABLE4], true);
+//		modelStack.PushMatrix();
+//		modelStack.Translate(-5.f, 10.f, 5.f);
+//		RenderMesh(meshList[GEO_CAR1], false);
+//		modelStack.PopMatrix();
+//		modelStack.PopMatrix();
+//}
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
 {

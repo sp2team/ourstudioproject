@@ -153,6 +153,8 @@ private:
 	
 	float currentTime;
 
+	float rotation;
+
 	Acceleration objectA;
 	Acceleration objectB;
 

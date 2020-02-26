@@ -7,12 +7,10 @@
 //Include the standard C++ headers
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "Application.h"
 #include "SceneManager.h"
 #include "SceneText.h"
 //#include "SceneText2.h"
-
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
@@ -105,7 +103,6 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-
 	SceneManager* scene = new SceneManager();
 	//Scene* scene = new SceneText();
 	scene->Init();
