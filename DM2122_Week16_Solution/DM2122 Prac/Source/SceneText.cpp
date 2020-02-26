@@ -356,17 +356,19 @@ void SceneText::Init()
 
 
 	// This was used as a test, if you want to set the default amount each player has, u can do it in the player class constructor
-	player1.setBalance(1000.0f);
+	/*playerData.setPlayerOneBalance(1000.0f);
+	playerData.setPlayerTwoBalance(1000.0f);*/
 
 	// Change the Price of the car here, if you want to set the name of the car, use the same format as price
-	cars[0].setPrice(500.0f);
-	cars[1].setPrice(750.0f);
-	cars[2].setPrice(1000.0f);
-	cars[3].setPrice(100.0f);
+	playerData.playerCar[0].setPrice(500.0f);
+	playerData.playerCar[1].setPrice(750.0f);
+	playerData.playerCar[2].setPrice(1000.0f);
+	playerData.playerCar[3].setPrice(100.0f);
 }
 
 void SceneText::Update(double dt)
 {
+	playerData.updateFile();
 	currentTime += dt;
 	isAcceleratingA = false;
 	isAcceleratingB = false;
@@ -709,11 +711,12 @@ void SceneText::Render()
 	//RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
 
 	//=====================Shop Interface============================================
-
+	
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.playerCar[1].getUnlocked()), Color(0, 1, 0), 1.75, 13, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Balance:", Color(0, 1, 0), 2, 0, 28);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(player1.getBalance()), Color(0, 1, 0), 1.75, 13, 32);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.getPlayerOneBalance()), Color(0, 1, 0), 1.75, 13, 32);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P2 Balance:", Color(0, 1, 0), 2, 0, 27);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(player2.getBalance()), Color(0, 1, 0), 1.75, 13, 30.8);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.getPlayerTwoBalance()), Color(0, 1, 0), 1.75, 13, 30.8);
 
 
 	// scuffed distance check sorry, just insert the distance check here
@@ -1053,10 +1056,10 @@ void SceneText::ShopUI(int carnum)
 {
 	// Use this to display prices & names of cars later on
 	modelStack.PushMatrix();
-	RenderText(meshList[GEO_TEXT], std::to_string(cars[carnum].getPrice()), Color(0, 1, 0));
+	RenderText(meshList[GEO_TEXT], std::to_string(playerData.playerCar[carnum].getPrice()), Color(0, 1, 0));
 	modelStack.PopMatrix();
 
-	if (player1.playerCar[carnum].getUnlocked() == true)
+	if (playerData.playerCar[carnum].getUnlocked() == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 1", Color(0, 1, 0), 2, 0, 3);
 	}
@@ -1064,7 +1067,7 @@ void SceneText::ShopUI(int carnum)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 1", Color(0, 1, 0), 2, 0, 3);
 	}
-	if (player2.playerCar[carnum].getUnlocked() == true)
+	if (playerData.playerCar[carnum + 4].getUnlocked() == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 2", Color(0, 1, 0), 2, 0, 2);
 	}
@@ -1077,30 +1080,30 @@ void SceneText::ShopUI(int carnum)
 
 	printIndicator();
 
-	if (inrange == true && keyPressed == true && player1.getBalance() >= cars[carnum].getPrice() && player1.playerCar[carnum].getUnlocked() == false && abletoPress == true && buy == true && optionselected[0] == true)
+	if (inrange == true && keyPressed == true && playerData.getPlayerOneBalance() >= playerData.playerCar[carnum].getPrice() && playerData.playerCar[carnum].getUnlocked() == false && abletoPress == true && buy == true && optionselected[0] == true)
 	{
 
-		player1.setBalance(player1.getBalance() - cars[carnum].getPrice());
-		player1.playerCar[carnum].setUnlocked(true);
+		playerData.setPlayerOneBalance(playerData.getPlayerOneBalance() - playerData.playerCar[carnum].getPrice());
+		playerData.playerCar[carnum].setUnlocked(true);
 		abletoPress = false;
 
 
 	}
-	if (inrange == true && keyPressed == true && player2.getBalance() >= cars[carnum].getPrice() && player2.playerCar[carnum].getUnlocked() == false && abletoPress == true && buy == true && optionselected[1] == true)
+	if (inrange == true && keyPressed == true && playerData.getPlayerTwoBalance() >= playerData.playerCar[carnum + 4].getPrice() && playerData.playerCar[carnum + 4].getUnlocked() == false && abletoPress == true && buy == true && optionselected[1] == true)
 	{
-		player2.setBalance(player2.getBalance() - cars[carnum].getPrice());
-		player2.playerCar[carnum].setUnlocked(true);
+		playerData.setPlayerTwoBalance(playerData.getPlayerTwoBalance() - playerData.playerCar[carnum].getPrice());
+		playerData.playerCar[carnum + 4].setUnlocked(true);
 		abletoPress = false;
 	}
 	if (inrange == true && keyPressed == true && abletoPress == true && optionselected[2] == true)
 	{
 
 	}
-	if (inrange == true && player1.getBalance() < cars[carnum].getPrice() && optionselected[0] == true)
+	if (inrange == true && playerData.getPlayerOneBalance() < playerData.playerCar[carnum].getPrice() && optionselected[0] == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "You do not have enough money", Color(0, 1, 0), 2, 0, 26);
 	}
-	if (inrange == true && player2.getBalance() < cars[carnum].getPrice() && optionselected[1] == true)
+	if (inrange == true && playerData.getPlayerTwoBalance() < playerData.playerCar[carnum].getPrice() && optionselected[1] == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "You do not have enough money", Color(0, 1, 0), 2, 0, 26);
 	}
