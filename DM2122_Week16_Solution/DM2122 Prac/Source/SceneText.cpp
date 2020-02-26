@@ -537,11 +537,11 @@ void SceneText::Update(double dt)
 
 		//camera.MouseControl();
 		camera[screen].Update(dt);
-		if (camera.position.x > 0)
+		if (camera[0].position.x > 0)
 		{
 			lightposx = 48.f;
 			ringposx = 55.f;
-			if (camera.position.z > 0)
+			if (camera[0].position.z > 0)
 			{
 				lightposz = 48.f;
 				ringposz = 55.f;
@@ -558,7 +558,7 @@ void SceneText::Update(double dt)
 		{
 			lightposx = -48.f;
 			ringposx = -55.f;
-			if (camera.position.z > 0)
+			if (camera[0].position.z > 0)
 			{
 				lightposz = 48.f;
 				ringposz = 55.f;
@@ -575,7 +575,8 @@ void SceneText::Update(double dt)
 		rotation1++;
 		rotation2--;
 
-		camera.Update(dt);
+		camera[0].Update(dt);
+		camera[1].Update(dt);
 		CalculateFrameRate();
 	}
 }
@@ -583,7 +584,7 @@ void SceneText::Update(double dt)
 
 bool SceneText::skyboxcheck()
 {
-	if (camera.position.x > 83 && camera.position.x < 100 && camera.position.z < 10 && camera.position.z > -10)
+	if (camera[0].position.x > 83 && camera[0].position.x < 100 && camera[0].position.z < 10 && camera[0].position.z > -10)
 	{
 		return true;
 	}

@@ -107,7 +107,7 @@ void Application::Run()
 	//Main Loop
 
 	SceneManager* scene = new SceneManager();
-	Scene* scene = new SceneText();
+	//Scene* scene = new SceneText();
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
