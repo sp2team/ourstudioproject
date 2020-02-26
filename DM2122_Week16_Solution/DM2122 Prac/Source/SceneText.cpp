@@ -386,8 +386,6 @@ void SceneText::Update(double dt)
 		return;
 	}
 
-
-
 	if (Application::IsKeyPressed(0x31))
 	{
 		glDisable(GL_CULL_FACE);
@@ -572,43 +570,44 @@ void SceneText::Update(double dt)
 		rotation1++;
 		rotation2--;
 
-	// Jun Kai's code for third person cam, but doesn't seem to be working currently
+		// Jun Kai's code for third person cam, but doesn't seem to be working currently
 
-		//float addition = (float)(LSPEED * dt);
+			//float addition = (float)(LSPEED * dt);
 
-		//if (Application::IsKeyPressed('W'))
-		//{
-		//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() - addition);
-		//	camera[screen].position.z -= addition;
-		//}
-		//if (Application::IsKeyPressed('S'))
-		//{
-		//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() + addition);
-		//	camera[screen].position.z += addition;
-		//}
-		//if (Application::IsKeyPressed('D'))
-		//{
-		//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + addition);
-		//	camera[screen].position.x += addition;
-		//}
-		//if (Application::IsKeyPressed('A'))
-		//{
-		//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() - addition);
-		//	camera[screen].position.x -= addition;
-		//}
+			//if (Application::IsKeyPressed('W'))
+			//{
+			//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() - addition);
+			//	camera[screen].position.z -= addition;
+			//}
+			//if (Application::IsKeyPressed('S'))
+			//{
+			//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() + addition);
+			//	camera[screen].position.z += addition;
+			//}
+			//if (Application::IsKeyPressed('D'))
+			//{
+			//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + addition);
+			//	camera[screen].position.x += addition;
+			//}
+			//if (Application::IsKeyPressed('A'))
+			//{
+			//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() - addition);
+			//	camera[screen].position.x -= addition;
+			//}
 
-		//camera[screen].Init(camera[screen].position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), screen); // option 2 for 3rd person cam
-	
-
-
-		//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
+			//camera[screen].Init(camera[screen].position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), screen); // option 2 for 3rd person cam
 
 
+
+			//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
+
+	}
 		//camera.MouseControl();
 		camera[0].Update(dt);
 		camera[1].Update(dt);
+		camera->Update(dt);
 		CalculateFrameRate();
-	}
+	
 }
 
 
