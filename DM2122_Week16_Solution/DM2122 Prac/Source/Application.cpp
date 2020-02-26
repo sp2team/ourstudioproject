@@ -9,13 +9,9 @@
 #include <stdlib.h>
 
 #include "Application.h"
-
-<<<<<<< HEAD
 #include "SceneManager.h"
-=======
 #include "SceneText.h"
 #include "SceneText2.h"
->>>>>>> models
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -109,13 +105,9 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-<<<<<<< HEAD
 
 	SceneManager* scene = new SceneManager();
-=======
 	Scene* scene = new SceneText();
->>>>>>> models
-
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
