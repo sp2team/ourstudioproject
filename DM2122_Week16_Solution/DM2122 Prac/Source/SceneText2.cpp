@@ -122,119 +122,119 @@ void SceneText2::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 	glUniform1i(m_parameters[U_NUMLIGHTS], 1); 
 
-	meshList[GEO_RACELEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACELEFT]->textureID = LoadTGA("Image//space3.tga");
-	meshList[GEO_RACELEFT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_RACELEFT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_RACELEFT]->material.kSpecular.Set(2.f, 2.f, 2.f);
-	meshList[GEO_RACELEFT]->material.kShininess = 1.f;
+	//meshList[GEO_RACELEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
+	//meshList[GEO_RACELEFT]->textureID = LoadTGA("Image//space3.tga");
+	//meshList[GEO_RACELEFT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_RACELEFT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_RACELEFT]->material.kSpecular.Set(2.f, 2.f, 2.f);
+	//meshList[GEO_RACELEFT]->material.kShininess = 1.f;
 
-	meshList[GEO_RACERIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACERIGHT]->textureID = LoadTGA("Image//space3.tga");
-	meshList[GEO_RACERIGHT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_RACERIGHT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_RACERIGHT]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_RACERIGHT]->material.kShininess = 1.f;
+	//meshList[GEO_RACERIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
+	//meshList[GEO_RACERIGHT]->textureID = LoadTGA("Image//space3.tga");
+	//meshList[GEO_RACERIGHT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_RACERIGHT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_RACERIGHT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_RACERIGHT]->material.kShininess = 1.f;
 
-	meshList[GEO_RACETOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACETOP]->textureID = LoadTGA("Image//space3.tga");
-	meshList[GEO_RACETOP]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_RACETOP]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_RACETOP]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_RACETOP]->material.kShininess = 1.f;
+	//meshList[GEO_RACETOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
+	//meshList[GEO_RACETOP]->textureID = LoadTGA("Image//space3.tga");
+	//meshList[GEO_RACETOP]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_RACETOP]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_RACETOP]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_RACETOP]->material.kShininess = 1.f;
 
-	meshList[GEO_RACEBOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACEBOTTOM]->textureID = LoadTGA("Image//space3.tga");
-	meshList[GEO_RACEBOTTOM]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_RACEBOTTOM]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_RACEBOTTOM]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_RACEBOTTOM]->material.kShininess = 1.f;
+	//meshList[GEO_RACEBOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
+	//meshList[GEO_RACEBOTTOM]->textureID = LoadTGA("Image//space3.tga");
+	//meshList[GEO_RACEBOTTOM]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_RACEBOTTOM]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_RACEBOTTOM]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_RACEBOTTOM]->material.kShininess = 1.f;
 
-	meshList[GEO_RACEFRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACEFRONT]->textureID = LoadTGA("Image//space3.tga");
-	meshList[GEO_RACEFRONT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_RACEFRONT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_RACEFRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_RACEFRONT]->material.kShininess = 1.f;
+	//meshList[GEO_RACEFRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
+	//meshList[GEO_RACEFRONT]->textureID = LoadTGA("Image//space3.tga");
+	//meshList[GEO_RACEFRONT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_RACEFRONT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_RACEFRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_RACEFRONT]->material.kShininess = 1.f;
 
-	meshList[GEO_RACEBACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RACEBACK]->textureID = LoadTGA("Image//space3.tga");
-	meshList[GEO_RACEBACK]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_RACEBACK]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_RACEBACK]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_RACEBACK]->material.kShininess = 1.f;
+	//meshList[GEO_RACEBACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
+	//meshList[GEO_RACEBACK]->textureID = LoadTGA("Image//space3.tga");
+	//meshList[GEO_RACEBACK]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_RACEBACK]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_RACEBACK]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_RACEBACK]->material.kShininess = 1.f;
 
-	meshList[GEO_STRACK1] = MeshBuilder::GenerateOBJ("left", "OBJ//straighttrack.obj");
-	meshList[GEO_STRACK1]->textureID = LoadTGA("Image//roadtexture.tga");
-	meshList[GEO_STRACK1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_STRACK1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_STRACK1]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_STRACK1]->material.kShininess = 1.f;
+	//meshList[GEO_STRACK1] = MeshBuilder::GenerateOBJ("left", "OBJ//straighttrack.obj");
+	//meshList[GEO_STRACK1]->textureID = LoadTGA("Image//roadtexture.tga");
+	//meshList[GEO_STRACK1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_STRACK1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_STRACK1]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_STRACK1]->material.kShininess = 1.f;
 
-	meshList[GEO_STRACK2] = MeshBuilder::GenerateOBJ("left", "OBJ//straighttrack.obj");
-	meshList[GEO_STRACK2]->textureID = LoadTGA("Image//roadtexture.tga");
-	meshList[GEO_STRACK2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_STRACK2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_STRACK2]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_STRACK2]->material.kShininess = 1.f;
+	//meshList[GEO_STRACK2] = MeshBuilder::GenerateOBJ("left", "OBJ//straighttrack.obj");
+	//meshList[GEO_STRACK2]->textureID = LoadTGA("Image//roadtexture.tga");
+	//meshList[GEO_STRACK2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_STRACK2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_STRACK2]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_STRACK2]->material.kShininess = 1.f;
 
-	meshList[GEO_STRACK3] = MeshBuilder::GenerateOBJ("left", "OBJ//sidetrack.obj");
-	meshList[GEO_STRACK3]->textureID = LoadTGA("Image//roadtexture.tga");
-	meshList[GEO_STRACK3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_STRACK3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_STRACK3]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_STRACK3]->material.kShininess = 1.f;
+	//meshList[GEO_STRACK3] = MeshBuilder::GenerateOBJ("left", "OBJ//sidetrack.obj");
+	//meshList[GEO_STRACK3]->textureID = LoadTGA("Image//roadtexture.tga");
+	//meshList[GEO_STRACK3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_STRACK3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_STRACK3]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_STRACK3]->material.kShininess = 1.f;
 
-	meshList[GEO_STRACK4] = MeshBuilder::GenerateOBJ("left", "OBJ//sidetrack.obj");
-	meshList[GEO_STRACK4]->textureID = LoadTGA("Image//roadtexture.tga");
-	meshList[GEO_STRACK4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_STRACK4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_STRACK4]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_STRACK4]->material.kShininess = 1.f;
+	//meshList[GEO_STRACK4] = MeshBuilder::GenerateOBJ("left", "OBJ//sidetrack.obj");
+	//meshList[GEO_STRACK4]->textureID = LoadTGA("Image//roadtexture.tga");
+	//meshList[GEO_STRACK4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_STRACK4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_STRACK4]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_STRACK4]->material.kShininess = 1.f;
 
-	meshList[GEO_CTRACK1] = MeshBuilder::GenerateOBJ("left", "OBJ//curvetrack0.obj");
-	meshList[GEO_CTRACK1]->textureID = LoadTGA("Image//roadtexture.tga");
-	meshList[GEO_CTRACK1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_CTRACK1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_CTRACK1]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_CTRACK1]->material.kShininess = 1.f;
+	//meshList[GEO_CTRACK1] = MeshBuilder::GenerateOBJ("left", "OBJ//curvetrack0.obj");
+	//meshList[GEO_CTRACK1]->textureID = LoadTGA("Image//roadtexture.tga");
+	//meshList[GEO_CTRACK1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_CTRACK1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_CTRACK1]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_CTRACK1]->material.kShininess = 1.f;
 
-	meshList[GEO_CTRACK2] = MeshBuilder::GenerateOBJ("left", "OBJ//curvetrack90.obj");
-	meshList[GEO_CTRACK2]->textureID = LoadTGA("Image//roadtexture.tga");
-	meshList[GEO_CTRACK2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_CTRACK2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_CTRACK2]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_CTRACK2]->material.kShininess = 1.f;
+	//meshList[GEO_CTRACK2] = MeshBuilder::GenerateOBJ("left", "OBJ//curvetrack90.obj");
+	//meshList[GEO_CTRACK2]->textureID = LoadTGA("Image//roadtexture.tga");
+	//meshList[GEO_CTRACK2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_CTRACK2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_CTRACK2]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_CTRACK2]->material.kShininess = 1.f;
 
-	meshList[GEO_CTRACK3] = MeshBuilder::GenerateOBJ("left", "OBJ//curvetrack180.obj");
-	meshList[GEO_CTRACK3]->textureID = LoadTGA("Image//roadtexture.tga");
-	meshList[GEO_CTRACK3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_CTRACK3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_CTRACK3]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_CTRACK3]->material.kShininess = 1.f;
+	//meshList[GEO_CTRACK3] = MeshBuilder::GenerateOBJ("left", "OBJ//curvetrack180.obj");
+	//meshList[GEO_CTRACK3]->textureID = LoadTGA("Image//roadtexture.tga");
+	//meshList[GEO_CTRACK3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_CTRACK3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_CTRACK3]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_CTRACK3]->material.kShininess = 1.f;
 
-	meshList[GEO_CTRACK4] = MeshBuilder::GenerateOBJ("left", "OBJ//curvetrack270.obj");
-	meshList[GEO_CTRACK4]->textureID = LoadTGA("Image//roadtexture.tga");
-	meshList[GEO_CTRACK4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_CTRACK4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_CTRACK4]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_CTRACK4]->material.kShininess = 1.f;
+	//meshList[GEO_CTRACK4] = MeshBuilder::GenerateOBJ("left", "OBJ//curvetrack270.obj");
+	//meshList[GEO_CTRACK4]->textureID = LoadTGA("Image//roadtexture.tga");
+	//meshList[GEO_CTRACK4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_CTRACK4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_CTRACK4]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_CTRACK4]->material.kShininess = 1.f;
 
-	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("car", "OBJ//newcar.obj");
-	//meshList[GEO_CAR1]->textureID = LoadTGA("Image//180981D_JeromeYeo_A2_UvTextureLayout.tga");
-	//meshList[GEO_CAR1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	//meshList[GEO_CAR1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	//meshList[GEO_CAR1]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	//meshList[GEO_CAR1]->material.kShininess = 1.f;
-	
-	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("car2", "OBJ//newcar2.obj");
-	meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
-	meshList[GEO_CAR2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_CAR2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_CAR2]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_CAR2]->material.kShininess = 1.f;
+	//meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("car", "OBJ//newcar.obj");
+	////meshList[GEO_CAR1]->textureID = LoadTGA("Image//180981D_JeromeYeo_A2_UvTextureLayout.tga");
+	////meshList[GEO_CAR1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	////meshList[GEO_CAR1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	////meshList[GEO_CAR1]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	////meshList[GEO_CAR1]->material.kShininess = 1.f;
+	//
+	//meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("car2", "OBJ//newcar2.obj");
+	//meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+	//meshList[GEO_CAR2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	//meshList[GEO_CAR2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	//meshList[GEO_CAR2]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	//meshList[GEO_CAR2]->material.kShininess = 1.f;
 
-	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f);
+	//meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f);
 
 	//meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	//meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
@@ -526,12 +526,12 @@ void SceneText2::Render()
 		ShopUI(1); 
 	}
 
-	std::string y = std::to_string(camera.position.y);
+	/*std::string y = std::to_string(camera.position.y);
 	RenderTextOnScreen(meshList[GEO_TEXT], y, Color(0, 1, 0), 3, 0, 19);
 	std::string x = std::to_string(camera.position.x);
 	RenderTextOnScreen(meshList[GEO_TEXT], x, Color(0, 1, 0), 3, 0, 16);
 	std::string z = std::to_string(camera.position.z);
-	RenderTextOnScreen(meshList[GEO_TEXT], z, Color(0, 1, 0), 3, 0, 13);
+	RenderTextOnScreen(meshList[GEO_TEXT], z, Color(0, 1, 0), 3, 0, 13);*/
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
 

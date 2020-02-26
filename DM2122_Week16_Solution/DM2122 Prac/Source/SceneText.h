@@ -26,10 +26,8 @@ class SceneText : public Scene
 		GEO_FRONT, 
 		GEO_BACK,
 		GEO_CHAR,
-<<<<<<< HEAD
 		GEO_DICE,
 		GEO_CAR,
-=======
 		GEO_CAR1,
 		GEO_CAR2,
 		GEO_CAR3,
@@ -45,7 +43,6 @@ class SceneText : public Scene
 		GEO_RACETRACK,
 		GEO_RING,
 		GEO_RING2,
->>>>>>> models
 		GEO_LIGHTSPHERE,
 		GEO_LIGHTSPHERE2,
 		GEO_TEXT,
@@ -105,12 +102,9 @@ private:
 	unsigned m_parameters[U_TOTAL];
 
 	MS modelStack, viewStack, projectionStack;
-<<<<<<< HEAD
 
 	Light light[1];
-=======
 	Light light[2];
->>>>>>> models
 
 	Vector3 playerPos;
 
@@ -140,7 +134,6 @@ private:
 	bool movedown = false;
 	bool moveup = false;
 
-<<<<<<< HEAD
 	int selection;
 	double bounceTime;
 	double elapsedTime;
@@ -155,6 +148,8 @@ private:
 	
 	float currentTime;
 
+	float rotation;
+
 	Acceleration objectA;
 	Acceleration objectB;
 
@@ -162,7 +157,7 @@ private:
 
 	Player player1;
 	Player player2;
-=======
+
 	float ytranslate;
 	float ytranslate2;
 	float rotation1;
@@ -173,7 +168,6 @@ private:
 	float ringposz;
 
 	bool scenecheck;
->>>>>>> models
 
 public:
 	SceneText();
@@ -183,12 +177,9 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
-<<<<<<< HEAD
 	int SwitchScene();
 	
-=======
 	virtual bool skyboxcheck();
->>>>>>> models
 };
 
 #endif
