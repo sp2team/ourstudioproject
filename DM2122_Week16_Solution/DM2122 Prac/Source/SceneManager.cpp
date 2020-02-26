@@ -45,6 +45,17 @@ void SceneManager::RenderScreen(double time)
 	//	//scene2->RenderLeftScreen();
 	//	scene->Update(time);
 	//}
+	else if (switchScene == 1)
+	{
+		//Render Split Screen
+		glViewport(1920 / 2, 0, 1920 / 2, 1000);
+		scene1->RenderRightScreen();
+		scene->Update(time);
+
+		glViewport(0, 0, 1920 / 2, 1000);
+		scene1->RenderLeftScreen();
+		scene->Update(time);
+	}
 }
 
 void SceneManager::SwitchScreen()

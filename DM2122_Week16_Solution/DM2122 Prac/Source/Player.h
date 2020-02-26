@@ -1,18 +1,30 @@
 #pragma once
 #include "Cars.h"
+#include <iostream>
+#include <string>
+#include <ostream>
+#include <fstream>
+#include <cstdint>
+
+using namespace std;
 
 class Player
 {
 private:
-	float balance;
-	
+	float player1balance;
+	float player2balance; 
+	string file = "gamedata.txt";
 
 public:
-	Cars playerCar[4];
+	Cars playerCar[8];
 
-	void setBalance(float b);
-	float getBalance();
-
+	void setPlayerOneBalance(float b);
+	void setPlayerTwoBalance(float b);
+	float getPlayerOneBalance();
+	float getPlayerTwoBalance();
+	bool alreadyHaveFile();
+	void updateFile();
+	
 
 
 	Player();

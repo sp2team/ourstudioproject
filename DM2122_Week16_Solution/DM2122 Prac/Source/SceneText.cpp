@@ -70,7 +70,6 @@ void SceneText::Init()
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
-	
 	{
 		m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
 		//m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Texture.fragmentshader"); 
@@ -119,6 +118,224 @@ void SceneText::Init()
 		glUseProgram(m_programID);
 		// Enable depth test
 		glEnable(GL_DEPTH_TEST);
+
+	light[0].type = Light::LIGHT_POINT;
+	light[0].position.Set(0, 0, 0);
+	light[0].color.Set(0.5f, 0.5f, 0.5f);
+	light[0].power = 1;
+	light[0].kC = 1.f;
+	light[0].kL = 0.01f;
+	light[0].kQ = 0.001f;
+	light[0].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[0].cosInner = cos(Math::DegreeToRadian(30));
+	light[0].exponent = 3.f;
+	light[0].spotDirection.Set(0.f, 1.f, 0.f);
+
+	light[1].type = Light::LIGHT_POINT;
+	light[1].position.Set(lightposx, 50, lightposz);
+	light[1].color.Set(0.f, 0.5f, 0.f);
+	light[1].power = 10;
+	light[1].kC = 1.f;
+	light[1].kL = 0.01f;
+	light[1].kQ = 0.001f;
+	light[1].cosCutoff = cos(Math::DegreeToRadian(35));
+	light[1].cosInner = cos(Math::DegreeToRadian(45));
+	light[1].exponent = 3.f;
+	light[1].spotDirection.Set(0.f, 1.f, 0.f);
+
+	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
+	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
+	glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
+	glUniform1f(m_parameters[U_LIGHT0_KC], light[0].kC);
+	glUniform1f(m_parameters[U_LIGHT0_KL], light[0].kL);
+	glUniform1f(m_parameters[U_LIGHT0_KQ], light[0].kQ);
+	glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &light[0].spotDirection.x);
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
+	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
+
+	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
+
+	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
+	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
+	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
+	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
+	glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &light[1].spotDirection.x);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
+
+	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
+
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
+
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
+
+	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
+
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
+
+	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
+
+	/*meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", 0, 0, 0);
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_LEFT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_LEFT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_LEFT]->material.kSpecular.Set(2.f, 2.f, 2.f);
+	meshList[GEO_LEFT]->material.kShininess = 1.f;
+
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateOBJ("right", "OBJ//wallLR.obj", 0, 0, 0);
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_RIGHT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_RIGHT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_RIGHT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_RIGHT]->material.kShininess = 1.f;
+
+	meshList[GEO_TOP] = MeshBuilder::GenerateOBJ("top", "OBJ//top.obj", 0, 0, 0);
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//silver.tga");
+	meshList[GEO_TOP]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TOP]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TOP]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TOP]->material.kShininess = 1.f;
+
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//floortexture.tga");
+	meshList[GEO_BOTTOM]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_BOTTOM]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_BOTTOM]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_BOTTOM]->material.kShininess = 1.f;
+
+	meshList[GEO_FRONT] = MeshBuilder::GenerateOBJ("front", "OBJ//wallFB.obj", 0, 0, 0);
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_FRONT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_FRONT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_FRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FRONT]->material.kShininess = 1.f;
+
+	meshList[GEO_BACK] = MeshBuilder::GenerateOBJ("back", "OBJ//wallFB.obj", 0, 0, 0);
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_BACK]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_BACK]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_BACK]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_BACK]->material.kShininess = 1.f;
+
+	meshList[GEO_LEFT2] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_LEFT2]->textureID = LoadTGA("Image//space2.tga");
+
+	meshList[GEO_RIGHT2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_RIGHT2]->textureID = LoadTGA("Image//space2.tga");
+
+	meshList[GEO_TOP2] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_TOP2]->textureID = LoadTGA("Image//space2.tga");
+
+	meshList[GEO_BOTTOM2] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BOTTOM2]->textureID = LoadTGA("Image//space2.tga");
+
+	meshList[GEO_FRONT2] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_FRONT2]->textureID = LoadTGA("Image//space2.tga");
+
+	meshList[GEO_BACK2] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BACK2]->textureID = LoadTGA("Image//space2.tga");
+
+	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_CHAR]->textureID = LoadTGA("Image//char.tga");
+
+	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice","OBJ//newcar2.obj", 0, 0, 0);
+	meshList[GEO_CAR1]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj", 0, 0, 0);
+	meshList[GEO_CAR2]->textureID = LoadTGA("Image//texture_car.tga");
+
+	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj", 0, 0, 0);
+	meshList[GEO_CAR3]->textureID = LoadTGA("Image//texture_car.tga");
+
+	meshList[GEO_TURNTABLE1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
+	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TURNTABLE1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TURNTABLE1]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TURNTABLE1]->material.kShininess = 1.f;
+
+	meshList[GEO_TURNTABLE2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
+	meshList[GEO_TURNTABLE2]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE2]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TURNTABLE2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TURNTABLE2]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TURNTABLE2]->material.kShininess = 1.f;
+
+	meshList[GEO_TURNTABLE3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
+	meshList[GEO_TURNTABLE3]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE3]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TURNTABLE3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TURNTABLE3]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TURNTABLE3]->material.kShininess = 1.f;
+
+	meshList[GEO_TURNTABLE4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
+	meshList[GEO_TURNTABLE4]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE4]->textureID = LoadTGA("Image//walltexture.tga");
+	meshList[GEO_TURNTABLE4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_TURNTABLE4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_TURNTABLE4]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TURNTABLE4]->material.kShininess = 1.f;
+
+	meshList[GEO_PILLAR] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", 0, 0, 0);
+	meshList[GEO_PILLAR]->textureID = LoadTGA("Image//pillar.tga");
+	meshList[GEO_PILLAR]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR]->material.kShininess = 1.f;
+
+	meshList[GEO_PILLAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", 0, 0, 0);
+	meshList[GEO_PILLAR2]->textureID = LoadTGA("Image//pillar.tga");
+	meshList[GEO_PILLAR2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR2]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR2]->material.kShininess = 1.f;
+
+	meshList[GEO_PILLAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", 0, 0, 0);
+	meshList[GEO_PILLAR3]->textureID = LoadTGA("Image//pillar.tga");
+	meshList[GEO_PILLAR3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR3]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR3]->material.kShininess = 1.f;
+
+	meshList[GEO_PILLAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", 0, 0, 0);
+	meshList[GEO_PILLAR4]->textureID = LoadTGA("Image//pillar.tga");
+	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR4]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR4]->material.kShininess = 1.f;*/
+
+	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_CHAR]->textureID = LoadTGA("Image//char.tga");
+
+	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj", ObjectList.Character.getOffsetX(), ObjectList.Character.getOffsetY(), ObjectList.Character.getOffsetZ());
+	meshList[GEO_DICE]->textureID = LoadTGA("Image//doorman.tga");
+
+	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f, 0, 5, 0);
+
+	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj", 0, 0, 0);
+	meshList[GEO_RING2]->textureID = LoadTGA("Image//greenring.tga");
+
+	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, 0, 0, 0);
+
+	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, 0, 0, 0);
+
+	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
+	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 
 		light[0].type = Light::LIGHT_POINT;
 		light[0].position.Set(0, 0, 0);
@@ -360,17 +577,19 @@ void SceneText::Init()
 
 
 	// This was used as a test, if you want to set the default amount each player has, u can do it in the player class constructor
-	player1.setBalance(1000.0f);
+	/*playerData.setPlayerOneBalance(1000.0f);
+	playerData.setPlayerTwoBalance(1000.0f);*/
 
 	// Change the Price of the car here, if you want to set the name of the car, use the same format as price
-	cars[0].setPrice(500.0f);
-	cars[1].setPrice(750.0f);
-	cars[2].setPrice(1000.0f);
-	cars[3].setPrice(100.0f);
+	playerData.playerCar[0].setPrice(500.0f);
+	playerData.playerCar[1].setPrice(750.0f);
+	playerData.playerCar[2].setPrice(1000.0f);
+	playerData.playerCar[3].setPrice(100.0f);
 }
 
 void SceneText::Update(double dt)
 {
+	playerData.updateFile();
 	currentTime += dt;
 	isAcceleratingA = false;
 	isAcceleratingB = false;
@@ -532,11 +751,6 @@ void SceneText::Update(double dt)
 			bounceTime = elapsedTime + 0.1;
 		}
 
-
-		//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
-
-		//camera.MouseControl();
-		camera[screen].Update(dt);
 		if (camera[0].position.x > 0)
 		{
 			lightposx = 48.f;
@@ -589,6 +803,63 @@ void SceneText::Update(double dt)
 			camera[1].Update(dt);
 			CalculateFrameRate();
 		}
+		else
+		{
+			lightposx = -48.f;
+			ringposx = -55.f;
+			if (camera[0].position.z > 0)
+			{
+				lightposz = 48.f;
+				ringposz = 55.f;
+			}
+			else
+			{
+				lightposz = -48.f;
+				ringposz = -55.f;
+			}
+
+			light[1].position.Set(lightposx, 50, lightposz);
+		}
+
+		rotation1++;
+		rotation2--;
+
+	// Jun Kai's code for third person cam, but doesn't seem to be working currently
+
+		//float addition = (float)(LSPEED * dt);
+
+		//if (Application::IsKeyPressed('W'))
+		//{
+		//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() - addition);
+		//	camera[screen].position.z -= addition;
+		//}
+		//if (Application::IsKeyPressed('S'))
+		//{
+		//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() + addition);
+		//	camera[screen].position.z += addition;
+		//}
+		//if (Application::IsKeyPressed('D'))
+		//{
+		//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + addition);
+		//	camera[screen].position.x += addition;
+		//}
+		//if (Application::IsKeyPressed('A'))
+		//{
+		//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() - addition);
+		//	camera[screen].position.x -= addition;
+		//}
+
+		//camera[screen].Init(camera[screen].position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), screen); // option 2 for 3rd person cam
+	
+
+
+		//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
+
+
+		//camera.MouseControl();
+		camera[0].Update(dt);
+		camera[1].Update(dt);
+		CalculateFrameRate();
 	}
 }
 
@@ -712,11 +983,12 @@ void SceneText::Render()
 
 
 	//=====================Shop Interface============================================
-
+	
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.playerCar[1].getUnlocked()), Color(0, 1, 0), 1.75, 13, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Balance:", Color(0, 1, 0), 2, 0, 28);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(player1.getBalance()), Color(0, 1, 0), 1.75, 13, 32);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.getPlayerOneBalance()), Color(0, 1, 0), 1.75, 13, 32);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P2 Balance:", Color(0, 1, 0), 2, 0, 27);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(player2.getBalance()), Color(0, 1, 0), 1.75, 13, 30.8);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.getPlayerTwoBalance()), Color(0, 1, 0), 1.75, 13, 30.8);
 
 
 	// scuffed distance check sorry, just insert the distance check here
@@ -1147,10 +1419,10 @@ void SceneText::ShopUI(int carnum)
 {
 	// Use this to display prices & names of cars later on
 	modelStack.PushMatrix();
-	RenderText(meshList[GEO_TEXT], std::to_string(cars[carnum].getPrice()), Color(0, 1, 0));
+	RenderText(meshList[GEO_TEXT], std::to_string(playerData.playerCar[carnum].getPrice()), Color(0, 1, 0));
 	modelStack.PopMatrix();
 
-	if (player1.playerCar[carnum].getUnlocked() == true)
+	if (playerData.playerCar[carnum].getUnlocked() == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 1", Color(0, 1, 0), 2, 0, 3);
 	}
@@ -1158,7 +1430,7 @@ void SceneText::ShopUI(int carnum)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 1", Color(0, 1, 0), 2, 0, 3);
 	}
-	if (player2.playerCar[carnum].getUnlocked() == true)
+	if (playerData.playerCar[carnum + 4].getUnlocked() == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 2", Color(0, 1, 0), 2, 0, 2);
 	}
@@ -1171,30 +1443,30 @@ void SceneText::ShopUI(int carnum)
 
 	printIndicator();
 
-	if (inrange == true && keyPressed == true && player1.getBalance() >= cars[carnum].getPrice() && player1.playerCar[carnum].getUnlocked() == false && abletoPress == true && buy == true && optionselected[0] == true)
+	if (inrange == true && keyPressed == true && playerData.getPlayerOneBalance() >= playerData.playerCar[carnum].getPrice() && playerData.playerCar[carnum].getUnlocked() == false && abletoPress == true && buy == true && optionselected[0] == true)
 	{
 
-		player1.setBalance(player1.getBalance() - cars[carnum].getPrice());
-		player1.playerCar[carnum].setUnlocked(true);
+		playerData.setPlayerOneBalance(playerData.getPlayerOneBalance() - playerData.playerCar[carnum].getPrice());
+		playerData.playerCar[carnum].setUnlocked(true);
 		abletoPress = false;
 
 
 	}
-	if (inrange == true && keyPressed == true && player2.getBalance() >= cars[carnum].getPrice() && player2.playerCar[carnum].getUnlocked() == false && abletoPress == true && buy == true && optionselected[1] == true)
+	if (inrange == true && keyPressed == true && playerData.getPlayerTwoBalance() >= playerData.playerCar[carnum + 4].getPrice() && playerData.playerCar[carnum + 4].getUnlocked() == false && abletoPress == true && buy == true && optionselected[1] == true)
 	{
-		player2.setBalance(player2.getBalance() - cars[carnum].getPrice());
-		player2.playerCar[carnum].setUnlocked(true);
+		playerData.setPlayerTwoBalance(playerData.getPlayerTwoBalance() - playerData.playerCar[carnum].getPrice());
+		playerData.playerCar[carnum + 4].setUnlocked(true);
 		abletoPress = false;
 	}
 	if (inrange == true && keyPressed == true && abletoPress == true && optionselected[2] == true)
 	{
 
 	}
-	if (inrange == true && player1.getBalance() < cars[carnum].getPrice() && optionselected[0] == true)
+	if (inrange == true && playerData.getPlayerOneBalance() < playerData.playerCar[carnum].getPrice() && optionselected[0] == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "You do not have enough money", Color(0, 1, 0), 2, 0, 26);
 	}
-	if (inrange == true && player2.getBalance() < cars[carnum].getPrice() && optionselected[1] == true)
+	if (inrange == true && playerData.getPlayerTwoBalance() < playerData.playerCar[carnum].getPrice() && optionselected[1] == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "You do not have enough money", Color(0, 1, 0), 2, 0, 26);
 	}

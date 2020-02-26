@@ -158,10 +158,7 @@ private:
 	Acceleration objectA;
 	Acceleration objectB;
 
-	Cars cars[4];
-
-	Player player1;
-	Player player2;
+	Player playerData;
 
 	float ytranslate;
 	float ytranslate2;
