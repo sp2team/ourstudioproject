@@ -16,7 +16,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up,
 	this->camera = camera;
 	this->position = defaultPosition = pos;
 	this->target = defaultTarget = target;
-	view = (target - position).Normalized();
+	view = (target - position)/*.Normalized();*/;
 	right = view.Cross(up);
 	right.y = 0;
 	right.Normalize();
@@ -55,15 +55,15 @@ void Camera2::Update(double dt)
 			up = rotation * up;
 		}*/
 	static const float CAMERA_SPEED = 50.f;
-	if (Application::IsKeyPressed(VK_LEFT) || Application::IsKeyPressed('A'))
+	if (camera == 0)
 	{
-		float yaw = (float)(-CAMERA_SPEED * dt);
-		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0, 1, 0);
-		//position = rotation * position;
-		//up = rotation * up;
-		View2 = rotation * View2;
-		TestTarget = position + View2;
+		//float yaw = (float)(-CAMERA_SPEED * dt);
+		//Mtx44 rotation;
+		//rotation.SetToRotation(yaw, 0, 1, 0);
+		////position = rotation * position;
+		////up = rotation * up;
+		//View2 = rotation * View2;
+		//TestTarget = position + View2;
 		if (Application::IsKeyPressed('A'))
 		{
 			float yaw = (float)(-CAMERA_SPEED * dt);
