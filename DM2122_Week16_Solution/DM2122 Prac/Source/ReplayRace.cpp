@@ -1,5 +1,7 @@
 #include "ReplayRace.h"
 
+ReplayRace replay[2];
+
 ReplayRace::ReplayRace()
 {
 	first = last = newnode = NULL;

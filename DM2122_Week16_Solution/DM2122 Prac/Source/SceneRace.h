@@ -92,6 +92,7 @@ private:
 	Light light[2];
 
 	Vector3 playerPos;
+	Vector3 playerTwoPos;
 
 	Camera2 camera[2];
 
@@ -101,6 +102,12 @@ private:
 
 	int screen;
 	float time;
+	float playerOneYaw;
+	float playerTwoYaw;
+	Vector3 forwardDirection;
+	Vector3 backwardDirection;
+	Vector3 forwardTwoDirection;
+
 
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);

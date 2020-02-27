@@ -12,6 +12,7 @@
 #define LSPEED 10.f
 
 extern ObjectManager ObjectList;
+extern ReplayRace replay[2];
 
 SceneText::SceneText()
 {

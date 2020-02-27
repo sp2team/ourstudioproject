@@ -13,6 +13,7 @@
 #define LSPEED 10.f
 
 extern ObjectManager ObjectList;
+extern ReplayRace replay[2];
 
 SceneRace::SceneRace()
 {
@@ -42,15 +43,22 @@ void SceneRace::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	ObjectList.Character.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0); // Initializing an object using Wen Xi's Object Class
+	ObjectList.Character.init(-4, 0, 0, 1, 1, 1, 0, 0, 1, 0);
 
 	// For example you want to move 1 on the x-axis for your object.
 	//ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + 1);
 
-	camera[0].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
-	camera[1].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
+	camera[0].Init(Vector3(0, 5, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
+	camera[1].Init(Vector3(0, 5, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
 
 	screen = 0;
 	time = 0;
+	playerOneYaw = 0;
+	playerTwoYaw = 0;
+	forwardDirection.Set(0, 0, 0);
+	forwardTwoDirection.Set(0, 0, 0);
+	backwardDirection.Set(0, 0, -0.05);
+
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -173,6 +181,12 @@ void SceneRace::Init()
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
 
+	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("dice", "OBJ//dice.obj", 0, 0, 0);
+	meshList[GEO_CAR1]->textureID = LoadTGA("Image//Dice.tga");
+
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("dice2", "OBJ//dice.obj", 0, 0, 0);
+	meshList[GEO_CAR2]->textureID = LoadTGA("Image//Dice.tga");
+
 	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f, 0, 5, 0);
 
 	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, 0, 0, 0);
@@ -186,55 +200,125 @@ void SceneRace::Init()
 
 void SceneRace::Update(double dt)
 {
+	Vector3 cameraPos(0, 5, 10);
+	playerPos.Set(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ());
+	playerTwoPos.Set(ObjectList.Character2.getTranslationX(), ObjectList.Character2.getTranslationY(), ObjectList.Character2.getTranslationZ());
 	float addition = (float)(LSPEED * dt);
 
 	//Player 1 movement
 	if (Application::IsKeyPressed('W'))
 	{
-		ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() - addition);
-		camera[0].position.z -= addition;
+		Mtx44 rotation;
+		rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
+		if (forwardDirection.z > -0.35)
+		{
+			forwardDirection.z -= 0.05 * dt;
+		}
+		playerPos = playerPos + rotation * forwardDirection;
+	}
+	else
+	{
+		Mtx44 rotation;
+		rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
+		if (forwardDirection.z < 0)
+		{
+			forwardDirection.z += 0.1 * dt;
+			if (forwardDirection.z >= 0)
+			{
+				forwardDirection.z = 0;
+			}
+			playerPos = playerPos + rotation * forwardDirection;
+		}
 	}
 	if (Application::IsKeyPressed('S'))
 	{
-		ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() + addition);
-		camera[0].position.z += addition;
+		Mtx44 rotation;
+		rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
+		playerPos = playerPos - rotation * backwardDirection;
+
+		if (Application::IsKeyPressed('D'))
+		{
+			playerOneYaw++;
+		}
+		if (Application::IsKeyPressed('A'))
+		{
+			playerOneYaw--;
+		}
 	}
-	if (Application::IsKeyPressed('D'))
+	if (Application::IsKeyPressed('D') && forwardDirection.z != 0)
 	{
-		ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + addition);
-		camera[0].position.x += addition;
+		playerOneYaw++;
 	}
-	if (Application::IsKeyPressed('A'))
+	if (Application::IsKeyPressed('A') && forwardDirection.z != 0)
 	{
-		ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() - addition);
-		camera[0].position.x -= addition;
+		playerOneYaw--;
 	}
 
 	//Player 2 movement
 	if (Application::IsKeyPressed(VK_UP))
 	{
-		ObjectList.Character2.setTranslationZ(ObjectList.Character2.getTranslationZ() - addition);
-		camera[1].position.z -= addition;
+		Mtx44 rotation;
+		rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
+		if (forwardTwoDirection.z > -0.35)
+		{
+			forwardTwoDirection.z -= 0.05 * dt;
+		}
+		playerTwoPos = playerTwoPos + rotation * forwardTwoDirection;
+
+		/*Mtx44 rotation;
+		rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
+		playerTwoPos = playerTwoPos + rotation * Vector3(0, 0, -0.2f);*/
+	}
+	else
+	{
+		Mtx44 rotation;
+		rotation.SetToRotation(-playerTwoYaw , 0, 1, 0);
+		if (forwardTwoDirection.z < 0)
+		{
+			forwardTwoDirection.z += 0.1 * dt;
+			if (forwardTwoDirection.z >= 0)
+			{
+				forwardTwoDirection.z = 0;
+			}
+			playerTwoPos = playerTwoPos + rotation * forwardTwoDirection;
+		}
 	}
 	if (Application::IsKeyPressed(VK_DOWN))
 	{
-		ObjectList.Character2.setTranslationZ(ObjectList.Character2.getTranslationZ() + addition);
-		camera[1].position.z += addition;
+		Mtx44 rotation;
+		rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
+		playerTwoPos = playerTwoPos - rotation * Vector3(0, 0, -0.2f);
+		if (Application::IsKeyPressed(VK_RIGHT))
+		{
+			playerTwoYaw++;
+		}
+		if (Application::IsKeyPressed(VK_LEFT))
+		{
+			playerTwoYaw--;
+		}
 	}
-	if (Application::IsKeyPressed(VK_RIGHT))
+	if (Application::IsKeyPressed(VK_RIGHT) && forwardTwoDirection.z != 0 )
 	{
-		ObjectList.Character2.setTranslationX(ObjectList.Character2.getTranslationX() + addition);
-		camera[1].position.x += addition;
+		playerTwoYaw++;
 	}
-	if (Application::IsKeyPressed(VK_LEFT))
+	if (Application::IsKeyPressed(VK_LEFT) && forwardTwoDirection.z != 0)
 	{
-		ObjectList.Character2.setTranslationX(ObjectList.Character2.getTranslationX() - addition);
-		camera[1].position.x -= addition;
+		playerTwoYaw--;
 	}
 
-	camera[0].Init(camera[0].position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), 1);
-	camera[1].Init(camera[1].position, Vector3(ObjectList.Character2.getTranslationX(), ObjectList.Character2.getTranslationY(), ObjectList.Character2.getTranslationZ()), Vector3(0, 1, 0), 1);
 
+	/*camera[0].position.Set(playerPos.x + 0.01, playerPos.y + 10, playerPos.z - 10);*/
+	Mtx44 rotation;
+	rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
+	camera[0].Init(((rotation* cameraPos) + playerPos), playerPos, Vector3(0, 1, 0), 1);
+
+	rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
+	camera[1].Init(((rotation * cameraPos) + playerTwoPos), playerTwoPos, Vector3(0, 1, 0), 1);
+
+	ObjectList.Character.setTranslationXYZ(playerPos.x, playerPos.y, playerPos.z);
+	ObjectList.Character.setRotationAmount(-playerOneYaw);
+	ObjectList.Character2.setTranslationXYZ(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z);
+	ObjectList.Character2.setRotationAmount(-playerTwoYaw);
 	replay[0].saveFrame(ObjectList.Character);
 	replay[1].saveFrame(ObjectList.Character2);
 }
@@ -255,12 +339,13 @@ void SceneRace::Render()
 
 	RenderSkybox();
 
-	//Render the two car
-	/*RenderObject(meshList[GEO_CAR1], ObjectList.Character, true);
-	RenderObject(meshList[GEO_CAR2], ObjectList.Character2, true);*/
+	/*Render the two car*/
+	RenderObject(meshList[GEO_CAR1], ObjectList.Character, true);
+	RenderObject(meshList[GEO_CAR2], ObjectList.Character2, true);
 
 	//Render lap time
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Time:", Color(0, 1, 0), 2, 0, 28);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(forwardDirection.z), Color(0, 1, 0), 2, 0, 27);
 	RenderTextOnScreen(meshList[GEO_TEXT], CalculateTime(), Color(0, 1, 0), 1.75, 13, 32);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P2 Time:", Color(0, 1, 0), 2, 0, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], CalculateTime(), Color(0, 1, 0), 1.75, 13, 32);
@@ -362,7 +447,7 @@ void SceneRace::RenderSkybox()
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 		///scale, translate, rotate 
-		modelStack.Translate(0.f, -50.f, 0.f);
+		modelStack.Translate(0.f, 0.f, 0.f);
 		modelStack.Scale(100.f, 100.f, 100.f);
 		modelStack.Rotate(-90.f, 1.f, 0.f, 0.f);
 		modelStack.PushMatrix();
