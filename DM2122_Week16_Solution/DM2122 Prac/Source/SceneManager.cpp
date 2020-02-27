@@ -13,12 +13,11 @@ SceneManager::~SceneManager()
 
 void SceneManager::Init()
 {
-	switchScene = 0;
 	scene1 = new SceneText;
-	//scene2 = new SceneText2;
+	scene2 = new SceneRace;
 	scene = scene1;
 	scene1->Init();
-	//scene2->Init();
+	scene2->Init();
 }
 
 void SceneManager::RenderScreen(double time)
@@ -26,38 +25,44 @@ void SceneManager::RenderScreen(double time)
 	//Clear color & depth buffer every frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (switchScene == 0)
+	if (scene == scene1)
 	{
 		//Render Single Screen
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(0, 0, 1920, 1000);
-		scene->Render();
+		scene1->Render();
 		scene->Update(time);
 	}
-	else if (switchScene == 1)
+	else if (scene == scene2)
 	{
 		//Render Split Screen
 		glViewport(1920 / 2, 0, 1920 / 2, 1000);
-		scene1->RenderRightScreen();
+		scene2->RenderRightScreen();
 		scene->Update(time);
 
 		glViewport(0, 0, 1920 / 2, 1000);
-		scene1->RenderLeftScreen();
+		scene2->RenderLeftScreen();
 		scene->Update(time);
 	}
 }
 
 void SceneManager::SwitchScreen()
 {
-	switchScene = scene->SwitchScene();
-	if (switchScene == 0)
-		scene = scene1;
-	/*else if (switchScene == 1)
-		scene = scene2;*/
+	if (scene->SwitchScene() == true)
+	{
+		if (scene == scene1)
+		{
+			scene = scene2;
+			scene->Reset();
+		}
+		else
+		{
+			scene = scene1;
+		}
+	}
 }
 
 void SceneManager::Exit()
 {
 	scene1->Exit();
-	//scene2->Exit();
+	scene2->Exit();
 }

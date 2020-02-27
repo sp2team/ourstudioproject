@@ -83,7 +83,7 @@ void Camera2::Update(double dt)
 			position -= view * (float)(10.f * dt);
 		}
 	}
-	else if (camera == 1)
+	/*else if (camera == 1)
 	{
 		if (Application::IsKeyPressed(VK_LEFT))
 		{
@@ -139,7 +139,7 @@ void Camera2::Update(double dt)
 			Vector3 view = (target - position).Normalized();
 			position -= view * (float)(10.f * dt);
 		}
-	}
+	}*/
 	if (Application::IsKeyPressed('R'))
 	{
 		Reset();

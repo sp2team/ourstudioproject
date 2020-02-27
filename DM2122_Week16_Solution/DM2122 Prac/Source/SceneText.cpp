@@ -39,7 +39,7 @@ void SceneText::Init()
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	/*Sound Engine*/
-
+	//SoundEngine = irrklang::createIrrKlangDevice();
 	//irrklang::ISound* playStart = SoundEngine->play2D("Sounds//pistol.mp3", false);
 	//irrklang::ISound* playBG = SoundEngine->play2D("Sounds//ambient.mp3", true);
 	//irrklang::ISound* playWind = SoundEngine->play2D("Sounds//wind.mp3", true);
@@ -63,10 +63,7 @@ void SceneText::Init()
 	// For example you want to move 1 on the x-axis for your object.
 	//ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + 1);
 
-	camera[0].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 0);
-	camera[1].Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 1);
-	
-	screen = 0;
+	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 0);
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -465,22 +462,22 @@ void SceneText::Update(double dt)
 	if (Application::IsKeyPressed('W'))
 	{
 		playerPos.z -= (float)(LSPEED * dt);
-		camera[screen].position.z -= (float)(LSPEED * dt);
+		camera.position.z -= (float)(LSPEED * dt);
 	}
 	if (Application::IsKeyPressed('S'))
 	{
 		playerPos.z += (float)(LSPEED * dt);
-		camera[screen].position.z += (float)(LSPEED * dt);
+		camera.position.z += (float)(LSPEED * dt);
 	}
 	if (Application::IsKeyPressed('D'))
 	{
 		playerPos.x += (float)(LSPEED * dt);
-		camera[screen].position.x += (float)(LSPEED * dt);
+		camera.position.x += (float)(LSPEED * dt);
 	}
 	if (Application::IsKeyPressed('A'))
 	{
 		playerPos.x -= (float)(LSPEED * dt);
-		camera[screen].position.x -= (float)(LSPEED * dt);
+		camera.position.x -= (float)(LSPEED * dt);
 	}
 
 	// For Shop Interface
@@ -520,100 +517,99 @@ void SceneText::Update(double dt)
 		{
 			ytranslate2 += -50;
 		}
-		if (Application::IsKeyPressed(VK_UP) && selection != 1)
-		{
-			selection -= 1;
-			keyPressed = true;
-			moveup = true;
-		}
+	}
+	if (Application::IsKeyPressed(VK_UP) && selection != 1)
+	{
+		selection -= 1;
+		keyPressed = true;
+		moveup = true;
+	}
 
-		if (keyPressed)
-		{
-			bounceTime = elapsedTime + 0.1;
-		}
+	if (keyPressed)
+	{
+		bounceTime = elapsedTime + 0.1;
+	}
 
-		if (camera[0].position.x > 0)
+	if (camera.position.x > 0)
+	{
+		lightposx = 48.f;
+		ringposx = 55.f;
+		if (camera.position.z > 0)
 		{
-			lightposx = 48.f;
-			ringposx = 55.f;
-			if (camera[0].position.z > 0)
-			{
-				lightposz = 48.f;
-				ringposz = 55.f;
-			}
-			else
-			{
-				lightposz = -48.f;
-				ringposz = -55.f;
-			}
-
-			light[1].position.Set(lightposx, 50, lightposz);
+			lightposz = 48.f;
+			ringposz = 55.f;
 		}
 		else
 		{
-			lightposx = -48.f;
-			ringposx = -55.f;
-			if (camera[0].position.z > 0)
-			{
-				lightposz = 48.f;
-				ringposz = 55.f;
-			}
-			else
-			{
-				lightposz = -48.f;
-				ringposz = -55.f;
-			}
-
-			light[1].position.Set(lightposx, 50, lightposz);
+			lightposz = -48.f;
+			ringposz = -55.f;
 		}
+
+		light[1].position.Set(lightposx, 50, lightposz);
+	}
+	else
+	{
+		lightposx = -48.f;
+		ringposx = -55.f;
+		if (camera.position.z > 0)
+		{
+			lightposz = 48.f;
+			ringposz = 55.f;
+		}
+		else
+		{
+			lightposz = -48.f;
+			ringposz = -55.f;
+		}
+
+		light[1].position.Set(lightposx, 50, lightposz);
+
 
 		rotation1++;
 		rotation2--;
 
-		// Jun Kai's code for third person cam, but doesn't seem to be working currently
+	}
+
+	// Jun Kai's code for third person cam, but doesn't seem to be working currently
 
 			//float addition = (float)(LSPEED * dt);
 
 			//if (Application::IsKeyPressed('W'))
 			//{
 			//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() - addition);
-			//	camera[screen].position.z -= addition;
+			//	camera.position.z -= addition;
 			//}
 			//if (Application::IsKeyPressed('S'))
 			//{
 			//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() + addition);
-			//	camera[screen].position.z += addition;
+			//	camera.position.z += addition;
 			//}
 			//if (Application::IsKeyPressed('D'))
 			//{
 			//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + addition);
-			//	camera[screen].position.x += addition;
+			//	camera.position.x += addition;
 			//}
 			//if (Application::IsKeyPressed('A'))
 			//{
 			//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() - addition);
-			//	camera[screen].position.x -= addition;
+			//	camera.position.x -= addition;
 			//}
 
-			//camera[screen].Init(camera[screen].position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), screen); // option 2 for 3rd person cam
+			//camera.Init(camera.position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), 0); // option 2 for 3rd person cam
 
 
 
-			//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
+			//camera.Init(camera.position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
 
-	}
-		//camera.MouseControl();
-		camera[0].Update(dt);
-		camera[1].Update(dt);
-		camera->Update(dt);
-		CalculateFrameRate();
-	
+	camera.MouseControl();
+	//camera->Update(dt);
+	CalculateFrameRate();
+
 }
-
 
 bool SceneText::skyboxcheck()
 {
-	if (camera[0].position.x > 83 && camera[0].position.x < 100 && camera[0].position.z < 10 && camera[0].position.z > -10)
+	if (camera.position.x > 83 && camera.position.x < 100 && camera.position.z < 10 && camera.position.z > -10)
 	{
 		return true;
 	}
@@ -622,7 +618,7 @@ bool SceneText::skyboxcheck()
 void SceneText::Render()
 {
 	viewStack.LoadIdentity();
-	viewStack.LookAt(camera[screen].position.x, camera[screen].position.y, camera[screen].position.z, camera[screen].target.x, camera[screen].target.y, camera[screen].target.z, camera[screen].up.x, camera[screen].up.y, camera[screen].up.z);
+	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
 
 	// passing the light direction if it is a direction light	
@@ -719,12 +715,12 @@ void SceneText::Render()
 
 
 	// scuffed distance check sorry, just insert the distance check here
-	if (camera[0].position.z < 8)
+	if (camera.position.z < 8)
 	{
 		inrange = true;
 		ShopUI(0); // the parameter is for the numbering of the cars, using it to print out the UI and store data
 	}
-	if (camera[0].position.z > 10)
+	if (camera.position.z > 10)
 	{
 		inrange = true;
 		ShopUI(1); 
@@ -740,10 +736,12 @@ void SceneText::Exit()
 		if (meshList[i] != NULL)
 			delete meshList[i];
 	}
+	replay[0].resetReplay();
+	replay[1].resetReplay();
+
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
-
 }
 
 void SceneText::RenderMesh(Mesh* mesh, bool enableLight)
@@ -1029,26 +1027,20 @@ void SceneText::CalculateFrameRate()
 
 void SceneText::RenderLeftScreen()
 {
-	screen = 0;
 	SceneText::Render();
 }
 
 void SceneText::RenderRightScreen()
 {
-	screen = 1;
 	SceneText::Render();
 }
 
-int switchscreen = 0;
-
-int SceneText::SwitchScene()
+bool SceneText::SwitchScene()
 {
-	if (Application::IsKeyPressed('P'))
-		switchscreen = 1;
-	else if (Application::IsKeyPressed('O'))
-		switchscreen = 0;
-
-	return switchscreen;
+	if (Application::IsKeyPressed('O'))
+		return true;
+	else
+		return false;
 }
 
 void SceneText::ShopUI(int carnum)
@@ -1129,4 +1121,10 @@ void SceneText::printIndicator()
 		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(0, 1, 0), 2, 10, 1);
 	}
 
+}
+
+void SceneText::Reset()
+{
+	Exit();
+	Init();
 }

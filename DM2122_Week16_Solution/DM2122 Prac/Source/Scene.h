@@ -13,8 +13,9 @@ public:
 	virtual void Exit() = 0;
 	virtual void RenderLeftScreen() = 0;
 	virtual void RenderRightScreen() = 0;
-	virtual int SwitchScene() = 0;
+	virtual bool SwitchScene() = 0;
 	virtual bool skyboxcheck() = 0;
+	virtual void Reset() = 0;
 };
 
 #endif

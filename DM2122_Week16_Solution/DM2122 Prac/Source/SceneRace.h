@@ -1,5 +1,5 @@
-#ifndef SCENETEXT_H
-#define SCENETEXT_H
+#ifndef SCENERACE_H
+#define SCENERACE_H
 
 #include "Scene.h"
 #include <MatrixStack.h>
@@ -15,44 +15,23 @@
 #include "ReplayRace.h"
 #pragma comment(lib, "irrKlang.lib")
 
-class SceneText : public Scene
+class SceneRace : public Scene
 {
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES = 0,
 		GEO_LEFT,
-		GEO_LEFT2,
 		GEO_RIGHT,
-		GEO_RIGHT2,
 		GEO_TOP,
-		GEO_TOP2,
 		GEO_BOTTOM,
-		GEO_BOTTOM2,
 		GEO_FRONT,
-		GEO_FRONT2,
 		GEO_BACK,
-		GEO_BACK2,
-		GEO_CHAR,
-		GEO_DICE,
-		GEO_CAR,
 		GEO_CAR1,
 		GEO_CAR2,
-		GEO_CAR3,
-		GEO_CAR4,
-		GEO_TURNTABLE1,
-		GEO_TURNTABLE2,
-		GEO_TURNTABLE3,
-		GEO_TURNTABLE4,
-		GEO_PILLAR,
-		GEO_PILLAR2,
-		GEO_PILLAR3,
-		GEO_PILLAR4,
 		GEO_RACETRACK,
-		GEO_RING,
-		GEO_RING2,
+		GEO_TEXT,
 		GEO_LIGHTSPHERE,
 		GEO_LIGHTSPHERE2,
-		GEO_TEXT,
 		NUM_GEOMETRY,
 	};
 
@@ -114,62 +93,25 @@ private:
 
 	Vector3 playerPos;
 
-	Camera2 camera;
+	Camera2 camera[2];
 
 	ReplayRace replay[2];
 
 	irrklang::ISoundEngine* SoundEngine;
-	
+
+	int screen;
+	float time;
+
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);
 	void RenderSkybox();
-	void VerticeUpdate(Mesh* mesh, Object meshObject);
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-	void CalculateFrameRate();
-	void ShopUI(int carnum);
-	void printIndicator();
+	string CalculateTime();
 
-	bool inrange = false;
-	bool keyPressed;
-	bool abletoPress;
-	bool buy;
-	bool optionselected[3];
-	bool movedown = false;
-	bool moveup = false;
-
-	int selection;
-	double bounceTime;
-	double elapsedTime;
-
-	bool isAcceleratingA;
-	bool isDeceleratingA;
-	float accelerationA;
-	
-	bool isAcceleratingB;
-	bool isDeceleratingB;
-	float accelerationB;
-	
-	float currentTime;
-
-	Acceleration objectA;
-	Acceleration objectB;
-
-	Player playerData;
-
-	float ytranslate;
-	float ytranslate2;
-	float rotation1;
-	float rotation2;
-	float lightposx;
-	float lightposz;
-	float ringposx;
-	float ringposz;
-
-	bool scenecheck;
 public:
-	SceneText();
-	~SceneText();
+	SceneRace();
+	~SceneRace();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -180,6 +122,7 @@ public:
 	virtual bool SwitchScene();
 	virtual bool skyboxcheck();
 	virtual void Reset();
+	void asda();
 };
 
-#endif
+#endif 
