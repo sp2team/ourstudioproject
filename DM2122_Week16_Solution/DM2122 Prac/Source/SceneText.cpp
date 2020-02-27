@@ -824,43 +824,43 @@ void SceneText::Update(double dt)
 		rotation1++;
 		rotation2--;
 
-	// Jun Kai's code for third person cam, but doesn't seem to be working currently
+		// Jun Kai's code for third person cam, but doesn't seem to be working currently
 
-		//float addition = (float)(LSPEED * dt);
+			//float addition = (float)(LSPEED * dt);
 
-		//if (Application::IsKeyPressed('W'))
-		//{
-		//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() - addition);
-		//	camera[screen].position.z -= addition;
-		//}
-		//if (Application::IsKeyPressed('S'))
-		//{
-		//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() + addition);
-		//	camera[screen].position.z += addition;
-		//}
-		//if (Application::IsKeyPressed('D'))
-		//{
-		//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + addition);
-		//	camera[screen].position.x += addition;
-		//}
-		//if (Application::IsKeyPressed('A'))
-		//{
-		//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() - addition);
-		//	camera[screen].position.x -= addition;
-		//}
+			//if (Application::IsKeyPressed('W'))
+			//{
+			//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() - addition);
+			//	camera[screen].position.z -= addition;
+			//}
+			//if (Application::IsKeyPressed('S'))
+			//{
+			//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() + addition);
+			//	camera[screen].position.z += addition;
+			//}
+			//if (Application::IsKeyPressed('D'))
+			//{
+			//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + addition);
+			//	camera[screen].position.x += addition;
+			//}
+			//if (Application::IsKeyPressed('A'))
+			//{
+			//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() - addition);
+			//	camera[screen].position.x -= addition;
+			//}
 
-		//camera[screen].Init(camera[screen].position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), screen); // option 2 for 3rd person cam
-	
-
-
-		//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
+			//camera[screen].Init(camera[screen].position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), screen); // option 2 for 3rd person cam
 
 
+
+			//camera[screen].Init(camera[screen].position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
+
+	}
 		//camera.MouseControl();
 		camera[0].Update(dt);
 		camera[1].Update(dt);
 		CalculateFrameRate();
-	}
+	
 }
 
 
@@ -970,15 +970,15 @@ void SceneText::Render()
 	//No transform needed
 	//RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
 
-	camera->accel.x = accelerationA * sin(rotation);
-	camera->accel.z = accelerationA * cos(rotation);
+	camera->accel.x = accelerationA * sin(camera->CarYaw);
+	camera->accel.z = accelerationA * cos(camera->CarYaw);
 
-	camera->decel.x = accelerationA * sin(rotation);
-	camera->decel.z = accelerationA * cos(rotation);
+	camera->decel.x = accelerationA * sin(camera->CarYaw);
+	camera->decel.z = accelerationA * cos(camera->CarYaw);
 
 	ObjectList.Character2.setTranslationXYZ(camera->target.x, camera->target.y, camera->target.z);
-	ObjectList.Character2.setRotationAmount(rotation);
-	ObjectList.Character2.setRotateY(1);
+	//ObjectList.Character2.setRotationAmount(camera->CarYaw);
+	//ObjectList.Character2.setRotateY(1);
 	RenderObject(meshList[GEO_DICE], ObjectList.Character2, true);
 
 

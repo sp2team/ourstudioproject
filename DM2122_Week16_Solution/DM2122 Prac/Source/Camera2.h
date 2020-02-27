@@ -16,13 +16,8 @@ public:
 	int camera;
 
 	Vector3 view;
-
-	Vector3 View2;
 	Vector3 right;
-	Vector3 right2;
-	Vector3 TestTarget;
-	Vector3 TestPosition;
-
+	float CarYaw;
 	Vector3 accel;
 	Vector3 decel;
 

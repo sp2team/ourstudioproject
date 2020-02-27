@@ -41,9 +41,9 @@ float Acceleration::returnAcceleration(double dt, float currentTime, float max)
 		}
 		hasStoppedA = true;
 	}
-	acceleration += velocityA * dt;
+	//acceleration += velocityA * dt;
 
-	return acceleration;
+	return velocityA;
 }
 
 float Acceleration::returnDeceleration(double dt, float currentTime, float max)
@@ -60,7 +60,7 @@ float Acceleration::returnDeceleration(double dt, float currentTime, float max)
 		}
 		hasStoppedD = true;
 	}
-	acceleration += velocityD * dt;
+	//acceleration += velocityD * dt;
 
-	return acceleration;
+	return velocityD;
 }
