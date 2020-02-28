@@ -54,6 +54,7 @@ class SceneText : public Scene
 		GEO_LIGHTSPHERE2,
 		GEO_FORTUNEWHEEL,
 		GEO_TEXT,
+		GEO_TEXTBG,
 		NUM_GEOMETRY,
 	};
 
@@ -127,6 +128,7 @@ private:
 	void VerticeUpdate(Mesh* mesh, Object meshObject);
 	void RenderNPC();
 	void RenderText(Mesh* mesh, std::string text, Color color);
+	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void CalculateFrameRate();
 	void ShopUI(int carnum);
