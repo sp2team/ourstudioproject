@@ -61,10 +61,43 @@ void SceneText::Init()
 
 	ObjectList.Character.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0); // Initializing an object using Wen Xi's Object Class
 
+	ObjectList.pillar1.init(88, 0, 83, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.pillar2.init(-88, 0, 83, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.pillar3.init(88, 0, -83, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.pillar4.init(-88, 0, -83, 1, 1, 1, 0, 0, 1, 0);
+
+	ObjectList.leftwall.init(-100, 100, 0, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.rightwall.init(100, 100, 0, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.roof.init(0, 200, 0, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.floor.init(0, 0, 0, 200, 200, 200, -90, 1, 0, 0);
+	ObjectList.frontwall.init(0, 100, -100, 1, 1, 1, 0, 1, 0, 0);
+	ObjectList.backwall.init(0, 100, 100, 1, 1, 1, 0, 1, 0, 0);
+
+	ObjectList.leftwall2.init(-150, 50, 0, 300, 300, 300, 90, 0, 1, 0);
+	ObjectList.rightwall2.init(150, 50, 0, 300, 300, 300, -90, 0, 1, 0);
+	ObjectList.roof2.init(0, 200, 0, 300, 300, 300, 90, 1, 0, 0);
+	ObjectList.frontwall2.init(0, 50, -150, 300, 300, 300, 0, 0, 1, 0);
+	ObjectList.backwall2.init(0, 50, 150, 300, 300, 300, 180, 0, 1, 0);
+
+	ObjectList.ring1.init(0, ytranslate, 91, 1, 1, 1, 0, 1, 0, 0);
+	ObjectList.ring2.init(ringposx, ytranslate2, ringposz, 1, 1, 1, 0, 1, 0, 0);
+
+	ObjectList.turntable1.init(55, 10, 55, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.turntable2.init(55, 10, -55, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.turntable3.init(-55, 10, 55, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.turntable4.init(-55, 10, -55, 1, 1, 1, 0, 0, 1, 0);
+
+	ObjectList.newcar1.init(53.f, 10.f, 50.f, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.newcar2.init(-55.f, 18.f, 55.f, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.newcar3.init(50.f, 15.f, -50.f, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.newcar4.init(-60.f, 18.f, -60.f, 1, 1, 1, 0, 0, 1, 0);
+
+	ObjectList.fortuneWheel.init(30.f, 12.f, 95.f, 1, 1, 1, 0, 0, 0, 1);
+
 	// For example you want to move 1 on the x-axis for your object.
 	//ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + 1);
 
-	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0), 0);
+	camera.Init(Vector3(0, 10, 10), Vector3(0, 10, 0), Vector3(0, 1, 0), 0);
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -81,6 +114,7 @@ void SceneText::Init()
 	m_parameters[U_MATERIAL_DIFFUSE] = glGetUniformLocation(m_programID, "material.kDiffuse");
 	m_parameters[U_MATERIAL_SPECULAR] = glGetUniformLocation(m_programID, "material.kSpecular");
 	m_parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(m_programID, "material.kShininess");
+
 	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
 	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
 	m_parameters[U_LIGHT0_POWER] = glGetUniformLocation(m_programID, "lights[0].power");
@@ -169,6 +203,7 @@ void SceneText::Init()
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
+	/*
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
 
@@ -186,8 +221,9 @@ void SceneText::Init()
 
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
+	*/
 
-	/*meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", 0, 0, 0);
+	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", 0, 0, 0);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_LEFT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_LEFT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
@@ -250,17 +286,19 @@ void SceneText::Init()
 	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_CHAR]->textureID = LoadTGA("Image//char.tga");
 
-	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice","OBJ//newcar2.obj", 0, 0, 0);
-	meshList[GEO_CAR1]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar2.obj", 0, 0, 0);
+	meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
 
-	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj", 0, 0, 0);
-	meshList[GEO_CAR2]->textureID = LoadTGA("Image//texture_car.tga");
+	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj", 0, 0, 0);
+	meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
 
 	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj", 0, 0, 0);
-	meshList[GEO_CAR3]->textureID = LoadTGA("Image//texture_car.tga");
+	meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
+
+	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar4.obj", 0, 0, 0);
+	meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
 
 	meshList[GEO_TURNTABLE1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
-	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
@@ -269,7 +307,6 @@ void SceneText::Init()
 
 	meshList[GEO_TURNTABLE2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
 	meshList[GEO_TURNTABLE2]->textureID = LoadTGA("Image//walltexture.tga");
-	meshList[GEO_TURNTABLE2]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE2]->material.kSpecular.Set(1.f, 1.f, 1.f);
@@ -277,14 +314,12 @@ void SceneText::Init()
 
 	meshList[GEO_TURNTABLE3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
 	meshList[GEO_TURNTABLE3]->textureID = LoadTGA("Image//walltexture.tga");
-	meshList[GEO_TURNTABLE3]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE3]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE3]->material.kShininess = 1.f;
 
 	meshList[GEO_TURNTABLE4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
-	meshList[GEO_TURNTABLE4]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE4]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
@@ -317,7 +352,7 @@ void SceneText::Init()
 	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR4]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_PILLAR4]->material.kShininess = 1.f;*/
+	meshList[GEO_PILLAR4]->material.kShininess = 1.f;
 
 	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_CHAR]->textureID = LoadTGA("Image//char.tga");
@@ -325,7 +360,8 @@ void SceneText::Init()
 	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj", ObjectList.Character.getOffsetX(), ObjectList.Character.getOffsetY(), ObjectList.Character.getOffsetZ());
 	meshList[GEO_DICE]->textureID = LoadTGA("Image//doorman.tga");
 
-	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f, 0, 5, 0);
+	meshList[GEO_RING] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring.obj", 0, 0, 0);
+	meshList[GEO_RING]->textureID = LoadTGA("Image//greenring.tga");
 
 	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj", 0, 0, 0);
 	meshList[GEO_RING2]->textureID = LoadTGA("Image//greenring.tga");
@@ -333,6 +369,13 @@ void SceneText::Init()
 	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, 0, 0, 0);
 
 	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, 0, 0, 0);
+
+	meshList[GEO_FORTUNEWHEEL] = MeshBuilder::GenerateOBJ("Wheel Of Fortune", "OBJ//WheelOfFortune.obj", ObjectList.fortuneWheel.getOffsetX(), ObjectList.fortuneWheel.getOffsetY(), ObjectList.fortuneWheel.getOffsetZ());
+	meshList[GEO_FORTUNEWHEEL]->textureID = LoadTGA("Image//texture_wheeloffortune.tga");
+	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_PILLAR4]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_PILLAR4]->material.kShininess = 1.f;
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
@@ -368,10 +411,6 @@ void SceneText::Update(double dt)
 {
 	playerData.updateFile();
 	currentTime += dt;
-	isAcceleratingA = false;
-	isAcceleratingB = false;
-	isDeceleratingA = false;
-	isDeceleratingB = false;
 
 	keyPressed = false;
 	abletoPress = true;
@@ -380,8 +419,6 @@ void SceneText::Update(double dt)
 	if (bounceTime > elapsedTime)
 	{
 		abletoPress = false;
-
-		return;
 	}
 
 	if (Application::IsKeyPressed(0x31))
@@ -430,36 +467,8 @@ void SceneText::Update(double dt)
 		//to do: switch light type to SPOT and pass the information to
 		light[0].type = Light::LIGHT_SPOT;
 	}
-	//reset key
-	if (Application::IsKeyPressed('R'))
-	{
-		accelerationA = 0;
-		accelerationB = 0;
-	}
-	//for sudo acceleration==================================================================================================
-	if (Application::IsKeyPressed('W')) {
-		isAcceleratingA = true;
-	}
-	if (Application::IsKeyPressed('S')) {
-		isDeceleratingA = true;
-		//isAcceleratingB = true;
-	}
-	if (Application::IsKeyPressed('A')) {
-
-	}
-	if (Application::IsKeyPressed('D')) {
-
-	}
 	currentTime += dt;
-	//getting offset from origin 
-	objectA.SetisAccelerating(isAcceleratingA);
-	objectA.SetisDecelerating(isDeceleratingA);
-	accelerationA = objectA.returnAcceleration(dt, currentTime, 4.f) + objectA.returnDeceleration(dt, currentTime, 2.f);
 
-	objectB.SetisAccelerating(isAcceleratingB);
-	accelerationB = objectB.returnAcceleration(dt, currentTime, 1.f);;
-	accelerationB = objectB.returnAcceleration(dt, currentTime, 4.f) + objectB.returnDeceleration(dt, currentTime, 2.f);
-	//=========================================================================================================================
 	if (Application::IsKeyPressed('W'))
 	{
 		playerPos.z -= (float)(LSPEED * dt);
@@ -509,15 +518,6 @@ void SceneText::Update(double dt)
 		selection += 1;
 		keyPressed = true;
 		movedown = true;
-		if (ytranslate >= 10.f)
-		{
-			ytranslate += -10;
-		}
-
-		if (ytranslate2 >= 50.f)
-		{
-			ytranslate2 += -50;
-		}
 	}
 	if (Application::IsKeyPressed(VK_UP) && selection != 1)
 	{
@@ -530,6 +530,13 @@ void SceneText::Update(double dt)
 	{
 		bounceTime = elapsedTime + 0.1;
 	}
+
+	ytranslate += 0.2;
+	if (ytranslate >= 10.f) //ring animation
+	{
+		ytranslate = 0.f;
+	}
+	ObjectList.ring1.setTranslationY(ytranslate);
 
 	if (camera.position.x > 0)
 	{
@@ -545,8 +552,6 @@ void SceneText::Update(double dt)
 			lightposz = -48.f;
 			ringposz = -55.f;
 		}
-
-		light[1].position.Set(lightposx, 50, lightposz);
 	}
 	else
 	{
@@ -562,13 +567,58 @@ void SceneText::Update(double dt)
 			lightposz = -48.f;
 			ringposz = -55.f;
 		}
+	}
 
-		light[1].position.Set(lightposx, 50, lightposz);
+	ytranslate2 += 0.5;
+	if (ytranslate2 >= 50.f) //animation of turntable ring
+	{
+		ytranslate2 = 0.f;
+	}
 
+	light[1].position.Set(lightposx, 50, lightposz); //update light position
+	ObjectList.ring2.setTranslationXYZ(ringposx, ytranslate2, ringposz); //update turntable ring pos
 
-		rotation1++;
-		rotation2--;
+	rotation1++;
+	ObjectList.turntable1.setRotationAmount(rotation1); //turntable rotation
+	ObjectList.turntable2.setRotationAmount(rotation1);
+	ObjectList.newcar1.setRotationAmount(rotation1);
+	ObjectList.newcar3.setRotationAmount(rotation1);
+	rotation2--;
+	ObjectList.turntable3.setRotationAmount(rotation2);
+	ObjectList.turntable4.setRotationAmount(rotation2);
+	ObjectList.newcar2.setRotationAmount(rotation2);
+	ObjectList.newcar4.setRotationAmount(rotation2);
 
+	if (Application::IsKeyPressed('F') && !isSpinning)
+	{
+		ObjectList.fortuneWheel.setRotationAmount(0);
+		rotationSpeed = Math::RandIntMinMax(800, 1600);
+		isSpinning = true;
+	}
+
+	if (isSpinning)
+	{
+
+		ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + dt * rotationSpeed);
+		rotationSpeed -= 10;
+
+		if (rotationSpeed <= 0)
+		{
+			rotationSpeed = 0;
+			isSpinning = false;
+		}
+	}
+	else
+	{
+		if (ObjectList.fortuneWheel.getRotationAmount() > 360)
+		{
+			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() - 360);
+		}
+
+		if (ObjectList.fortuneWheel.getRotationAmount() < 0)
+		{
+			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + 360);
+		}
 	}
 
 	// Jun Kai's code for third person cam, but doesn't seem to be working currently
@@ -666,6 +716,7 @@ void SceneText::Render()
 	}
 
 	RenderSkybox();
+	RenderNPC();
 
 	Vector3 lightPos;
 	lightPos.x = light[0].position.x;
@@ -696,7 +747,6 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_DICE], false);
 	modelStack.PopMatrix();*/
 
-	RenderObject(meshList[GEO_DICE], ObjectList.Character, true);
 
 	//modelStack.PushMatrix();
 	////scale, translate, rotate
@@ -798,6 +848,7 @@ void SceneText::RenderObject(Mesh* mesh, Object meshObject, bool enableLight)
 
 void SceneText::RenderSkybox()
 {
+	/*
 	modelStack.PushMatrix();
 		///scale, translate, rotate 
 		modelStack.Translate(-50.f, 0.f, 0.f);
@@ -845,6 +896,40 @@ void SceneText::RenderSkybox()
 		modelStack.Rotate(180.f, 0.f, 1.f, 0.f);
 		RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
+	*/
+
+	RenderObject(meshList[GEO_LEFT], ObjectList.leftwall, true);
+	RenderObject(meshList[GEO_RIGHT], ObjectList.rightwall, true);
+	RenderObject(meshList[GEO_TOP], ObjectList.roof, true);
+	RenderObject(meshList[GEO_BOTTOM], ObjectList.floor, true);
+	RenderObject(meshList[GEO_FRONT], ObjectList.frontwall, true);
+	RenderObject(meshList[GEO_BACK], ObjectList.backwall, true);
+
+	RenderObject(meshList[GEO_LEFT2], ObjectList.leftwall2, false);
+	RenderObject(meshList[GEO_RIGHT2], ObjectList.rightwall2, false);
+	RenderObject(meshList[GEO_TOP2], ObjectList.roof2, false);
+	RenderObject(meshList[GEO_FRONT2], ObjectList.frontwall2, false);
+	RenderObject(meshList[GEO_BACK2], ObjectList.backwall2, false);
+
+	RenderObject(meshList[GEO_PILLAR], ObjectList.pillar1, true);
+	RenderObject(meshList[GEO_PILLAR2], ObjectList.pillar2, true);
+	RenderObject(meshList[GEO_PILLAR3], ObjectList.pillar3, true);
+	RenderObject(meshList[GEO_PILLAR4], ObjectList.pillar4, true);
+
+	RenderObject(meshList[GEO_RING], ObjectList.ring1, true);
+	RenderObject(meshList[GEO_RING2], ObjectList.ring2, true);
+
+	RenderObject(meshList[GEO_TURNTABLE1], ObjectList.turntable1, true);
+	RenderObject(meshList[GEO_TURNTABLE2], ObjectList.turntable2, true);
+	RenderObject(meshList[GEO_TURNTABLE3], ObjectList.turntable3, true);
+	RenderObject(meshList[GEO_TURNTABLE4], ObjectList.turntable4, true);
+
+	RenderObject(meshList[GEO_CAR1], ObjectList.newcar1, false);
+	RenderObject(meshList[GEO_CAR2], ObjectList.newcar2, false);
+	RenderObject(meshList[GEO_CAR3], ObjectList.newcar3, false);
+	RenderObject(meshList[GEO_CAR4], ObjectList.newcar4, false);
+
+	RenderObject(meshList[GEO_FORTUNEWHEEL], ObjectList.fortuneWheel, false);
 }
 
 void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
@@ -863,80 +948,32 @@ void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
 		meshObject.setLastTranslationY(meshObject.getTranslationY());
 		meshObject.setLastTranslationZ(meshObject.getTranslationZ());
 	}
-		RenderMesh(meshList[GEO_BACK2], false);
-		modelStack.PopMatrix();
+}
 
-		//RenderMesh(meshList[GEO_DICE], false);
+void SceneText::RenderNPC()
+{
+	modelView.x = 0;
+	modelView.y = 0;
+	modelView.z = -1;
+	modelView.Normalize();
+	targetView.x = camera.position.x - ObjectList.Character.getTranslationX();
+	targetView.y = 0;
+	targetView.z = camera.position.z - ObjectList.Character.getTranslationZ();
+	targetView.Normalize();
+	dotProduct = modelView.Dot(targetView);
 
-		modelStack.PushMatrix();
-		modelStack.Translate(91.f, ytranslate += 0.2, 0.f);
-		RenderMesh(meshList[GEO_RING], false);
-		modelStack.PopMatrix();
+	rotation = Math::RadianToDegree(acos(dotProduct / (modelView.Length() * targetView.Length())));
 
-		modelStack.PushMatrix();
-		modelStack.Translate(ringposx, ytranslate2 += 0.5, ringposz);
-		RenderMesh(meshList[GEO_RING2], false);
-		modelStack.PopMatrix();
+	if (camera.position.x <= ObjectList.Character.getTranslationX())
+	{
+		ObjectList.Character.setRotationAmount(rotation - 180);
+	}
+	else
+	{
+		ObjectList.Character.setRotationAmount(180 - rotation);
+	}
 
-		modelStack.PushMatrix();
-		modelStack.Translate(88.f, 0.f, 83.f);
-		RenderMesh(meshList[GEO_PILLAR], true);
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(-88.f, 0.f, 83.f);
-		RenderMesh(meshList[GEO_PILLAR2], true);
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(88.f, 0.f, -83.f);
-		RenderMesh(meshList[GEO_PILLAR3], true);
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(-88.f, 0.f, -83.f);
-		RenderMesh(meshList[GEO_PILLAR4], true);
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(55.f, 20.f, 55.f);
-		modelStack.Rotate(rotation1, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_TURNTABLE1], true);
-		modelStack.PushMatrix();
-		modelStack.Translate(5.f, 10.f, -5.f);
-		RenderMesh(meshList[GEO_CAR1], false);
-		modelStack.PopMatrix();
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(55.f, 20.f, -55.f);
-		modelStack.Rotate(rotation1, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_TURNTABLE2], true);
-		modelStack.PushMatrix();
-		modelStack.Translate(5.f, 10.f, -5.f);
-		RenderMesh(meshList[GEO_CAR2], false);
-		modelStack.PopMatrix();
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(-55.f, 20.f, 55.f);
-		modelStack.Rotate(rotation2, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_TURNTABLE3], true);
-		modelStack.PushMatrix();
-		modelStack.Translate(-5.f, 10.f, -5.f);
-		RenderMesh(meshList[GEO_CAR3], false);
-		modelStack.PopMatrix();
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(-55.f, 20.f, -55.f);
-		modelStack.Rotate(rotation2, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_TURNTABLE4], true);
-		modelStack.PushMatrix();
-		modelStack.Translate(-5.f, 10.f, 5.f);
-		RenderMesh(meshList[GEO_CAR1], false);
-		modelStack.PopMatrix();
-		modelStack.PopMatrix();
+	RenderObject(meshList[GEO_DICE], ObjectList.Character, false);
 }
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)

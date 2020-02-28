@@ -52,6 +52,7 @@ class SceneText : public Scene
 		GEO_RING2,
 		GEO_LIGHTSPHERE,
 		GEO_LIGHTSPHERE2,
+		GEO_FORTUNEWHEEL,
 		GEO_TEXT,
 		NUM_GEOMETRY,
 	};
@@ -124,6 +125,7 @@ private:
 	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);
 	void RenderSkybox();
 	void VerticeUpdate(Mesh* mesh, Object meshObject);
+	void RenderNPC();
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void CalculateFrameRate();
@@ -137,18 +139,17 @@ private:
 	bool optionselected[3];
 	bool movedown = false;
 	bool moveup = false;
+	bool isSpinning;
+	float rotationSpeed;
 
 	int selection;
 	double bounceTime;
 	double elapsedTime;
 
-	bool isAcceleratingA;
-	bool isDeceleratingA;
-	float accelerationA;
-	
-	bool isAcceleratingB;
-	bool isDeceleratingB;
-	float accelerationB;
+	float rotation; // NPC AI
+	double dotProduct;
+	Vector3 modelView;
+	Vector3 targetView;
 	
 	float currentTime;
 

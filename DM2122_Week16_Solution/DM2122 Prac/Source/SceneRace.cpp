@@ -43,7 +43,14 @@ void SceneRace::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	ObjectList.Character.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0); // Initializing an object using Wen Xi's Object Class
-	ObjectList.Character.init(-4, 0, 0, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.Character2.init(-4, 0, 0, 1, 1, 1, 0, 0, 1, 0);
+
+	ObjectList.Car1.init(0, 0.1, 5, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.Car2.init(0, 0, 0.1, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.Car3.init(5, 0.1, 0, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.Car4.init(10, 0.1, 0, 1, 1, 1, 0, 0, 1, 0);
+
+	ObjectList.Racetrack.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0);
 
 	// For example you want to move 1 on the x-axis for your object.
 	//ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + 1);
@@ -181,11 +188,20 @@ void SceneRace::Init()
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
 
-	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("dice", "OBJ//dice.obj", 0, 0, 0);
-	meshList[GEO_CAR1]->textureID = LoadTGA("Image//Dice.tga");
+	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar1.obj", 0, 0, 0);
+	meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
 
-	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("dice2", "OBJ//dice.obj", 0, 0, 0);
-	meshList[GEO_CAR2]->textureID = LoadTGA("Image//Dice.tga");
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("dice2", "OBJ//racecar2.obj", 0, 0, 0);
+	meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+
+	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar3.obj", 0, 0, 0);
+	meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
+
+	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar4.obj", 0, 0, 0);
+	meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
+
+	meshList[GEO_RACETRACK] = MeshBuilder::GenerateOBJ("dice", "OBJ//finaltrack.obj", 0, 0, 0);
+	meshList[GEO_RACETRACK]->textureID = LoadTGA("Image/roadtexture.tga");
 
 	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f, 0, 5, 0);
 
@@ -201,8 +217,8 @@ void SceneRace::Init()
 void SceneRace::Update(double dt)
 {
 	Vector3 cameraPos(0, 5, 10);
-	playerPos.Set(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ());
-	playerTwoPos.Set(ObjectList.Character2.getTranslationX(), ObjectList.Character2.getTranslationY(), ObjectList.Character2.getTranslationZ());
+	playerPos.Set(ObjectList.Car1.getTranslationX(), ObjectList.Car1.getTranslationY(), ObjectList.Car1.getTranslationZ());
+	playerTwoPos.Set(ObjectList.Car2.getTranslationX(), ObjectList.Car2.getTranslationY(), ObjectList.Car2.getTranslationZ());
 	float addition = (float)(LSPEED * dt);
 
 	//Player 1 movement
@@ -315,10 +331,10 @@ void SceneRace::Update(double dt)
 	rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
 	camera[1].Init(((rotation * cameraPos) + playerTwoPos), playerTwoPos, Vector3(0, 1, 0), 1);
 
-	ObjectList.Character.setTranslationXYZ(playerPos.x, playerPos.y, playerPos.z);
-	ObjectList.Character.setRotationAmount(-playerOneYaw);
-	ObjectList.Character2.setTranslationXYZ(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z);
-	ObjectList.Character2.setRotationAmount(-playerTwoYaw);
+	ObjectList.Car1.setTranslationXYZ(playerPos.x, playerPos.y, playerPos.z);
+	ObjectList.Car1.setRotationAmount(-playerOneYaw);
+	ObjectList.Car2.setTranslationXYZ(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z);
+	ObjectList.Car2.setRotationAmount(-playerTwoYaw);
 	replay[0].saveFrame(ObjectList.Character);
 	replay[1].saveFrame(ObjectList.Character2);
 }
@@ -337,11 +353,21 @@ void SceneRace::Render()
 	viewStack.LookAt(camera[screen].position.x, camera[screen].position.y, camera[screen].position.z, camera[screen].target.x, camera[screen].target.y, camera[screen].target.z, camera[screen].up.x, camera[screen].up.y, camera[screen].up.z);
 	modelStack.LoadIdentity();
 
+	modelStack.PushMatrix();
+	modelStack.Scale(2.5f, 2.5f, 2.5f);
 	RenderSkybox();
+	modelStack.PopMatrix();
 
 	/*Render the two car*/
-	RenderObject(meshList[GEO_CAR1], ObjectList.Character, true);
-	RenderObject(meshList[GEO_CAR2], ObjectList.Character2, true);
+	//RenderObject(meshList[GEO_CAR1], ObjectList.Character, true);
+	//RenderObject(meshList[GEO_CAR2], ObjectList.Character2, true);
+
+	RenderObject(meshList[GEO_CAR1], ObjectList.Car1, false);
+	RenderObject(meshList[GEO_CAR2], ObjectList.Car2, false);
+	/*RenderObject(meshList[GEO_CAR3], ObjectList.Car3, false);
+	RenderObject(meshList[GEO_CAR4], ObjectList.Car4, false);*/
+
+	RenderObject(meshList[GEO_RACETRACK], ObjectList.Racetrack, false);
 
 	//Render lap time
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Time:", Color(0, 1, 0), 2, 0, 28);
