@@ -516,13 +516,13 @@ void SceneText::Update(double dt)
 			optionselected[2] = false;
 	}
 
-	if (Application::IsKeyPressed(VK_DOWN) && selection != 3)
+	if (Application::IsKeyPressed(VK_DOWN) && selection != 3 && abletoPress == true)
 	{
 		selection += 1;
 		keyPressed = true;
 		movedown = true;
 	}
-	if (Application::IsKeyPressed(VK_UP) && selection != 1)
+	if (Application::IsKeyPressed(VK_UP) && selection != 1 && abletoPress == true)
 	{
 		selection -= 1;
 		keyPressed = true;

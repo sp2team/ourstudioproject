@@ -28,7 +28,31 @@ void Camera2::Update(double dt)
 	static const float CAMERA_SPEED = 50.f;
 	if (camera == 0)
 	{
+		Vector3 view = (target - position).Normalized();
+		Vector3 right = view.Cross(up);
+
 		if (Application::IsKeyPressed('A'))
+		{
+			position -= right * (float)(15.f * dt);
+			target = position + view;
+		}
+		if (Application::IsKeyPressed('D'))
+		{
+			position += right * (float)(15.f * dt);
+			target = position + view;
+		}
+		if (Application::IsKeyPressed('W'))
+		{
+			position += view * (float)(15.f * dt);
+			target = position + view;
+		}
+		if (Application::IsKeyPressed('S'))
+		{
+			position -= view * (float)(15.f * dt);
+			target = position + view;
+		}
+
+		/*if (Application::IsKeyPressed('A'))
 		{
 			float yaw = (float)(-CAMERA_SPEED * dt);
 			Mtx44 rotation;
@@ -81,7 +105,7 @@ void Camera2::Update(double dt)
 		{
 			Vector3 view = (target - position).Normalized();
 			position -= view * (float)(10.f * dt);
-		}
+		}*/
 	}
 	/*else if (camera == 1)
 	{
