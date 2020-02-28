@@ -268,6 +268,9 @@ void SceneText::Init()
 	meshList[GEO_LEFT2] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_LEFT2]->textureID = LoadTGA("Image//space2.tga");
 
+	meshList[GEO_TEXTBG] = MeshBuilder::GenerateQuad("textbackground", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_TEXTBG]->textureID = LoadTGA("Image//textbg.tga");
+
 	meshList[GEO_RIGHT2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_RIGHT2]->textureID = LoadTGA("Image//space2.tga");
 
@@ -1004,6 +1007,27 @@ void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
 
 }
 
+void SceneText::RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey)
+{
+	glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity(); //Reset modelStack
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(sizex, sizey, 1);
+
+
+	RenderMesh(mesh, false);
+	modelStack.PopMatrix();
+	viewStack.PopMatrix();
+	projectionStack.PopMatrix();
+}
+
 void SceneText::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
@@ -1088,24 +1112,26 @@ void SceneText::ShopUI(int carnum)
 	RenderText(meshList[GEO_TEXT], std::to_string(playerData.playerCar[carnum].getPrice()), Color(0, 1, 0));
 	modelStack.PopMatrix();
 
+	RenderMeshOnScreen(meshList[GEO_TEXTBG], 24.5, 7.5, 56, 15);
+
 	if (playerData.playerCar[carnum].getUnlocked() == true)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 1", Color(0, 1, 0), 2, 0, 3);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 1", Color(1, 1, 1), 2, 0, 4);
 	}
 	else
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 1", Color(0, 1, 0), 2, 0, 3);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 1", Color(1, 1, 1), 2, 0, 4);
 	}
 	if (playerData.playerCar[carnum + 4].getUnlocked() == true)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 2", Color(0, 1, 0), 2, 0, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 2", Color(1, 1, 1), 2, 0, 3);
 	}
 	else
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 2", Color(0, 1, 0), 2, 0, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 2", Color(1, 1, 1), 2, 0, 3);
 	}
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Text Drive", Color(0, 1, 0), 2, 0, 1);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Test Drive", Color(1, 1, 1), 2, 0, 2);
 
 	printIndicator();
 
@@ -1148,15 +1174,15 @@ void SceneText::printIndicator()
 
 	if (selection == 1)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(0, 1, 0), 2, 24, 3);
+		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 4);
 	}
 	else if (selection == 2)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(0, 1, 0), 2, 24, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 3);
 	}
 	else if (selection == 3)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(0, 1, 0), 2, 10, 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 10, 2);
 	}
 
 }
