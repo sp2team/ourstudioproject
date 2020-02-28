@@ -47,6 +47,7 @@ public:
 	// Object Booth;
 	// etc
 
+	bool PointToMeshCollision(Vector3 point, Mesh* mesh); // Returns a boolean to check if a point is inside a mesh's bounding box.
 	bool MeshCollision(Mesh* mesh1, Mesh* mesh2); // Returns a boolean to check for the collision between 2 meshes using stored vertices.
 	ObjectManager();
 	~ObjectManager();
