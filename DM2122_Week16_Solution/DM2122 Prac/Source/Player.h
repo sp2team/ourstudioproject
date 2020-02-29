@@ -17,6 +17,8 @@ private:
 
 public:
 	Cars playerCar[8];
+	int player1selectedcar;
+	int player2selectedcar;
 
 	void setPlayerOneBalance(float b);
 	void setPlayerTwoBalance(float b);
