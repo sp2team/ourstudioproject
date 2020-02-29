@@ -135,7 +135,7 @@ private:
 	void cameraMovement(double dt);
 	void CalculateFrameRate();
 	void ShopUI(int carnum);
-	void printIndicator();
+	void printIndicator(int carnum);
 
 	bool toggleShop;
 	bool inrange;

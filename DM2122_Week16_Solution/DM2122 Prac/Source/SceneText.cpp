@@ -403,6 +403,9 @@ void SceneText::Init()
 	playerData.playerCar[5].setPrice(750.0f);
 	playerData.playerCar[6].setPrice(1000.0f);
 	playerData.playerCar[7].setPrice(100.0f);
+
+	playerData.player1selectedcar = 8;
+	playerData.player2selectedcar = 8;
 }
 
 void SceneText::Update(double dt)
@@ -685,7 +688,7 @@ void SceneText::Render()
 	modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + std::to_string(camera.position.x) + " Z:" + std::to_string(camera.position.z) , Color(0, 1, 0), 1.75, 15, 25);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(toggleShop), Color(0, 1, 0), 1.75, 15, 24);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.player1selectedcar) + " " + std::to_string(playerData.player2selectedcar), Color(0, 1, 0), 1.75, 15, 24);
 
 	//=====================Shop Interface============================================
 	
@@ -1124,17 +1127,17 @@ bool SceneText::SwitchScene()
 
 void SceneText::ShopUI(int carnum)
 {
-	if (selection == 1)
+	if (selection == 1) // if indicator pointing on first option
 		optionselected[0] = true;
 	else
 		optionselected[0] = false;
 
-	if (selection == 2)
+	if (selection == 2) // if indicator pointing on second option
 		optionselected[1] = true;
 	else
 		optionselected[1] = false;
 
-	if (selection == 3)
+	if (selection == 3) // if indicator pointing on third option
 		optionselected[2] = true;
 	else
 		optionselected[2] = false;
@@ -1146,28 +1149,37 @@ void SceneText::ShopUI(int carnum)
 
 	RenderMeshOnScreen(meshList[GEO_TEXTBG], 24.5, 7.5, 56, 15);
 
-	if (playerData.playerCar[carnum].getUnlocked() == true)
+	if (playerData.playerCar[carnum].getUnlocked() && playerData.player1selectedcar != carnum) // if the car is unlocked but not selected
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 1", Color(1, 1, 1), 2, 0, 4);
 	}
-	else
+	else if (playerData.playerCar[carnum].getUnlocked() && playerData.player1selectedcar == carnum) // if car is selected 
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Car Selected for Player 1", Color(1, 1, 1), 2, 0, 4);
+	}
+	else if (!playerData.playerCar[carnum].getUnlocked()) // if car is still locked
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 1", Color(1, 1, 1), 2, 0, 4);
 	}
-	if (playerData.playerCar[carnum + 4].getUnlocked() == true)
+	if (playerData.playerCar[carnum + 4].getUnlocked() && playerData.player2selectedcar != carnum + 4) // refer above^
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 2", Color(1, 1, 1), 2, 0, 3);
 	}
-	else
+	else if (playerData.playerCar[carnum + 4].getUnlocked() && playerData.player2selectedcar == carnum + 4)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Car Selected for Player 2", Color(1, 1, 1), 2, 0, 3);
+	}
+	else if (!playerData.playerCar[carnum + 4].getUnlocked())
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 2", Color(1, 1, 1), 2, 0, 3);
 	}
 
+
 	RenderTextOnScreen(meshList[GEO_TEXT], "Test Drive", Color(1, 1, 1), 2, 0, 2);
 
-	printIndicator();
+	printIndicator(carnum);
 
-	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerOneBalance() >= playerData.playerCar[carnum].getPrice() && !playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[0])
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerOneBalance() >= playerData.playerCar[carnum].getPrice() && !playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[0]) // when purchase car
 	{
 
 		playerData.setPlayerOneBalance(playerData.getPlayerOneBalance() - playerData.playerCar[carnum].getPrice());
@@ -1175,11 +1187,21 @@ void SceneText::ShopUI(int carnum)
 		playerData.updateFile();
 		keyPressed = true;
 	}
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[0]) // selection of car
+	{
+		playerData.player1selectedcar = carnum;
+		keyPressed = true;
+	}
 	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerTwoBalance() >= playerData.playerCar[carnum + 4].getPrice() && !playerData.playerCar[carnum + 4].getUnlocked() && abletoPress && optionselected[1])
 	{
 		playerData.setPlayerTwoBalance(playerData.getPlayerTwoBalance() - playerData.playerCar[carnum + 4].getPrice());
 		playerData.playerCar[carnum + 4].setUnlocked(true);
 		playerData.updateFile();
+		keyPressed = true;
+	}
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum + 4].getUnlocked() && abletoPress && optionselected[1])
+	{
+		playerData.player2selectedcar = carnum + 4;
 		keyPressed = true;
 	}
 	if (keyPressed == true && abletoPress == true && optionselected[2] == true)
@@ -1196,16 +1218,30 @@ void SceneText::ShopUI(int carnum)
 	}
 }
 
-void SceneText::printIndicator()
+void SceneText::printIndicator(int carnum)
 {
 
 	if (selection == 1)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 4);
+		if (playerData.player1selectedcar == carnum)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 25, 4);
+		}
+		else
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 4);
+		}
 	}
 	else if (selection == 2)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 3);
+		if (playerData.player2selectedcar == carnum + 4)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 25, 3);
+		}
+		else
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 3);
+		}
 	}
 	else if (selection == 3)
 	{
