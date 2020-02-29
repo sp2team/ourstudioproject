@@ -20,6 +20,9 @@ public:
 	int player1selectedcar;
 	int player2selectedcar;
 
+	int player1Texture;
+	int player2Texture;
+
 	void setPlayerOneBalance(float b);
 	void setPlayerTwoBalance(float b);
 	float getPlayerOneBalance();
