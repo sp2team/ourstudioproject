@@ -513,13 +513,13 @@ void SceneText::Update(double dt)
 			optionselected[2] = false;
 	}
 
-	if (Application::IsKeyPressed(VK_DOWN) && selection != 3)
+	if (Application::IsKeyPressed(VK_DOWN) && selection != 3 && abletoPress == true)
 	{
 		selection += 1;
 		keyPressed = true;
 		movedown = true;
 	}
-	if (Application::IsKeyPressed(VK_UP) && selection != 1)
+	if (Application::IsKeyPressed(VK_UP) && selection != 1 && abletoPress == true)
 	{
 		selection -= 1;
 		keyPressed = true;
@@ -589,14 +589,14 @@ void SceneText::Update(double dt)
 	ObjectList.newcar2.setRotationAmount(rotation2);
 	ObjectList.newcar4.setRotationAmount(rotation2);
 
-	if (Application::IsKeyPressed('F') && !isSpinning)
+	if (Application::IsKeyPressed('F') && !isSpinning) // Activates the fortune wheel, sets a random angle to spin till using rng.
 	{
 		ObjectList.fortuneWheel.setRotationAmount(0);
 		rotationSpeed = Math::RandIntMinMax(800, 1600);
 		isSpinning = true;
 	}
 
-	if (isSpinning)
+	if (isSpinning) // During the spinning process
 	{
 
 		ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + dt * rotationSpeed);
@@ -608,7 +608,8 @@ void SceneText::Update(double dt)
 			isSpinning = false;
 		}
 	}
-	else
+	
+	if (!isSpinning)// When it's done spinning
 	{
 		if (ObjectList.fortuneWheel.getRotationAmount() > 360)
 		{
@@ -620,37 +621,6 @@ void SceneText::Update(double dt)
 			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + 360);
 		}
 	}
-
-	// Jun Kai's code for third person cam, but doesn't seem to be working currently
-
-			//float addition = (float)(LSPEED * dt);
-
-			//if (Application::IsKeyPressed('W'))
-			//{
-			//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() - addition);
-			//	camera.position.z -= addition;
-			//}
-			//if (Application::IsKeyPressed('S'))
-			//{
-			//	ObjectList.Character.setTranslationZ(ObjectList.Character.getTranslationZ() + addition);
-			//	camera.position.z += addition;
-			//}
-			//if (Application::IsKeyPressed('D'))
-			//{
-			//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + addition);
-			//	camera.position.x += addition;
-			//}
-			//if (Application::IsKeyPressed('A'))
-			//{
-			//	ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() - addition);
-			//	camera.position.x -= addition;
-			//}
-
-			//camera.Init(camera.position, Vector3(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ()), Vector3(0, 1, 0), 0); // option 2 for 3rd person cam
-
-
-
-			//camera.Init(camera.position , playerPos, Vector3(0, 1, 0), 0);  // option 2 for 3rd person cam
 
 	camera.MouseControl();
 	//camera->Update(dt);
@@ -737,27 +707,14 @@ void SceneText::Render()
 	RenderObject(meshList[GEO_DICE],ObjectList.Character2, false);
 
 	//modelStack.PushMatrix();
-	////modelStack.Rotate(rotationAngle, 0, 1, 0);
-	//modelStack.Translate(accelerationA * cos(rotationAngle), -3, accelerationA * sin(rotationAngle));
-	//RenderMesh(meshList[GEO_DICE], true);
-	//modelStack.PopMatrix();
-
-	/*modelStack.PushMatrix();
-	modelStack.Translate(accelerationB, -3, 0);
-	RenderMesh(meshList[GEO_DICE], true);*/
-
-	/*modelStack.Translate(playerPos.x, -3 + playerPos.y, playerPos.z);
-	RenderMesh(meshList[GEO_DICE], false);
-	modelStack.PopMatrix();*/
-
-
-	//modelStack.PushMatrix();
 	////scale, translate, rotate
 	//RenderText(meshList[GEO_TEXT], "HELLO WORLD", Color(0, 1, 0));
 	//modelStack.PopMatrix();
 
 	//No transform needed
 	//RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
+
+	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + std::to_string(camera.position.x) + " Z:" + std::to_string(camera.position.z) , Color(0, 1, 0), 1.75, 15, 32);
 
 	//=====================Shop Interface============================================
 	
@@ -856,56 +813,6 @@ void SceneText::RenderObject(Mesh* mesh, Object meshObject, bool enableLight)
 
 void SceneText::RenderSkybox()
 {
-	/*
-	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(-50.f, 0.f, 0.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
-		modelStack.Rotate(90.f, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_LEFT], false);
-	modelStack.PopMatrix();
-	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(50.f, 0.f, 0.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
-		modelStack.Rotate(-90.f, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_RIGHT], false);
-	modelStack.PopMatrix();
-	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(0.f, 50.f, 0.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
-		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
-		modelStack.PushMatrix();
-			modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
-			RenderMesh(meshList[GEO_TOP], false);
-		modelStack.PopMatrix();
-	modelStack.PopMatrix();
-	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(0.f, -50.f, 0.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
-		modelStack.Rotate(-90.f, 1.f, 0.f, 0.f);
-		modelStack.PushMatrix();
-		modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
-		RenderMesh(meshList[GEO_BOTTOM], false);
-		modelStack.PopMatrix();
-		modelStack.PopMatrix();
-	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(0.f, 0.f, -50.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
-		RenderMesh(meshList[GEO_FRONT], false);
-	modelStack.PopMatrix();
-	modelStack.PushMatrix();
-		///scale, translate, rotate 
-		modelStack.Translate(0.f, 0.f, 50.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
-		modelStack.Rotate(180.f, 0.f, 1.f, 0.f);
-		RenderMesh(meshList[GEO_BACK], false);
-	modelStack.PopMatrix();
-	*/
-
 	RenderObject(meshList[GEO_LEFT], ObjectList.leftwall, true);
 	RenderObject(meshList[GEO_RIGHT], ObjectList.rightwall, true);
 	RenderObject(meshList[GEO_TOP], ObjectList.roof, true);
@@ -958,30 +865,30 @@ void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
 	}
 }
 
-void SceneText::RenderNPC()
+void SceneText::RenderNPC() // Code related to NPC
 {
-	modelView.x = 0;
+	modelView.x = 0; // A general direction for the NPC to dot product from
 	modelView.y = 0;
 	modelView.z = -1;
 	modelView.Normalize();
-	targetView.x = camera.position.x - ObjectList.Character.getTranslationX();
+	targetView.x = camera.position.x - ObjectList.Character.getTranslationX(); // Get the x vector from the NPC to player
 	targetView.y = 0;
-	targetView.z = camera.position.z - ObjectList.Character.getTranslationZ();
+	targetView.z = camera.position.z - ObjectList.Character.getTranslationZ(); // Get the z vector from the NPC to player
 	targetView.Normalize();
-	dotProduct = modelView.Dot(targetView);
+	dotProduct = modelView.Dot(targetView); // Dot Product between the general direction vector and the vector pointing from the NPC to the player
 
-	rotation = Math::RadianToDegree(acos(dotProduct / (modelView.Length() * targetView.Length())));
+	rotation = Math::RadianToDegree(acos(dotProduct / (modelView.Length() * targetView.Length()))); // Calculates the rotation in degrees from the player to the general direction
 
-	if (camera.position.x <= ObjectList.Character.getTranslationX())
+	if (camera.position.x <= ObjectList.Character.getTranslationX()) // If the player is on the leftside
 	{
 		ObjectList.Character.setRotationAmount(rotation - 180);
 	}
-	else
+	else // If player is on right side of the NPC
 	{
 		ObjectList.Character.setRotationAmount(180 - rotation);
 	}
 
-	RenderObject(meshList[GEO_DICE], ObjectList.Character, false);
+	RenderObject(meshList[GEO_DICE], ObjectList.Character, false); // Renders the NPC
 }
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
