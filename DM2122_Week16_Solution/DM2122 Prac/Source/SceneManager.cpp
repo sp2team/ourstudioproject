@@ -52,12 +52,13 @@ void SceneManager::SwitchScreen()
 		if (scene == scene1)
 		{
 			scene = scene2;
-			scene->Reset();
+			scene1->Reset();
 		}
 		else
 		{
+			scene1->Init();
 			scene = scene1;
-			scene->Reset();
+			scene2->Reset();
 		}
 	}
 }

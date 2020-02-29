@@ -33,8 +33,9 @@ void SceneRace::Init()
 
 	ambience = SoundEngine->addSoundSourceFromFile("Sounds//ambient.mp3");
 	wind = SoundEngine->addSoundSourceFromFile("Sounds//wind.mp3");
+	wind->setDefaultVolume(0.5f);
 	car = SoundEngine->addSoundSourceFromFile("Sounds//engine.mp3");
-	car->setDefaultMinDistance(4);
+	car->setDefaultMinDistance(10);
 
 	playStart = SoundEngine->play2D("Sounds//pistol.mp3", false, true, true);
 	playBG = SoundEngine->play2D(ambience, true, true, true);
