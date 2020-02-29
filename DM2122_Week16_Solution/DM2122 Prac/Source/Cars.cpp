@@ -23,8 +23,6 @@ float Cars::getPrice()
 
 Cars::Cars()
 {
-	price = 500.0f;
-	unlocked = false;
 }
 
 Cars::~Cars()

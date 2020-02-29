@@ -137,7 +137,8 @@ private:
 	void ShopUI(int carnum);
 	void printIndicator();
 
-	bool inrange = false;
+	bool toggleShop;
+	bool inrange;
 	bool keyPressed;
 	bool abletoPress;
 	bool buy;
@@ -157,9 +158,6 @@ private:
 	Vector3 targetView;
 	
 	float currentTime;
-
-	Acceleration objectA;
-	Acceleration objectB;
 
 	Player playerData;
 

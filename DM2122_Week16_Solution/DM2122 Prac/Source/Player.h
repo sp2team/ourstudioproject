@@ -12,7 +12,7 @@ class Player
 {
 private:
 	float player1balance;
-	float player2balance; 
+	float player2balance;
 	string file = "gamedata.txt";
 
 public:
@@ -24,6 +24,7 @@ public:
 	float getPlayerTwoBalance();
 	bool alreadyHaveFile();
 	void updateFile();
+	void readFile();
 	
 
 

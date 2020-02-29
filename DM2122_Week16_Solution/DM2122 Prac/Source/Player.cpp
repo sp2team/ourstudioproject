@@ -3,11 +3,13 @@
 void Player::setPlayerOneBalance(float b)
 {
 	player1balance = b;
+	updateFile();
 }
 
 void Player::setPlayerTwoBalance(float b)
 {
 	player2balance = b;
+	updateFile();
 }
 
 float Player::getPlayerOneBalance()
@@ -47,96 +49,83 @@ void Player::updateFile()
 	}
 }
 
-Player::Player()
+void Player::readFile()
 {
 	string line;
 	int DataLine = 0;
 	int lineCounter = 0;
 
-	if (alreadyHaveFile())
+	ifstream data(file);
+	while (getline(data, line))
 	{
-		ifstream data(file);
-		
-		while (getline(data, line))
+		if (line == "Data")
 		{
-			if (line == "Data")
-			{
-				DataLine = lineCounter;
-			}
-			if (lineCounter == DataLine + 1)
-			{
-				player1balance = stoi(line);
-			}
-			if (lineCounter == DataLine + 2)
-			{
-				player2balance = stoi(line);
-			}
-			if (lineCounter == DataLine + 3)
-			{
-				if (stoi(line) == 1)
-				{
-					playerCar[0].setUnlocked(true);
-				}
-				else
-				{
-					playerCar[0].setUnlocked(false);
-				}
-			}
-			if (lineCounter == DataLine + 4)
-			{
-				if (stoi(line) == 1)
-				{
-					playerCar[1].setUnlocked(true);
-				}
-				else
-				{
-					playerCar[1].setUnlocked(false);
-				}
-			}
-			if (lineCounter == DataLine + 5)
-			{
-				playerCar[2].setUnlocked(stoi(line));
-			}
-			if (lineCounter == DataLine + 6)
-			{
-				playerCar[3].setUnlocked(stoi(line));
-			}
-			if (lineCounter == DataLine + 8)
-			{
-				playerCar[4].setUnlocked(stoi(line));
-			}
-			if (lineCounter == DataLine + 9)
-			{
-				playerCar[5].setUnlocked(stoi(line));
-			}
-			if (lineCounter == DataLine + 10)
-			{
-				playerCar[6].setUnlocked(stoi(line));
-			}
-			if (lineCounter == DataLine + 11)
-			{
-				playerCar[7].setUnlocked(stoi(line));
-			}
-			
-			lineCounter++;
+			DataLine = lineCounter;
 		}
-	}
-	else
-	{
-		ofstream create(file);
+		if (lineCounter == DataLine + 1)
+		{
+			player1balance = stoi(line);
+		}
+		if (lineCounter == DataLine + 2)
+		{
+			player2balance = stoi(line);
+		}
+		if (lineCounter == DataLine + 3)
+		{
+			if (stoi(line) == 1)
+			{
+				playerCar[0].setUnlocked(true);
+			}
+			else
+			{
+				playerCar[0].setUnlocked(false);
+			}
+		}
+		if (lineCounter == DataLine + 4)
+		{
+			if (stoi(line) == 1)
+			{
+				playerCar[1].setUnlocked(true);
+			}
+			else
+			{
+				playerCar[1].setUnlocked(false);
+			}
+		}
+		if (lineCounter == DataLine + 5)
+		{
+			playerCar[2].setUnlocked(stoi(line));
+		}
+		if (lineCounter == DataLine + 6)
+		{
+			playerCar[3].setUnlocked(stoi(line));
+		}
+		if (lineCounter == DataLine + 8)
+		{
+			playerCar[4].setUnlocked(stoi(line));
+		}
+		if (lineCounter == DataLine + 9)
+		{
+			playerCar[5].setUnlocked(stoi(line));
+		}
+		if (lineCounter == DataLine + 10)
+		{
+			playerCar[6].setUnlocked(stoi(line));
+		}
+		if (lineCounter == DataLine + 11)
+		{
+			playerCar[7].setUnlocked(stoi(line));
+		}
 
-		create << "Data\n";
-		create << "1000\n";
-		create << "1000\n";
-		create << "1\n";
-		create << "0\n";
-		create << "0\n";
-		create << "0\n";
-		create << "1\n";
-		create << "0\n";
-		create << "0\n";
-		create << "0\n";
+		lineCounter++;
 	}
+}
+
+Player::Player()
+{
+	player1balance = 10000;
+	player2balance = 50000;
+	readFile();
 }
 
 Player::~Player()

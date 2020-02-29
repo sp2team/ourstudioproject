@@ -13,6 +13,7 @@
 
 extern ObjectManager ObjectList;
 extern ReplayRace replay[2];
+Player playerData;
 
 SceneText::SceneText()
 {
@@ -36,6 +37,8 @@ void SceneText::Init()
 	lightposz = -48.f;
 	ringposx = 55.f;
 	ringposz = 55.f;
+	toggleShop = true;
+	inrange = false;
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -397,18 +400,20 @@ void SceneText::Init()
 	playerData.playerCar[1].setPrice(750.0f);
 	playerData.playerCar[2].setPrice(1000.0f);
 	playerData.playerCar[3].setPrice(100.0f);
+	playerData.playerCar[4].setPrice(500.0f);
+	playerData.playerCar[5].setPrice(750.0f);
+	playerData.playerCar[6].setPrice(1000.0f);
+	playerData.playerCar[7].setPrice(100.0f);
 }
 
 void SceneText::Update(double dt)
 {
-	playerData.updateFile();
+	Vector3 vNPC(ObjectList.NPC.getTranslationX(), ObjectList.NPC.getTranslationY(), ObjectList.NPC.getTranslationZ());
 	currentTime += dt;
 
 	keyPressed = false;
 	abletoPress = true;
 	elapsedTime += dt;
-
-
 
 	if (bounceTime > elapsedTime)
 	{
@@ -463,66 +468,41 @@ void SceneText::Update(double dt)
 	}
 	currentTime += dt;
 
-	/*if (Application::IsKeyPressed('W'))
-	{
-		playerPos.z -= (float)(LSPEED * dt);
-		camera.position.z -= (float)(LSPEED * dt);
-	}
-	if (Application::IsKeyPressed('S'))
-	{
-		playerPos.z += (float)(LSPEED * dt);
-		camera.position.z += (float)(LSPEED * dt);
-	}
-	if (Application::IsKeyPressed('D'))
-	{
-		playerPos.x += (float)(LSPEED * dt);
-		camera.position.x += (float)(LSPEED * dt);
-	}
-	if (Application::IsKeyPressed('A'))
-	{
-		playerPos.x -= (float)(LSPEED * dt);
-		camera.position.x -= (float)(LSPEED * dt);
-	}*/
-
 	// For Shop Interface
 
-	if (Application::IsKeyPressed(VK_RETURN))
+	if (Application::IsKeyPressed('G') && (camera.position - vNPC).Length() <= 20 && abletoPress) // Toggle Shop GUI when NPC is near you
 	{
+		if (toggleShop)
+		{
+			toggleShop = false;
+		}
+		else
+		{
+			toggleShop = true;
+		}
+
 		keyPressed = true;
-		buy = true;
-
-		if (selection == 1)
-			optionselected[0] = true;
-		else
-			optionselected[0] = false;
-
-		if (selection == 2)
-			optionselected[1] = true;
-		else
-			optionselected[1] = false;
-
-		if (selection == 3)
-			optionselected[2] = true;
-		else
-			optionselected[2] = false;
 	}
 
-	if (Application::IsKeyPressed(VK_DOWN) && selection != 3 && abletoPress == true)
+	if ((camera.position - vNPC).Length() > 20) // If NPC out of range
+	{
+		toggleShop = false;
+	}
+
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((camera.position - vNPC).Length()), Color(0, 1, 0), 1.75, 15, 23);
+
+
+	if (Application::IsKeyPressed(VK_DOWN) && selection != 3 && abletoPress)
 	{
 		selection += 1;
-		keyPressed = true;
 		movedown = true;
+		keyPressed = true;
 	}
-	if (Application::IsKeyPressed(VK_UP) && selection != 1 && abletoPress == true)
+	if (Application::IsKeyPressed(VK_UP) && selection != 1 && abletoPress)
 	{
 		selection -= 1;
-		keyPressed = true;
 		moveup = true;
-	}
-
-	if (keyPressed)
-	{
-		bounceTime = elapsedTime + 0.1;
+		keyPressed = true;
 	}
 
 	ytranslate += 0.2;
@@ -618,11 +598,16 @@ void SceneText::Update(double dt)
 	
 	carShowInteraction(dt);
 	camera.MouseControl();
-	//camera.Update(dt);
 	cameraMovement(dt);
 	CalculateFrameRate();
+	playerData.updateFile();
 
 	ObjectList.Character = replay->Replay();
+
+	if (keyPressed)
+	{
+		bounceTime = elapsedTime + 0.1;
+	}
 }
 
 bool SceneText::skyboxcheck()
@@ -700,37 +685,20 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_LIGHTSPHERE2], false);
 	modelStack.PopMatrix();
 
-
-	//modelStack.PushMatrix();
-	////scale, translate, rotate
-	//RenderText(meshList[GEO_TEXT], "HELLO WORLD", Color(0, 1, 0));
-	//modelStack.PopMatrix();
-
-	//No transform needed
-	//RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
-
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + std::to_string(camera.position.x) + " Z:" + std::to_string(camera.position.z) , Color(0, 1, 0), 1.75, 15, 25);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(toggleShop), Color(0, 1, 0), 1.75, 15, 24);
 
 	//=====================Shop Interface============================================
 	
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.playerCar[1].getUnlocked()), Color(0, 1, 0), 1.75, 13, 28);
+	for (int counter = 0; counter <= 7; counter++)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.playerCar[counter].getUnlocked()), Color(0, 1, 0), 1.75, 13 + counter, 28);
+	}
+	//RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.playerCar[0].getUnlocked()), Color(0, 1, 0), 1.75, 13, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Balance:", Color(0, 1, 0), 2, 0, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.getPlayerOneBalance()), Color(0, 1, 0), 1.75, 13, 32);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P2 Balance:", Color(0, 1, 0), 2, 0, 27);
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.getPlayerTwoBalance()), Color(0, 1, 0), 1.75, 13, 30.8);
-
-
-	// scuffed distance check sorry, just insert the distance check here
-	if (camera.position.z < 8)
-	{
-		inrange = true;
-		ShopUI(0); // the parameter is for the numbering of the cars, using it to print out the UI and store data
-	}
-	if (camera.position.z > 10)
-	{
-		inrange = true;
-		ShopUI(1); 
-	}
 
 }
 
@@ -869,6 +837,7 @@ void SceneText::carShowInteraction(double dt)
 	Vector3 vTurntable2(ObjectList.turntable2.getTranslationX(), ObjectList.turntable2.getTranslationY(), ObjectList.turntable2.getTranslationZ());
 	Vector3 vTurntable3(ObjectList.turntable3.getTranslationX(), ObjectList.turntable3.getTranslationY(), ObjectList.turntable3.getTranslationZ());
 	Vector3 vTurntable4(ObjectList.turntable4.getTranslationX(), ObjectList.turntable4.getTranslationY(), ObjectList.turntable4.getTranslationZ());
+	Vector3 vNPC(ObjectList.NPC.getTranslationX(), ObjectList.NPC.getTranslationY(), ObjectList.NPC.getTranslationZ());
 	
 	if ((camera.position - vTurntable1).Length() <= (camera.position - vTurntable2).Length() &&
 		(camera.position - vTurntable1).Length() <= (camera.position - vTurntable3).Length() && 
@@ -950,6 +919,26 @@ void SceneText::carShowInteraction(double dt)
 		if (ObjectList.NPC.getTranslationZ() < translateZ)
 		{
 			ObjectList.NPC.setTranslationZ(translateZ);
+		}
+	}
+
+	if (toggleShop)
+	{
+		inrange = true;
+		switch (atTurntable)
+		{
+		case 1:
+			ShopUI(atTurntable - 1);
+			break;
+		case 2:
+			ShopUI(atTurntable - 1);
+			break;
+		case 3:
+			ShopUI(atTurntable - 1);
+			break;
+		case 4:
+			ShopUI(atTurntable - 1);
+			break;
 		}
 	}
 }
@@ -1137,6 +1126,21 @@ bool SceneText::SwitchScene()
 
 void SceneText::ShopUI(int carnum)
 {
+	if (selection == 1)
+		optionselected[0] = true;
+	else
+		optionselected[0] = false;
+
+	if (selection == 2)
+		optionselected[1] = true;
+	else
+		optionselected[1] = false;
+
+	if (selection == 3)
+		optionselected[2] = true;
+	else
+		optionselected[2] = false;
+
 	// Use this to display prices & names of cars later on
 	modelStack.PushMatrix();
 	RenderText(meshList[GEO_TEXT], std::to_string(playerData.playerCar[carnum].getPrice()), Color(0, 1, 0));
@@ -1165,38 +1169,33 @@ void SceneText::ShopUI(int carnum)
 
 	printIndicator();
 
-	if (inrange == true && keyPressed == true && playerData.getPlayerOneBalance() >= playerData.playerCar[carnum].getPrice() && playerData.playerCar[carnum].getUnlocked() == false && abletoPress == true && buy == true && optionselected[0] == true)
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerOneBalance() >= playerData.playerCar[carnum].getPrice() && !playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[0])
 	{
 
 		playerData.setPlayerOneBalance(playerData.getPlayerOneBalance() - playerData.playerCar[carnum].getPrice());
 		playerData.playerCar[carnum].setUnlocked(true);
-		abletoPress = false;
-
-
+		playerData.updateFile();
+		keyPressed = true;
 	}
-	if (inrange == true && keyPressed == true && playerData.getPlayerTwoBalance() >= playerData.playerCar[carnum + 4].getPrice() && playerData.playerCar[carnum + 4].getUnlocked() == false && abletoPress == true && buy == true && optionselected[1] == true)
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerTwoBalance() >= playerData.playerCar[carnum + 4].getPrice() && !playerData.playerCar[carnum + 4].getUnlocked() && abletoPress && optionselected[1])
 	{
-		playerData.setPlayerTwoBalance(playerData.getPlayerTwoBalance() - playerData.playerCar[carnum].getPrice());
+		playerData.setPlayerTwoBalance(playerData.getPlayerTwoBalance() - playerData.playerCar[carnum + 4].getPrice());
 		playerData.playerCar[carnum + 4].setUnlocked(true);
-		abletoPress = false;
+		playerData.updateFile();
+		keyPressed = true;
 	}
 	if (inrange == true && keyPressed == true && abletoPress == true && optionselected[2] == true)
 	{
 
 	}
-	if (inrange == true && playerData.getPlayerOneBalance() < playerData.playerCar[carnum].getPrice() && optionselected[0] == true)
+	if (playerData.getPlayerOneBalance() < playerData.playerCar[carnum].getPrice() && optionselected[0] == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "You do not have enough money", Color(0, 1, 0), 2, 0, 26);
 	}
-	if (inrange == true && playerData.getPlayerTwoBalance() < playerData.playerCar[carnum].getPrice() && optionselected[1] == true)
+	if (playerData.getPlayerTwoBalance() < playerData.playerCar[carnum + 4].getPrice() && optionselected[1] == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "You do not have enough money", Color(0, 1, 0), 2, 0, 26);
 	}
-
-	inrange = false;
-	abletoPress = true;
-	buy = false;
-
 }
 
 void SceneText::printIndicator()
