@@ -152,13 +152,17 @@ private:
 	bool keyPressed;
 	bool abletoPress;
 	bool buy;
-	bool optionselected[3];
+	bool optionselected[5];
 	bool movedown = false;
 	bool moveup = false;
 	bool isSpinning;
 	float rotationSpeed;
 
 	int selection;
+
+	int texture;
+	int perviousLocation;
+
 	double bounceTime;
 	double elapsedTime;
 

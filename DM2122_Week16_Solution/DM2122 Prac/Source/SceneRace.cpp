@@ -183,40 +183,89 @@ void SceneRace::Init()
 	switch (playerData.player1selectedcar)
 	{
 	case 0:
-		meshList[GEO_PLAYERONE] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar1.obj", ObjectList.Character.getOffsetX(), ObjectList.Character.getOffsetY(), ObjectList.Character.getOffsetZ());
-		meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar.tga");
+		meshList[GEO_PLAYERONE] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar1.obj", ObjectList.Character);
+		//meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar.tga");
+		if (playerData.player1Texture == 1)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar.tga");
+		if (playerData.player1Texture == 2)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcarskin2.tga");
+		if (playerData.player1Texture == 3)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcarskin3.tga");
 		break;
 	case 1:
-		meshList[GEO_PLAYERONE] = MeshBuilder::GenerateOBJ("dice2", "OBJ//racecar2.obj", ObjectList.Character.getOffsetX(), ObjectList.Character.getOffsetY(), ObjectList.Character.getOffsetZ());
-		meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+		meshList[GEO_PLAYERONE] = MeshBuilder::GenerateOBJ("dice2", "OBJ//racecar2.obj", ObjectList.Character);
+		//meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+		if (playerData.player1Texture == 1)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+		if (playerData.player1Texture == 2)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture 2.tga");
+		if (playerData.player1Texture == 3)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture 3.tga");
+
 		break;
 	case 2:
-		meshList[GEO_PLAYERONE] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar3.obj", ObjectList.Character.getOffsetX(), ObjectList.Character.getOffsetY(), ObjectList.Character.getOffsetZ());
-		meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar3.tga");
+		meshList[GEO_PLAYERONE] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar3.obj", ObjectList.Character);
+		//meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar3.tga");
+		if (playerData.player1Texture == 1)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar3.tga");
+		if (playerData.player1Texture == 2)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar3skin2.tga");
+		if (playerData.player1Texture == 3)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar3skin3.tga");
 		break;
 	case 3:
-		meshList[GEO_PLAYERONE] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar4.obj", ObjectList.Character.getOffsetX(), ObjectList.Character.getOffsetY(), ObjectList.Character.getOffsetZ());
-		meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar.tga");
+		meshList[GEO_PLAYERONE] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar4.obj", ObjectList.Character);
+		//meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar.tga");
+		if (playerData.player1Texture == 1)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcar.tga");
+		if (playerData.player1Texture == 2)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcarskin2.tga");
+		if (playerData.player1Texture == 3)
+			meshList[GEO_PLAYERONE]->textureID = LoadTGA("Image//newcarskin3.tga");
 		break;
 	}
 	
 	switch (playerData.player2selectedcar)
 	{
 	case 4:
-		meshList[GEO_PLAYERTWO] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar1.obj", ObjectList.Character2.getOffsetX(), ObjectList.Character2.getOffsetY(), ObjectList.Character2.getOffsetZ());
-		meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar.tga");
+		meshList[GEO_PLAYERTWO] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar1.obj", ObjectList.Character2);
+		//meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar.tga");
+		if (playerData.player2Texture == 1)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar.tga");
+		if (playerData.player2Texture == 2)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcarskin2.tga");
+		if (playerData.player2Texture == 3)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcarskin3.tga");
 		break;
 	case 5:
-		meshList[GEO_PLAYERTWO] = MeshBuilder::GenerateOBJ("dice2", "OBJ//racecar2.obj", ObjectList.Character2.getOffsetX(), ObjectList.Character2.getOffsetY(), ObjectList.Character2.getOffsetZ());
-		meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+		meshList[GEO_PLAYERTWO] = MeshBuilder::GenerateOBJ("dice2", "OBJ//racecar2.obj", ObjectList.Character2);
+		//meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+		if (playerData.player2Texture == 1)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+		if (playerData.player2Texture == 2)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture 2.tga");
+		if (playerData.player2Texture == 3)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture 3.tga");
 		break;
 	case 6:
-		meshList[GEO_PLAYERTWO] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar3.obj", ObjectList.Character2.getOffsetX(), ObjectList.Character2.getOffsetY(), ObjectList.Character2.getOffsetZ());
-		meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar3.tga");
+		meshList[GEO_PLAYERTWO] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar3.obj", ObjectList.Character2);
+		//meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar3.tga");
+		if (playerData.player2Texture == 1)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar3.tga");
+		if (playerData.player2Texture == 2)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar3skin2.tga");
+		if (playerData.player2Texture == 3)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar3skin3.tga");
 		break;
 	case 7:
-		meshList[GEO_PLAYERTWO] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar4.obj", ObjectList.Character2.getOffsetX(), ObjectList.Character2.getOffsetY(), ObjectList.Character2.getOffsetZ());
-		meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar.tga");
+		meshList[GEO_PLAYERTWO] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar4.obj", ObjectList.Character2);
+		//meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar.tga");
+		if (playerData.player2Texture == 1)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcar.tga");
+		if (playerData.player2Texture == 2)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcarskin2.tga");
+		if (playerData.player2Texture == 3)
+			meshList[GEO_PLAYERTWO]->textureID = LoadTGA("Image//newcarskin3.tga");
 		break;
 	}
 	
