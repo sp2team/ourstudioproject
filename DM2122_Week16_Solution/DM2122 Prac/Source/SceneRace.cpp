@@ -51,8 +51,8 @@ void SceneRace::Init()
 	ObjectList.Character.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0); // Initializing an object using Wen Xi's Object Class
 	ObjectList.Character2.init(-4, 0, 0, 1, 1, 1, 0, 0, 1, 0);
 
-	ObjectList.Car1.init(0, 0.1, 5, 1, 1, 1, 0, 0, 1, 0);
-	ObjectList.Car2.init(0, 0, 0.1, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.Car1.init(-8, 0.1, 230, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.Car2.init(8, 0, 230, 1, 1, 1, 0, 0, 1, 0);
 	ObjectList.Car3.init(5, 0.1, 0, 1, 1, 1, 0, 0, 1, 0);
 	ObjectList.Car4.init(10, 0.1, 0, 1, 1, 1, 0, 0, 1, 0);
 
@@ -205,7 +205,7 @@ void SceneRace::Init()
 
 void SceneRace::Update(double dt)
 {
-	Vector3 cameraPos(0, 5, 10);
+	Vector3 cameraPos(0, 15, 20);
 	Vector3 PlayerCam = (0, 0, 0);
 	playerPos.Set(ObjectList.Car1.getTranslationX(), ObjectList.Car1.getTranslationY(), ObjectList.Car1.getTranslationZ());
 	playerTwoPos.Set(ObjectList.Car2.getTranslationX(), ObjectList.Car2.getTranslationY(), ObjectList.Car2.getTranslationZ());
@@ -270,10 +270,6 @@ void SceneRace::Update(double dt)
 			forwardTwoDirection.z -= 0.05 * dt;
 		}
 		playerTwoPos = playerTwoPos + rotation * forwardTwoDirection;
-
-		/*Mtx44 rotation;
-		rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
-		playerTwoPos = playerTwoPos + rotation * Vector3(0, 0, -0.2f);*/
 	}
 	else
 	{
@@ -397,7 +393,7 @@ void SceneRace::Render()
 
 	//Render lap time
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Time:", Color(0, 1, 0), 2, 0, 28);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(forwardDirection.z), Color(0, 1, 0), 2, 0, 27);
+	RenderTextOnScreen(meshList[GEO_TEXT], "X:" +  std::to_string(ObjectList.Car1.getTranslationX()) + " Z:" + std::to_string(ObjectList.Car1.getTranslationZ()), Color(0, 1, 0), 2, 0, 27);
 	RenderTextOnScreen(meshList[GEO_TEXT], CalculateTime(), Color(0, 1, 0), 1.75, 13, 32);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P2 Time:", Color(0, 1, 0), 2, 0, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], CalculateTime(), Color(0, 1, 0), 1.75, 13, 32);
@@ -602,6 +598,155 @@ void SceneRace::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 
 	glEnable(GL_DEPTH_TEST);
 }
+
+//void SceneRace::CarMovement(double dt)
+//{
+//	Vector3 cameraPos(0, 5, 10);
+//	Vector3 PlayerCam = (0, 0, 0);
+//	playerPos.Set(ObjectList.Car1.getTranslationX(), ObjectList.Car1.getTranslationY(), ObjectList.Car1.getTranslationZ());
+//	playerTwoPos.Set(ObjectList.Car2.getTranslationX(), ObjectList.Car2.getTranslationY(), ObjectList.Car2.getTranslationZ());
+//	float addition = (float)(LSPEED * dt);
+//
+//	//Player 1 movement
+//	if (Application::IsKeyPressed('W'))
+//	{
+//		Mtx44 rotation;
+//		rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
+//		if (forwardDirection.z > -0.35)
+//		{
+//			forwardDirection.z -= 0.05 * dt;
+//		}
+//		playerPos = playerPos + rotation * forwardDirection;
+//	}
+//	else
+//	{
+//		Mtx44 rotation;
+//		rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
+//		if (forwardDirection.z < 0)
+//		{
+//			forwardDirection.z += 0.1 * dt;
+//			if (forwardDirection.z >= 0)
+//			{
+//				forwardDirection.z = 0;
+//			}
+//			playerPos = playerPos + rotation * forwardDirection;
+//		}
+//	}
+//	if (Application::IsKeyPressed('S'))
+//	{
+//		Mtx44 rotation;
+//		rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
+//		playerPos = playerPos - rotation * backwardDirection;
+//
+//		if (Application::IsKeyPressed('D'))
+//		{
+//			playerOneYaw++;
+//		}
+//		if (Application::IsKeyPressed('A'))
+//		{
+//			playerOneYaw--;
+//		}
+//	}
+//	if (Application::IsKeyPressed('D') && forwardDirection.z != 0)
+//	{
+//		playerOneYaw++;
+//	}
+//	if (Application::IsKeyPressed('A') && forwardDirection.z != 0)
+//	{
+//		playerOneYaw--;
+//	}
+//
+//	//Player 2 movement
+//	if (Application::IsKeyPressed(VK_UP))
+//	{
+//		Mtx44 rotation;
+//		rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
+//		if (forwardTwoDirection.z > -0.35)
+//		{
+//			forwardTwoDirection.z -= 0.05 * dt;
+//		}
+//		playerTwoPos = playerTwoPos + rotation * forwardTwoDirection;
+//	}
+//	else
+//	{
+//		Mtx44 rotation;
+//		rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
+//		if (forwardTwoDirection.z < 0)
+//		{
+//			forwardTwoDirection.z += 0.1 * dt;
+//			if (forwardTwoDirection.z >= 0)
+//			{
+//				forwardTwoDirection.z = 0;
+//			}
+//			playerTwoPos = playerTwoPos + rotation * forwardTwoDirection;
+//		}
+//	}
+//	if (Application::IsKeyPressed(VK_DOWN))
+//	{
+//		Mtx44 rotation;
+//		rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
+//		playerTwoPos = playerTwoPos - rotation * Vector3(0, 0, -0.2f);
+//		if (Application::IsKeyPressed(VK_RIGHT))
+//		{
+//			playerTwoYaw++;
+//		}
+//		if (Application::IsKeyPressed(VK_LEFT))
+//		{
+//			playerTwoYaw--;
+//		}
+//	}
+//	if (Application::IsKeyPressed(VK_RIGHT) && forwardTwoDirection.z != 0)
+//	{
+//		playerTwoYaw++;
+//	}
+//	if (Application::IsKeyPressed(VK_LEFT) && forwardTwoDirection.z != 0)
+//	{
+//		playerTwoYaw--;
+//	}
+//
+//
+//	/*camera[0].position.Set(playerPos.x + 0.01, playerPos.y + 10, playerPos.z - 10);*/
+//	Mtx44 rotation;
+//	rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
+//	PlayerCam = (rotation * cameraPos) + playerPos;
+//	camera[0].Init(PlayerCam, playerPos, Vector3(0, 1, 0), 1);
+//
+//	rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
+//	camera[1].Init(((rotation * cameraPos) + playerTwoPos), playerTwoPos, Vector3(0, 1, 0), 1);
+//
+//	ObjectList.Car1.setTranslationXYZ(playerPos.x, playerPos.y, playerPos.z);
+//	ObjectList.Car1.setRotationAmount(-playerOneYaw);
+//	ObjectList.Car2.setTranslationXYZ(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z);
+//	ObjectList.Car2.setRotationAmount(-playerTwoYaw);
+//
+//	// Play Sounds for main player
+//	if (forwardDirection.z < 0 && playCar->getIsPaused())
+//	{
+//		playBG = SoundEngine->play2D(ambience, true, false, true);
+//		playWind = SoundEngine->play2D(wind, true, false, true);
+//		playCar = SoundEngine->play3D(car, irrklang::vec3df(playerPos.x, playerPos.y, playerPos.z), true, false, true);
+//	}
+//	if (forwardDirection == 0 && playCar)
+//	{
+//		playBG->setIsPaused();
+//		playWind->setIsPaused();
+//		playCar->setIsPaused();
+//	}
+//	// For player 2
+//	if (forwardTwoDirection.z < 0)
+//	{
+//		playCarTwo = SoundEngine->play3D(car, irrklang::vec3df(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z), true, false, true);
+//	}
+//	if (forwardTwoDirection == 0)
+//	{
+//		playCarTwo->setIsPaused();
+//	}
+//
+//	// Set Listening position and car position
+//	SoundEngine->setListenerPosition(irrklang::vec3df(PlayerCam.x, PlayerCam.y, PlayerCam.z), irrklang::vec3df(playerPos.x, playerPos.y, playerPos.z));
+//	playCar->setPosition(irrklang::vec3df(playerPos.x, playerPos.y, playerPos.z));
+//	playCarTwo->setPosition(irrklang::vec3df(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z));
+//}
 
 string SceneRace::CalculateTime()
 {	

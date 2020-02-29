@@ -51,6 +51,7 @@ class SceneText : public Scene
 		GEO_RING2,
 		GEO_LIGHTSPHERE,
 		GEO_LIGHTSPHERE2,
+		GEO_NPC,
 		GEO_FORTUNEWHEEL,
 		GEO_TEXT,
 		GEO_TEXTBG,
@@ -126,6 +127,7 @@ private:
 	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);
 	void RenderSkybox();
 	void VerticeUpdate(Mesh* mesh, Object meshObject);
+	void carShowInteraction(double dt);
 	void RenderNPC();
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey);
@@ -160,6 +162,8 @@ private:
 	Acceleration objectB;
 
 	Player playerData;
+
+	int atTurntable;
 
 	float ytranslate;
 	float ytranslate2;

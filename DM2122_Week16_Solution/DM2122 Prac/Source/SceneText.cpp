@@ -56,7 +56,7 @@ void SceneText::Init()
 	// Please always leave your scaling as 1, 1, 1 unless of course you're doing something that's has nothing to do with collision, because this WILL mess up collision detection.
 	// *Only use different scaling if you're doing something like an onscreen GUI or meshes.*
 
-	ObjectList.Character.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0); // Initializing an object using Wen Xi's Object Class
+	ObjectList.NPC.init(55, 0, 4, 1, 1, 1, 0, 0, 1, 0); // Initializing an object using Wen Xi's Object Class
 
 	ObjectList.pillar1.init(88, 0, 83, 1, 1, 1, 0, 0, 1, 0);
 	ObjectList.pillar2.init(-88, 0, 83, 1, 1, 1, 0, 0, 1, 0);
@@ -94,7 +94,7 @@ void SceneText::Init()
 	// For example you want to move 1 on the x-axis for your object.
 	//ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + 1);
 
-	camera.Init(Vector3(0, 10, 10), Vector3(0, 10, 0), Vector3(0, 1, 0), 0);
+	camera.Init(Vector3(0, 15, 10), Vector3(0, 10, 0), Vector3(0, 1, 0), 0);
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -407,6 +407,8 @@ void SceneText::Update(double dt)
 	abletoPress = true;
 	elapsedTime += dt;
 
+
+
 	if (bounceTime > elapsedTime)
 	{
 		abletoPress = false;
@@ -613,6 +615,7 @@ void SceneText::Update(double dt)
 		}
 	}
 	
+	carShowInteraction(dt);
 	camera.MouseControl();
 	//camera.Update(dt);
 	cameraMovement(dt);
@@ -696,7 +699,6 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_LIGHTSPHERE2], false);
 	modelStack.PopMatrix();
 
-	RenderObject(meshList[GEO_DICE],ObjectList.Character2, false);
 
 	//modelStack.PushMatrix();
 	////scale, translate, rotate
@@ -706,7 +708,7 @@ void SceneText::Render()
 	//No transform needed
 	//RenderTextOnScreen(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0), 2, 0, 0);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + std::to_string(camera.position.x) + " Z:" + std::to_string(camera.position.z) , Color(0, 1, 0), 1.75, 15, 32);
+	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + std::to_string(camera.position.x) + " Z:" + std::to_string(camera.position.z) , Color(0, 1, 0), 1.75, 15, 25);
 
 	//=====================Shop Interface============================================
 	
@@ -857,30 +859,124 @@ void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
 	}
 }
 
+void SceneText::carShowInteraction(double dt)
+{
+	float NPC_SPEED = 50.f;
+	int translateX = 0;
+	int translateZ = 0;
+	Vector3 vTurntable1(ObjectList.turntable1.getTranslationX(), ObjectList.turntable1.getTranslationY(), ObjectList.turntable1.getTranslationZ());
+	Vector3 vTurntable2(ObjectList.turntable2.getTranslationX(), ObjectList.turntable2.getTranslationY(), ObjectList.turntable2.getTranslationZ());
+	Vector3 vTurntable3(ObjectList.turntable3.getTranslationX(), ObjectList.turntable3.getTranslationY(), ObjectList.turntable3.getTranslationZ());
+	Vector3 vTurntable4(ObjectList.turntable4.getTranslationX(), ObjectList.turntable4.getTranslationY(), ObjectList.turntable4.getTranslationZ());
+	
+	if ((camera.position - vTurntable1).Length() <= (camera.position - vTurntable2).Length() &&
+		(camera.position - vTurntable1).Length() <= (camera.position - vTurntable3).Length() && 
+		(camera.position - vTurntable1).Length() <= (camera.position - vTurntable4).Length())
+	{
+		atTurntable = 1;
+		RenderTextOnScreen(meshList[GEO_TEXT], "turntable1", Color(0, 1, 0), 1.75, 13, 24);
+	}
+	else if ((camera.position - vTurntable2).Length() <= (camera.position - vTurntable1).Length() && 
+			 (camera.position - vTurntable2).Length() <= (camera.position - vTurntable3).Length() && 
+			 (camera.position - vTurntable2).Length() <= (camera.position - vTurntable4).Length())
+	{
+		atTurntable = 2;
+		RenderTextOnScreen(meshList[GEO_TEXT], "turntable2", Color(0, 1, 0), 1.75, 13, 24);
+	}
+	else if ((camera.position - vTurntable3).Length() <= (camera.position - vTurntable1).Length() && 
+		     (camera.position - vTurntable3).Length() <= (camera.position - vTurntable2).Length() && 
+		     (camera.position - vTurntable3).Length() <= (camera.position - vTurntable4).Length())
+	{
+		atTurntable = 3;
+		RenderTextOnScreen(meshList[GEO_TEXT], "turntable3", Color(0, 1, 0), 1.75, 13, 24);
+	}
+	else if ((camera.position - vTurntable4).Length() <= (camera.position - vTurntable1).Length() && 
+		     (camera.position - vTurntable4).Length() <= (camera.position - vTurntable2).Length() && 
+		     (camera.position - vTurntable4).Length() <= (camera.position - vTurntable3).Length())
+	{
+		atTurntable = 4;
+		RenderTextOnScreen(meshList[GEO_TEXT], "turntable4", Color(0, 1, 0), 1.75, 13, 24);
+	}
+
+	switch (atTurntable)
+	{
+		case 1:
+			translateX = 20;
+			translateZ = 20;
+			break;
+		case 2:
+			translateX = 20;
+			translateZ = -18;
+			break;
+		case 3:
+			translateX = -30;
+			translateZ = 20;
+			break;
+		case 4:
+			translateX = -30;
+			translateZ = -18;
+			break;
+	}
+
+	if (ObjectList.NPC.getTranslationX() <= translateX)
+	{
+		ObjectList.NPC.setTranslationX(ObjectList.NPC.getTranslationX() + NPC_SPEED * dt);
+		if (ObjectList.NPC.getTranslationX() > translateX)
+		{
+			ObjectList.NPC.setTranslationX(translateX);
+		}
+	}
+	else
+	{
+		ObjectList.NPC.setTranslationX(ObjectList.NPC.getTranslationX() - NPC_SPEED * dt);
+		if (ObjectList.NPC.getTranslationX() < translateX)
+		{
+			ObjectList.NPC.setTranslationX(translateX);
+		}
+	}
+
+	if (ObjectList.NPC.getTranslationZ() <= translateZ)
+	{
+		ObjectList.NPC.setTranslationZ(ObjectList.NPC.getTranslationZ() + NPC_SPEED * dt);
+		if (ObjectList.NPC.getTranslationZ() > translateZ)
+		{
+			ObjectList.NPC.setTranslationZ(translateZ);
+		}
+	}
+	else
+	{
+		ObjectList.NPC.setTranslationZ(ObjectList.NPC.getTranslationZ() - NPC_SPEED * dt);
+		if (ObjectList.NPC.getTranslationZ() < translateZ)
+		{
+			ObjectList.NPC.setTranslationZ(translateZ);
+		}
+	}
+}
+
 void SceneText::RenderNPC() // Code related to NPC
 {
 	modelView.x = 0; // A general direction for the NPC to dot product from
 	modelView.y = 0;
 	modelView.z = -1;
 	modelView.Normalize();
-	targetView.x = camera.position.x - ObjectList.Character.getTranslationX(); // Get the x vector from the NPC to player
+	targetView.x = camera.position.x - ObjectList.NPC.getTranslationX(); // Get the x vector from the NPC to player
 	targetView.y = 0;
-	targetView.z = camera.position.z - ObjectList.Character.getTranslationZ(); // Get the z vector from the NPC to player
+	targetView.z = camera.position.z - ObjectList.NPC.getTranslationZ(); // Get the z vector from the NPC to player
 	targetView.Normalize();
 	dotProduct = modelView.Dot(targetView); // Dot Product between the general direction vector and the vector pointing from the NPC to the player
 
 	rotation = Math::RadianToDegree(acos(dotProduct / (modelView.Length() * targetView.Length()))); // Calculates the rotation in degrees from the player to the general direction
 
-	if (camera.position.x <= ObjectList.Character.getTranslationX()) // If the player is on the leftside
+	if (camera.position.x <= ObjectList.NPC.getTranslationX()) // If the player is on the leftside
 	{
-		ObjectList.Character.setRotationAmount(rotation - 180);
+		ObjectList.NPC.setRotationAmount(rotation - 180);
 	}
 	else // If player is on right side of the NPC
 	{
-		ObjectList.Character.setRotationAmount(180 - rotation);
+		ObjectList.NPC.setRotationAmount(180 - rotation);
 	}
 
-	RenderObject(meshList[GEO_DICE], ObjectList.Character, false); // Renders the NPC
+	RenderObject(meshList[GEO_DICE], ObjectList.NPC, false); // Renders the NPC
 }
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
@@ -993,13 +1089,13 @@ void SceneText::cameraMovement(double dt)
 	if (Application::IsKeyPressed('W'))
 	{
 		camera.position += view * (float)(15.f * dt);
-		camera.position.y = 10;
+		camera.position.y = 15;
 		camera.target = camera.position + view;
 	}
 	if (Application::IsKeyPressed('S'))
 	{
 		camera.position -= view * (float)(15.f * dt);
-		camera.position.y = 10;
+		camera.position.y = 15;
 		camera.target = camera.position + view;
 	}
 }

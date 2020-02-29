@@ -8,8 +8,6 @@ class ObjectManager
 public:
 	Object LightSphere;
 	Object LightSphere2;
-	Object Character;
-	Object Character2;
 	Object fortuneWheel;
 	Object Car1;
 	Object Car2;
@@ -41,8 +39,11 @@ public:
 	Object newcar2;
 	Object newcar3;
 	Object newcar4;
+	Object NPC;
 
 	// Scene 2
+	Object Character;
+	Object Character2;
 	Object obstacle1;
 	Object obstacle2;
 	Object obstacle3;
