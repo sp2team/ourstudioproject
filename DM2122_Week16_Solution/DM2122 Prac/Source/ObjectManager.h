@@ -7,6 +7,7 @@ class ObjectManager
 {
 public:
 	Object LightSphere;
+	Object LightSphere2;
 	Object Character;
 	Object Character2;
 	Object fortuneWheel;

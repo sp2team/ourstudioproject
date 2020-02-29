@@ -41,7 +41,7 @@ void SceneText::Init()
 
 	/*Sound Engine*/
 	SoundEngine = irrklang::createIrrKlangDevice();
-	irrklang::ISound* playStart = SoundEngine->play2D("Sounds//Elevator music.mp3", true, false, true);
+	irrklang::ISound* playMusic = SoundEngine->play2D("Sounds//Elevator music.mp3", true, false, true);
 
 	// Generate a default VAO for now
 	glGenVertexArrays(1, &m_vertexArrayID);
@@ -271,106 +271,97 @@ void SceneText::Init()
 	meshList[GEO_RIGHT2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, ObjectList.rightwall2);
 	meshList[GEO_RIGHT2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_TOP2] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_TOP2] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, ObjectList.roof2);
 	meshList[GEO_TOP2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_BOTTOM2] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_BOTTOM2]->textureID = LoadTGA("Image//space2.tga");
-
-	meshList[GEO_FRONT2] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_FRONT2] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, ObjectList.frontwall2);
 	meshList[GEO_FRONT2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_BACK2] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BACK2] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, ObjectList.backwall2);
 	meshList[GEO_BACK2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_CHAR]->textureID = LoadTGA("Image//char.tga");
-
-	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar2.obj", 0, 0, 0);
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar2.obj", ObjectList.newcar2);
 	meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
 
-	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj", 0, 0, 0);
+	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj", ObjectList.newcar1);
 	meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
 
-	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj", 0, 0, 0);
+	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj", ObjectList.newcar3);
 	meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
 
-	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar4.obj", 0, 0, 0);
+	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar4.obj", ObjectList.newcar4);
 	meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
 
-	meshList[GEO_TURNTABLE1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
+	meshList[GEO_TURNTABLE1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable1);
 	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE1]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE1]->material.kShininess = 1.f;
 
-	meshList[GEO_TURNTABLE2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
+	meshList[GEO_TURNTABLE2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable2);
 	meshList[GEO_TURNTABLE2]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE2]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE2]->material.kShininess = 1.f;
 
-	meshList[GEO_TURNTABLE3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
+	meshList[GEO_TURNTABLE3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable3);
 	meshList[GEO_TURNTABLE3]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE3]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE3]->material.kShininess = 1.f;
 
-	meshList[GEO_TURNTABLE4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", 0, 0, 0);
+	meshList[GEO_TURNTABLE4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable4);
 	meshList[GEO_TURNTABLE4]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE4]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE4]->material.kShininess = 1.f;
 
-	meshList[GEO_PILLAR] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", 0, 0, 0);
+	meshList[GEO_PILLAR] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar1);
 	meshList[GEO_PILLAR]->textureID = LoadTGA("Image//pillar.tga");
 	meshList[GEO_PILLAR]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR]->material.kShininess = 1.f;
 
-	meshList[GEO_PILLAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", 0, 0, 0);
+	meshList[GEO_PILLAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar2);
 	meshList[GEO_PILLAR2]->textureID = LoadTGA("Image//pillar.tga");
 	meshList[GEO_PILLAR2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR2]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR2]->material.kShininess = 1.f;
 
-	meshList[GEO_PILLAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", 0, 0, 0);
+	meshList[GEO_PILLAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar3);
 	meshList[GEO_PILLAR3]->textureID = LoadTGA("Image//pillar.tga");
 	meshList[GEO_PILLAR3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR3]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR3]->material.kShininess = 1.f;
 
-	meshList[GEO_PILLAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", 0, 0, 0);
+	meshList[GEO_PILLAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar4);
 	meshList[GEO_PILLAR4]->textureID = LoadTGA("Image//pillar.tga");
 	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR4]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR4]->material.kShininess = 1.f;
 
-	meshList[GEO_CHAR] = MeshBuilder::GenerateQuad("char", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_CHAR]->textureID = LoadTGA("Image//char.tga");
-
-	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj", ObjectList.Character.getOffsetX(), ObjectList.Character.getOffsetY(), ObjectList.Character.getOffsetZ());
+	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj", ObjectList.Character);
 	meshList[GEO_DICE]->textureID = LoadTGA("Image//doorman.tga");
 
-	meshList[GEO_RING] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring.obj", 0, 0, 0);
+	meshList[GEO_RING] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring.obj", ObjectList.ring1);
 	meshList[GEO_RING]->textureID = LoadTGA("Image//greenring.tga");
 
-	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj", 0, 0, 0);
+	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj", ObjectList.ring2);
 	meshList[GEO_RING2]->textureID = LoadTGA("Image//greenring.tga");
 
-	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, 0, 0, 0);
+	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, ObjectList.LightSphere);
 
-	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, 0, 0, 0);
+	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, ObjectList.LightSphere2);
 
-	meshList[GEO_FORTUNEWHEEL] = MeshBuilder::GenerateOBJ("Wheel Of Fortune", "OBJ//WheelOfFortune.obj", ObjectList.fortuneWheel.getOffsetX(), ObjectList.fortuneWheel.getOffsetY(), ObjectList.fortuneWheel.getOffsetZ());
+	meshList[GEO_FORTUNEWHEEL] = MeshBuilder::GenerateOBJ("Wheel Of Fortune", "OBJ//WheelOfFortune.obj", ObjectList.fortuneWheel);
 	meshList[GEO_FORTUNEWHEEL]->textureID = LoadTGA("Image//texture_wheeloffortune.tga");
 	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);

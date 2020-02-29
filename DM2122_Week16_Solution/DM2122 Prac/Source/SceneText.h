@@ -32,7 +32,6 @@ class SceneText : public Scene
 		GEO_FRONT2,
 		GEO_BACK,
 		GEO_BACK2,
-		GEO_CHAR,
 		GEO_DICE,
 		GEO_CAR,
 		GEO_CAR1,

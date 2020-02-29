@@ -38,6 +38,7 @@ void SceneRace::Init()
 	playBG = SoundEngine->play2D(ambience, true, true, true);
 	playWind = SoundEngine->play2D(wind, true, true, true);
 	playCar = SoundEngine->play3D(car, irrklang::vec3df(0, 0, 0), true, true, true);
+	playCarTwo = SoundEngine->play3D(car, irrklang::vec3df(0, 0, 0), true, true, true);
 
 	// Generate a default VAO for now
 	glGenVertexArrays(1, &m_vertexArrayID);
@@ -144,60 +145,58 @@ void SceneRace::Init()
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
 
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, ObjectList.leftwall);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, ObjectList.rightwall);
 	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, ObjectList.roof);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f, ObjectList.floor);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, ObjectList.frontwall);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, ObjectList.backwall);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar1.obj", 0, 0, 0);
+	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar1.obj", ObjectList.Car1);
 	meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
 
-	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("dice2", "OBJ//racecar2.obj", 0, 0, 0);
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("dice2", "OBJ//racecar2.obj", ObjectList.Car2);
 	meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
 
-	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar3.obj", 0, 0, 0);
+	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar3.obj", ObjectList.Car3);
 	meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
 
-	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar4.obj", 0, 0, 0);
+	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar4.obj", ObjectList.Car4);
 	meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
 
 	
-	meshList[GEO_OBSTACLE1] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle1.obj", 0, 0, 0);
+	meshList[GEO_OBSTACLE1] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle1.obj", ObjectList.obstacle1);
 	meshList[GEO_OBSTACLE1]->textureID = LoadTGA("Image//newcar3.tga");
 
-	meshList[GEO_OBSTACLE2] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle2.obj", 0, 0, 0);
+	meshList[GEO_OBSTACLE2] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle2.obj", ObjectList.obstacle2);
 	meshList[GEO_OBSTACLE2]->textureID = LoadTGA("Image//RocketColor.tga");
 	
-	meshList[GEO_OBSTACLE3] = MeshBuilder::GenerateOBJ("dice", "OBJ//cone.obj", 0, 0, 0);
+	meshList[GEO_OBSTACLE3] = MeshBuilder::GenerateOBJ("dice", "OBJ//cone.obj", ObjectList.obstacle3);
 	meshList[GEO_OBSTACLE3]->textureID = LoadTGA("Image//cone.tga");
 
-	meshList[GEO_OBSTACLE4] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle4.obj", 0, 0, 0);
+	meshList[GEO_OBSTACLE4] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle4.obj", ObjectList.obstacle4);
 	meshList[GEO_OBSTACLE4]->textureID = LoadTGA("Image//buildingext.tga");
 
-	meshList[GEO_RACETRACK] = MeshBuilder::GenerateOBJ("dice", "OBJ//finaltrack.obj", 0, 0, 0);
+	meshList[GEO_RACETRACK] = MeshBuilder::GenerateOBJ("dice", "OBJ//finaltrack.obj", ObjectList.Racetrack);
 	meshList[GEO_RACETRACK]->textureID = LoadTGA("Image/roadtexture.tga");
 
-	meshList[GEO_BOUNDARY] = MeshBuilder::GenerateOBJ("dice", "OBJ//boundary.obj", 0, 0, 0);
-	meshList[GEO_BOUNDARY]->textureID = LoadTGA("Image/boundary.tga");
+	/*meshList[GEO_BOUNDARY] = MeshBuilder::GenerateOBJ("dice", "OBJ//boundary.obj", 0, 0, 0);
+	meshList[GEO_BOUNDARY]->textureID = LoadTGA("Image/boundary.tga");*/
 
-	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f, 0, 5, 0);
+	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, ObjectList.LightSphere);
 
-	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, 0, 0, 0);
-
-	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, 0, 0, 0);
+	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, ObjectList.LightSphere2);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
@@ -394,7 +393,7 @@ void SceneRace::Render()
 	RenderObject(meshList[GEO_OBSTACLE3], ObjectList.obstacle3, false);
 	RenderObject(meshList[GEO_OBSTACLE4], ObjectList.obstacle4, false);
 
-	RenderObject(meshList[GEO_BOUNDARY], ObjectList.boundary, false);
+	//RenderObject(meshList[GEO_BOUNDARY], ObjectList.boundary, false);
 
 	//Render lap time
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Time:", Color(0, 1, 0), 2, 0, 28);
