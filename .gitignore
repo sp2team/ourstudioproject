@@ -146,3 +146,64 @@ DM2122_Week16_Solution/DM2122 Prac/x64/Debug/vc142.idb
 DM2122_Week16_Solution/DM2122 Prac/x64/Debug/vc142.pdb
 DM2122_Week16_Solution/x64/Debug/Common.lib
 DM2122_Week16_Solution/x64/Debug/Common.pdb
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/1876fa801431b6da/LOADOBJ.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/1e5a66e0d498e858/SCENETEXT.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/33a400b59a08dc48/SCENERACE.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/3a040fc19de6c2e8/CARS.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/3ce520ea08ef4b71/ACCELERATION.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/4991091fa8f6ca00/PLAYER.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/5c5d51c5d373641a/CAMERA.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/72cc60a981274fe0/CAMERA2.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/77c08813d1ea473e/SCENEMANAGER.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/dc979824666b54a1/APPLICATION.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/e10b45620f097161/MESHBUILDER.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/f65188f3194d7add/REPLAYRACE.ipch
+DM2122_Week16_Solution/.vs/DM2122 Prac/v16/ipch/AutoPCH/f67b5bdf0439e76f/LOADTGA.ipch
+DM2122_Week16_Solution/Common/Debug/Common.idb
+DM2122_Week16_Solution/Common/Debug/Common.log
+DM2122_Week16_Solution/Common/Debug/Common.pdb
+DM2122_Week16_Solution/Common/Debug/Common.tlog/CL.command.1.tlog
+DM2122_Week16_Solution/Common/Debug/Common.tlog/CL.read.1.tlog
+DM2122_Week16_Solution/Common/Debug/Common.tlog/CL.write.1.tlog
+DM2122_Week16_Solution/Common/Debug/Common.tlog/Common.lastbuildstate
+DM2122_Week16_Solution/Common/Debug/Common.tlog/Lib-link.read.1.tlog
+DM2122_Week16_Solution/Common/Debug/Common.tlog/Lib-link.write.1.tlog
+DM2122_Week16_Solution/Common/Debug/Common.tlog/Lib.command.1.tlog
+DM2122_Week16_Solution/Common/Debug/MatrixStack.obj
+DM2122_Week16_Solution/Common/Debug/Mtx44.obj
+DM2122_Week16_Solution/Common/Debug/timer.obj
+DM2122_Week16_Solution/Common/Debug/Vector3.obj
+DM2122_Week16_Solution/Debug/Common.lib
+DM2122_Week16_Solution/Debug/Common.pdb
+DM2122_Week16_Solution/Debug/DM2122 Prac.exe
+DM2122_Week16_Solution/Debug/DM2122 Prac.ilk
+DM2122_Week16_Solution/Debug/DM2122 Prac.pdb
+DM2122_Week16_Solution/DM2122 Prac/Debug/acceleration.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/application.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/Camera.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/Camera2.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/Cars.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/DM2122 Prac.log
+DM2122_Week16_Solution/DM2122 Prac/Debug/DM2122 Prac.tlog/CL.command.1.tlog
+DM2122_Week16_Solution/DM2122 Prac/Debug/DM2122 Prac.tlog/CL.read.1.tlog
+DM2122_Week16_Solution/DM2122 Prac/Debug/DM2122 Prac.tlog/CL.write.1.tlog
+DM2122_Week16_Solution/DM2122 Prac/Debug/DM2122 Prac.tlog/DM2122 Prac.lastbuildstate
+DM2122_Week16_Solution/DM2122 Prac/Debug/DM2122 Prac.tlog/link.command.1.tlog
+DM2122_Week16_Solution/DM2122 Prac/Debug/DM2122 Prac.tlog/link.read.1.tlog
+DM2122_Week16_Solution/DM2122 Prac/Debug/DM2122 Prac.tlog/link.write.1.tlog
+DM2122_Week16_Solution/DM2122 Prac/Debug/LoadOBJ.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/LoadTGA.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/main.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/Mesh.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/MeshBuilder.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/Object.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/ObjectManager.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/Player.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/ReplayRace.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/SceneManager.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/SceneRace.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/SceneText.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/shader.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/Utility.obj
+DM2122_Week16_Solution/DM2122 Prac/Debug/vc142.idb
+DM2122_Week16_Solution/DM2122 Prac/Debug/vc142.pdb
