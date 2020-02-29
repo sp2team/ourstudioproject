@@ -30,6 +30,8 @@ class SceneRace : public Scene
 		GEO_CAR2,
 		GEO_CAR3,
 		GEO_CAR4,
+		GEO_PLAYERONE,
+		GEO_PLAYERTWO,
 		GEO_RACETRACK,
 		GEO_OBSTACLE1,
 		GEO_OBSTACLE2,
@@ -111,13 +113,17 @@ private:
 	Vector3 backwardDirection;
 	Vector3 forwardTwoDirection;
 
+	bool initTimer;
+	double elapsedTime;
+	double startTime;
+
 
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);
 	void RenderSkybox();
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-	void CarMovement(double dt);
+	void startTimer();
 	string CalculateTime();
 
 public:
