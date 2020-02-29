@@ -266,10 +266,10 @@ void SceneText::Init()
 	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj", ObjectList.newcar1);//turnable 1
 	meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
 
-	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar2.obj", ObjectList.newcar2);//turnable 3
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar2.obj", ObjectList.newcar2);//turnable 2
 	meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
 
-	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj", ObjectList.newcar3);//turnable 2
+	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj", ObjectList.newcar3);//turnable 3
 	meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
 
 	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar4.obj", ObjectList.newcar4);//turnable 4
@@ -369,6 +369,8 @@ void SceneText::Init()
 	optionselected[2] = false;
 	buy = false;
 	//for texture
+	playerData.player1Texture = 1;
+	playerData.player2Texture = 1;
 	texture = 1;
 	perviousLocation = 0;
 
@@ -580,9 +582,11 @@ void SceneText::Update(double dt)
 		}
 	}
 
-	if (Application::IsKeyPressed('Y')) {
-		if (texture == 3)
+	if (Application::IsKeyPressed('Y') && abletoPress) {
+		//cycles the texture of whichever car you are at
+		if (texture == 3) {
 			texture = 0;
+		}
 		texture++;
 		if (atTurntable == 1) {
 			if (perviousLocation != atTurntable) {
@@ -606,22 +610,6 @@ void SceneText::Update(double dt)
 				texture = 1;
 			}
 			if (texture == 1)
-				meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
-			if (texture == 2)
-				meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3skin2.tga");
-			if (texture == 3)
-				meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3skin3.tga");
-
-			meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
-			meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
-			meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
-		}
-		if (atTurntable == 3) {
-			if (perviousLocation != atTurntable) {
-				perviousLocation = atTurntable;
-				texture = 1;
-			}
-			if (texture == 1)
 				meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
 			if (texture == 2)
 				meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture 2.tga");
@@ -631,6 +619,24 @@ void SceneText::Update(double dt)
 			meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
 			meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
 			meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
+			
+		}
+		if (atTurntable == 3) {
+			if (perviousLocation != atTurntable) {
+				perviousLocation = atTurntable;
+				texture = 1;
+			}
+			if (texture == 1)
+				meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
+			if (texture == 2)
+				meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3skin2.tga");
+			if (texture == 3)
+				meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3skin3.tga");
+
+			meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
+			meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
+			meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
+			
 		}
 		if (atTurntable == 4) {
 			if (perviousLocation != atTurntable) {
@@ -1240,7 +1246,7 @@ void SceneText::ShopUI(int carnum)
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "Select skin for player 1", Color(1, 1, 1), 2, 0, 3);
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "Select skin for player 1", Color(1, 1, 1), 2, 0, 2);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Select skin for player 2", Color(1, 1, 1), 2, 0, 2);
 
 	printIndicator(carnum);
 
@@ -1269,9 +1275,9 @@ void SceneText::ShopUI(int carnum)
 		playerData.player2selectedcar = carnum + 4;
 		keyPressed = true;
 	}
-	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[4])
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[3])
 	{
-		playerData.player2Texture = texture;
+		playerData.player1Texture = texture;
 	}
 	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum + 4].getUnlocked() && abletoPress && optionselected[4])
 	{
@@ -1298,6 +1304,17 @@ void SceneText::printIndicator(int carnum)
 	{
 		if (playerData.player1selectedcar == carnum)
 		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 25, 6);
+		}
+		else
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 6);
+		}
+	}
+	else if (selection == 2)
+	{
+		if (playerData.player2selectedcar == carnum + 4)
+		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 25, 5);
 		}
 		else
@@ -1305,20 +1322,17 @@ void SceneText::printIndicator(int carnum)
 			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 5);
 		}
 	}
-	else if (selection == 2)
-	{
-		if (playerData.player2selectedcar == carnum + 4)
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 25, 4);
-		}
-		else
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 4);
-		}
-	}
 	else if (selection == 3)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 10, 3);
+		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 10, 4);
+	}
+	else if (selection == 4)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 3);
+	}
+	else if (selection == 5)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "<", Color(1, 0, 0), 2, 24, 2);
 	}
 
 }
