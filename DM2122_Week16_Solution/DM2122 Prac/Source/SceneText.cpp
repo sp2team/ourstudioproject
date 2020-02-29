@@ -41,7 +41,8 @@ void SceneText::Init()
 
 	/*Sound Engine*/
 	SoundEngine = irrklang::createIrrKlangDevice();
-	irrklang::ISound* playMusic = SoundEngine->play2D("Sounds//Elevator music.mp3", true, false, true);
+	SoundEngine->setSoundVolume(0.3f);
+	playMusic = SoundEngine->play2D("Sounds//Elevator music.mp3", true, false, true);
 
 	// Generate a default VAO for now
 	glGenVertexArrays(1, &m_vertexArrayID);

@@ -29,10 +29,12 @@ void SceneRace::Init()
 
 	/*Sound Engine*/
 	SoundEngine = irrklang::createIrrKlangDevice();
+	SoundEngine->setSoundVolume(0.4f);
 
 	ambience = SoundEngine->addSoundSourceFromFile("Sounds//ambient.mp3");
 	wind = SoundEngine->addSoundSourceFromFile("Sounds//wind.mp3");
 	car = SoundEngine->addSoundSourceFromFile("Sounds//engine.mp3");
+	car->setDefaultMinDistance(4);
 
 	playStart = SoundEngine->play2D("Sounds//pistol.mp3", false, true, true);
 	playBG = SoundEngine->play2D(ambience, true, true, true);
@@ -339,11 +341,11 @@ void SceneRace::Update(double dt)
 		playCar->setIsPaused();
 	}
 	// For player 2
-	if (forwardTwoDirection.z < 0)
+	if (forwardTwoDirection.z < 0 && playCarTwo->getIsPaused())
 	{
 		playCarTwo = SoundEngine->play3D(car, irrklang::vec3df(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z), true, false, true);
 	}
-	if (forwardTwoDirection == 0)
+	if (forwardTwoDirection == 0 && playCarTwo)
 	{
 		playCarTwo->setIsPaused();
 	}
