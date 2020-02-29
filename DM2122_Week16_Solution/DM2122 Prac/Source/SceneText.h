@@ -121,6 +121,7 @@ private:
 	ReplayRace replay[2];
 
 	irrklang::ISoundEngine* SoundEngine;
+	irrklang::ISound* playMusic;
 	
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);

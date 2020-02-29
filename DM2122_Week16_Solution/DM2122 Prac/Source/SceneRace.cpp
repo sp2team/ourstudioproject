@@ -28,11 +28,16 @@ void SceneRace::Init()
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	/*Sound Engine*/
-	//SoundEngine = irrklang::createIrrKlangDevice();
-	//irrklang::ISound* playStart = SoundEngine->play2D("Sounds//pistol.mp3", false);
-	//irrklang::ISound* playBG = SoundEngine->play2D("Sounds//ambient.mp3", true);
-	//irrklang::ISound* playWind = SoundEngine->play2D("Sounds//wind.mp3", true);
-	//irrklang::ISound* playCar = SoundEngine->play2D("Sounds//engine.mp3", true);
+	SoundEngine = irrklang::createIrrKlangDevice();
+
+	ambience = SoundEngine->addSoundSourceFromFile("Sounds//ambient.mp3");
+	wind = SoundEngine->addSoundSourceFromFile("Sounds//wind.mp3");
+	car = SoundEngine->addSoundSourceFromFile("Sounds//engine.mp3");
+
+	playStart = SoundEngine->play2D("Sounds//pistol.mp3", false, true, true);
+	playBG = SoundEngine->play2D(ambience, true, true, true);
+	playWind = SoundEngine->play2D(wind, true, true, true);
+	playCar = SoundEngine->play3D(car, irrklang::vec3df(0, 0, 0), true, true, true);
 
 	// Generate a default VAO for now
 	glGenVertexArrays(1, &m_vertexArrayID);
@@ -217,6 +222,7 @@ void SceneRace::Init()
 void SceneRace::Update(double dt)
 {
 	Vector3 cameraPos(0, 5, 10);
+	Vector3 PlayerCam = (0, 0, 0);
 	playerPos.Set(ObjectList.Car1.getTranslationX(), ObjectList.Car1.getTranslationY(), ObjectList.Car1.getTranslationZ());
 	playerTwoPos.Set(ObjectList.Car2.getTranslationX(), ObjectList.Car2.getTranslationY(), ObjectList.Car2.getTranslationZ());
 	float addition = (float)(LSPEED * dt);
@@ -326,7 +332,8 @@ void SceneRace::Update(double dt)
 	/*camera[0].position.Set(playerPos.x + 0.01, playerPos.y + 10, playerPos.z - 10);*/
 	Mtx44 rotation;
 	rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
-	camera[0].Init(((rotation* cameraPos) + playerPos), playerPos, Vector3(0, 1, 0), 1);
+	PlayerCam = (rotation * cameraPos) + playerPos;
+	camera[0].Init(PlayerCam, playerPos, Vector3(0, 1, 0), 1);
 
 	rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
 	camera[1].Init(((rotation * cameraPos) + playerTwoPos), playerTwoPos, Vector3(0, 1, 0), 1);
@@ -337,6 +344,34 @@ void SceneRace::Update(double dt)
 	ObjectList.Car2.setRotationAmount(-playerTwoYaw);
 	replay[0].saveFrame(ObjectList.Character);
 	replay[1].saveFrame(ObjectList.Character2);
+
+	// Play Sounds for main player
+	if (forwardDirection.z < 0 && playCar->getIsPaused())
+	{
+		playBG = SoundEngine->play2D(ambience, true, false, true);
+		playWind = SoundEngine->play2D(wind, true, false, true);
+		playCar = SoundEngine->play3D(car, irrklang::vec3df(playerPos.x, playerPos.y, playerPos.z), true, false, true);
+	}
+	if (forwardDirection == 0 && playCar)
+	{
+		playBG->setIsPaused();
+		playWind->setIsPaused();
+		playCar->setIsPaused();
+	}
+	// For player 2
+	if (forwardTwoDirection.z < 0)
+	{
+		playCarTwo = SoundEngine->play3D(car, irrklang::vec3df(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z), true, false, true);
+	}
+	if (forwardTwoDirection == 0)
+	{
+		playCarTwo->setIsPaused();
+	}
+
+	// Set Listening position and car position
+	SoundEngine->setListenerPosition(irrklang::vec3df(PlayerCam.x, PlayerCam.y, PlayerCam.z), irrklang::vec3df(playerPos.x, playerPos.y, playerPos.z));
+	playCar->setPosition(irrklang::vec3df(playerPos.x, playerPos.y, playerPos.z));
+	playCarTwo->setPosition(irrklang::vec3df(playerTwoPos.x, playerTwoPos.y, playerTwoPos.z));
 }
 
 bool SceneRace::skyboxcheck()
@@ -387,6 +422,16 @@ void SceneRace::Exit()
 	}
 	replay[0].resetReplay();
 	replay[1].resetReplay();
+
+	playBG->setIsPaused();
+	playWind->setIsPaused();
+	playCar->setIsPaused();
+	playCarTwo->setIsPaused();
+	playBG->drop();
+	playWind->drop();
+	playCar->drop();
+	playCarTwo->drop();
+	SoundEngine->drop();
 
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
@@ -605,8 +650,27 @@ bool SceneRace::SwitchScene()
 
 void SceneRace::Reset()
 {
-	replay[0].resetReplay();
-	replay[1].resetReplay();
-	Exit();
+	// Cleanup here
+	for (int i = 0; i < NUM_GEOMETRY; ++i)
+	{
+		if (meshList[i] != NULL)
+			delete meshList[i];
+	}
+
+	// Cleanup Sounds
+	playBG->setIsPaused();
+	playWind->setIsPaused();
+	playCar->setIsPaused();
+	playCarTwo->setIsPaused();
+	playBG->drop();
+	playWind->drop();
+	playCar->drop();
+	playCarTwo->drop();
+	SoundEngine->drop();
+
+	// Cleanup VBO here
+	glDeleteVertexArrays(1, &m_vertexArrayID);
+	glDeleteProgram(m_programID);
+
 	Init();
 }

@@ -101,6 +101,14 @@ private:
 	ReplayRace replay[2];
 
 	irrklang::ISoundEngine* SoundEngine;
+	irrklang::ISoundSource* ambience;
+	irrklang::ISoundSource* wind;
+	irrklang::ISoundSource* car;
+	irrklang::ISound* playStart;
+	irrklang::ISound* playBG;
+	irrklang::ISound* playWind;
+	irrklang::ISound* playCar;
+	irrklang::ISound* playCarTwo;
 
 	int screen;
 	float time;
