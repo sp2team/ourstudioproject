@@ -38,7 +38,6 @@ void SceneText::Init()
 	ringposx = 55.f;
 	ringposz = 55.f;
 	toggleShop = true;
-	inrange = false;
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -924,7 +923,6 @@ void SceneText::carShowInteraction(double dt)
 
 	if (toggleShop)
 	{
-		inrange = true;
 		switch (atTurntable)
 		{
 		case 1:
@@ -1184,7 +1182,7 @@ void SceneText::ShopUI(int carnum)
 		playerData.updateFile();
 		keyPressed = true;
 	}
-	if (inrange == true && keyPressed == true && abletoPress == true && optionselected[2] == true)
+	if (keyPressed == true && abletoPress == true && optionselected[2] == true)
 	{
 		// Change the Scene to Test Drive here
 	}
