@@ -168,6 +168,7 @@ void Camera2::MouseControl()
 	Vector3 right = view.Cross(up).Normalized();
 	POINT mouseposition;
 	GetCursorPos(&mouseposition);
+	ShowCursor(false);
 
 	int positionX = mouseposition.x;
 	int positionY = mouseposition.y;
@@ -184,7 +185,7 @@ void Camera2::MouseControl()
 	lastX = positionX;
 	lastY = positionY;
 
-	float sens = 0.3f; // sensitivity of mouse
+	float sens = 0.2f; // sensitivity of mouse
 	offsetx *= sens;
 	offsety *= sens;
 
