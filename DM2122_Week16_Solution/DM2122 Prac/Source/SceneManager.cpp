@@ -57,6 +57,7 @@ void SceneManager::SwitchScreen()
 		else
 		{
 			scene = scene1;
+			scene->Reset();
 		}
 	}
 }

@@ -40,11 +40,8 @@ void SceneText::Init()
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	/*Sound Engine*/
-	//SoundEngine = irrklang::createIrrKlangDevice();
-	//irrklang::ISound* playStart = SoundEngine->play2D("Sounds//pistol.mp3", false);
-	//irrklang::ISound* playBG = SoundEngine->play2D("Sounds//ambient.mp3", true);
-	//irrklang::ISound* playWind = SoundEngine->play2D("Sounds//wind.mp3", true);
-	//irrklang::ISound* playCar = SoundEngine->play2D("Sounds//engine.mp3", true);
+	SoundEngine = irrklang::createIrrKlangDevice();
+	irrklang::ISound* playStart = SoundEngine->play2D("Sounds//Elevator music.mp3", true, false, true);
 
 	// Generate a default VAO for now
 	glGenVertexArrays(1, &m_vertexArrayID);
@@ -630,6 +627,7 @@ void SceneText::Update(double dt)
 	cameraMovement(dt);
 	CalculateFrameRate();
 
+	ObjectList.Character = replay->Replay();
 }
 
 bool SceneText::skyboxcheck()
@@ -707,6 +705,8 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_LIGHTSPHERE2], false);
 	modelStack.PopMatrix();
 
+	RenderObject(meshList[GEO_DICE],ObjectList.Character2, false);
+
 	//modelStack.PushMatrix();
 	////scale, translate, rotate
 	//RenderText(meshList[GEO_TEXT], "HELLO WORLD", Color(0, 1, 0));
@@ -750,6 +750,11 @@ void SceneText::Exit()
 	}
 	replay[0].resetReplay();
 	replay[1].resetReplay();
+
+	// Stop music
+	playMusic->setIsPaused();
+	playMusic->drop();
+	SoundEngine->drop();
 
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);

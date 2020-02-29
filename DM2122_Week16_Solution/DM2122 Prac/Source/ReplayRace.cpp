@@ -49,6 +49,12 @@ void ReplayRace::saveFrame(Object data)
 
 Object ReplayRace::Replay()
 {
+	if (newnode == NULL)
+	{
+		Object null;
+		return null;
+	}
+
 	//sets the newnode pointer to the next frame, in order to return it
 	if (newnode == last)
 		newnode = first;
