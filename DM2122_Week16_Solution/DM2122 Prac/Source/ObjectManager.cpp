@@ -5,7 +5,6 @@ ObjectManager ObjectList;
 bool ObjectManager::PointToMeshCollision(Vector3 point, Mesh* mesh) // Checks whether a vector is within the mesh's bounding box
 {
 	if (point.x >= mesh->minX && point.x <= mesh->maxX &&
-		point.y >= mesh->minY && point.y <= mesh->maxY &&
 		point.z >= mesh->minZ && point.z <= mesh->maxZ)
 	{
 		return true;

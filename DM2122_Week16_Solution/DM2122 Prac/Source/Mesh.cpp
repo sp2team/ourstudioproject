@@ -15,6 +15,12 @@ Mesh::Mesh(const std::string &meshName)
 	, mode(DRAW_TRIANGLES)
 	, textureID(0)
 {
+	for (int counter = 0; counter <= 7; counter++)
+	{
+		vertices[counter].x = 0;
+		vertices[counter].y = 0;
+		vertices[counter].z = 0;
+ 	}
 	// Generate buffers
 	glGenBuffers(1, &vertexBuffer);
 	glGenBuffers(1, &colorBuffer);

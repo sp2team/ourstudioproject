@@ -151,7 +151,7 @@ Then generate the VBO/IBO and store them in Mesh object
 \return Pointer to mesh storing VBO/IBO of quad
 */
 /******************************************************************************/
-Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float lengthX, float lengthY, Object meshObject)
+Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float lengthX, float lengthY, float offsetX, float offsetY, float offsetZ)
 {
 	Vertex v;
 	float maximumX = 0.00001, minimumX = 0.00001, maximumY = 0.00001, minimumY = 0.00001, maximumZ = 0.00001, minimumZ = 0.0001;
@@ -234,14 +234,14 @@ Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float 
 		}
 	}
 
-	mesh->vertices[0].Set(minimumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[1].Set(maximumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[2].Set(maximumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[3].Set(minimumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[4].Set(minimumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[5].Set(maximumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[6].Set(maximumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[7].Set(minimumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
+	mesh->vertices[0].Set(minimumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[1].Set(maximumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[2].Set(maximumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[3].Set(minimumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[4].Set(minimumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[5].Set(maximumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[6].Set(maximumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[7].Set(minimumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
 	mesh->maxX = mesh->vertices[6].x, mesh->maxY = mesh->vertices[6].y, mesh->maxZ = mesh->vertices[6].z, mesh->minX = mesh->vertices[0].x, mesh->minY = mesh->vertices[0].y, mesh->minZ = mesh->vertices[0].z;
 
 	return mesh;
@@ -440,7 +440,7 @@ float sphereZ(float phi, float theta) {
 }
 
 /******************************************************************************/
-Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius, Object meshObject)
+Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius, float offsetX, float offsetY, float offsetZ)
 {
 	Vertex v;
 	float maximumX = 0.00001, minimumX = 0.00001, maximumY = 0.00001, minimumY = 0.00001, maximumZ = 0.00001, minimumZ = 0.0001;
@@ -510,14 +510,14 @@ Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsi
 		}
 	}
 
-	mesh->vertices[0].Set(minimumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[1].Set(maximumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[2].Set(maximumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[3].Set(minimumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[4].Set(minimumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[5].Set(maximumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[6].Set(maximumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[7].Set(minimumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
+	mesh->vertices[0].Set(minimumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[1].Set(maximumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[2].Set(maximumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[3].Set(minimumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[4].Set(minimumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[5].Set(maximumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[6].Set(maximumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[7].Set(minimumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
 	mesh->maxX = mesh->vertices[6].x, mesh->maxY = mesh->vertices[6].y, mesh->maxZ = mesh->vertices[6].z, mesh->minX = mesh->vertices[0].x, mesh->minY = mesh->vertices[0].y, mesh->minZ = mesh->vertices[0].z;
 
 	return mesh;
@@ -702,7 +702,7 @@ Mesh* MeshBuilder::GenerateTorus(const std::string& meshName, Color color, unsig
 	return mesh;
 }
 
-Mesh* MeshBuilder::GenerateOBJ(const std::string& meshname, const std::string& file_path, Object meshObject)
+Mesh* MeshBuilder::GenerateOBJ(const std::string& meshname, const std::string& file_path, float offsetX, float offsetY, float offsetZ)
 {
 	float maximumX = 0.00001, minimumX = 0.00001, maximumY = 0.00001, minimumY = 0.00001, maximumZ = 0.00001, minimumZ = 0.00001;
 
@@ -761,14 +761,14 @@ Mesh* MeshBuilder::GenerateOBJ(const std::string& meshname, const std::string& f
 		}
 	}
 
-	mesh->vertices[0].Set(minimumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[1].Set(maximumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[2].Set(maximumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[3].Set(minimumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), minimumZ + meshObject.getOffsetZ());
-	mesh->vertices[4].Set(minimumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[5].Set(maximumX + meshObject.getOffsetX(), minimumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[6].Set(maximumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
-	mesh->vertices[7].Set(minimumX + meshObject.getOffsetX(), maximumY + meshObject.getOffsetY(), maximumZ + meshObject.getOffsetZ());
+	mesh->vertices[0].Set(minimumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[1].Set(maximumX + offsetX, minimumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[2].Set(maximumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[3].Set(minimumX + offsetX, maximumY + offsetY, minimumZ + offsetZ);
+	mesh->vertices[4].Set(minimumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[5].Set(maximumX + offsetX, minimumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[6].Set(maximumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
+	mesh->vertices[7].Set(minimumX + offsetX, maximumY + offsetY, maximumZ + offsetZ);
 	mesh->maxX = mesh->vertices[6].x, mesh->maxY = mesh->vertices[6].y, mesh->maxZ = mesh->vertices[6].z, mesh->minX = mesh->vertices[0].x, mesh->minY = mesh->vertices[0].y, mesh->minZ = mesh->vertices[0].z;
 
 	return mesh;

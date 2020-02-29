@@ -6,7 +6,6 @@
 #include "Camera2.h"
 #include "Mesh.h"
 #include "Light.h"
-#include "Acceleration.h"
 #include "ObjectManager.h"
 #include <math.h>
 #include <irrKlang.h>
@@ -26,18 +25,23 @@ class SceneRace : public Scene
 		GEO_BOTTOM,
 		GEO_FRONT,
 		GEO_BACK,
-		GEO_CAR1,
-		GEO_CAR2,
-		GEO_CAR3,
-		GEO_CAR4,
 		GEO_PLAYERONE,
+		GEO_PLAYERONE_BOX,
 		GEO_PLAYERTWO,
+		GEO_PLAYERTWO_BOX,
 		GEO_RACETRACK,
 		GEO_OBSTACLE1,
+		GEO_OBSTACLE1_BOX,
 		GEO_OBSTACLE2,
+		GEO_OBSTACLE2_BOX,
 		GEO_OBSTACLE3,
+		GEO_OBSTACLE3_BOX,
 		GEO_OBSTACLE4,
+		GEO_OBSTACLE4_BOX,
 		GEO_BOUNDARY,
+		GEO_BOUNDARY_BOX,
+		GEO_BOUNDARY2,
+		GEO_BOUNDARY2_BOX,
 		GEO_TEXT,
 		GEO_LIGHTSPHERE,
 		GEO_LIGHTSPHERE2,
@@ -105,6 +109,8 @@ private:
 	irrklang::ISound* playCar;
 	irrklang::ISound* playCarTwo;
 
+	bool toggleBoundingBox;
+
 	int screen;
 	float time;
 	float playerOneYaw;
@@ -116,14 +122,26 @@ private:
 	bool initTimer;
 	double elapsedTime;
 	double startTime;
+	bool gameBegin;
 
+	bool playerOneFinished;
+	bool playerOneWin;
+	bool playerTwoFinished;
+	bool playerTwoWin;
+
+	bool gameOver;
 
 	void RenderMesh(Mesh* mesh, bool enableLight);
 	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);
 	void RenderSkybox();
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderBoundingBox();
+	void VerticeUpdatePlayerOne();
+	void VerticeUpdatePlayerTwo();
 	void startTimer();
+	void playerPosition();
+	void winCondition();
 	string CalculateTime();
 
 public:

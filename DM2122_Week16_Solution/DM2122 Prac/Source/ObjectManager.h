@@ -49,6 +49,7 @@ public:
 	Object obstacle3;
 	Object obstacle4;
 	Object boundary;
+	Object boundary2;
 
 
 	// Any new models/objects just add it in here

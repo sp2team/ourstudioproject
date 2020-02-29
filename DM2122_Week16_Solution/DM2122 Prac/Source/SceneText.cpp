@@ -203,153 +203,164 @@ void SceneText::Init()
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
-	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", ObjectList.leftwall);
+	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", ObjectList.leftwall.getOffsetX(), ObjectList.leftwall .getOffsetY(), ObjectList.leftwall.getOffsetZ());
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_LEFT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_LEFT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_LEFT]->material.kSpecular.Set(2.f, 2.f, 2.f);
 	meshList[GEO_LEFT]->material.kShininess = 1.f;
 
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateOBJ("right", "OBJ//wallLR.obj", ObjectList.rightwall);
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateOBJ("right", "OBJ//wallLR.obj", ObjectList.rightwall.getOffsetX(), ObjectList.rightwall.getOffsetY(), ObjectList.rightwall.getOffsetZ());
 	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_RIGHT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_RIGHT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_RIGHT]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_RIGHT]->material.kShininess = 1.f;
 
-	meshList[GEO_TOP] = MeshBuilder::GenerateOBJ("top", "OBJ//top.obj", ObjectList.roof);
+	meshList[GEO_TOP] = MeshBuilder::GenerateOBJ("top", "OBJ//top.obj", 0, 0, 0);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//silver.tga");
 	meshList[GEO_TOP]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TOP]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TOP]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TOP]->material.kShininess = 1.f;
 
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, ObjectList.floor);
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//floortexture.tga");
 	meshList[GEO_BOTTOM]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_BOTTOM]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_BOTTOM]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BOTTOM]->material.kShininess = 1.f;
 
-	meshList[GEO_FRONT] = MeshBuilder::GenerateOBJ("front", "OBJ//wallFB.obj", ObjectList.frontwall);
+	meshList[GEO_FRONT] = MeshBuilder::GenerateOBJ("front", "OBJ//wallFB.obj", ObjectList.frontwall.getOffsetX(), ObjectList.frontwall.getOffsetY(), ObjectList.frontwall.getOffsetZ());
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_FRONT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_FRONT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_FRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_FRONT]->material.kShininess = 1.f;
 
-	meshList[GEO_BACK] = MeshBuilder::GenerateOBJ("back", "OBJ//wallFB.obj", ObjectList.backwall);
+	meshList[GEO_BACK] = MeshBuilder::GenerateOBJ("back", "OBJ//wallFB.obj", ObjectList.backwall.getOffsetX(), ObjectList.backwall.getOffsetY(), ObjectList.backwall.getOffsetZ());
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_BACK]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_BACK]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_BACK]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BACK]->material.kShininess = 1.f;
 
-	meshList[GEO_LEFT2] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, ObjectList.leftwall2);
+	meshList[GEO_LEFT2] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_LEFT2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_TEXTBG] = MeshBuilder::GenerateQuad("textbackground", Color(1, 1, 1), 1.f, 1.f, ObjectList.Character);
+	meshList[GEO_TEXTBG] = MeshBuilder::GenerateQuad("textbackground", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_TEXTBG]->textureID = LoadTGA("Image//textbg.tga");
 
-	meshList[GEO_RIGHT2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, ObjectList.rightwall2);
+	meshList[GEO_RIGHT2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_RIGHT2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_TOP2] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, ObjectList.roof2);
+	meshList[GEO_TOP2] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_TOP2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_FRONT2] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, ObjectList.frontwall2);
+	meshList[GEO_FRONT2] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_FRONT2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_BACK2] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, ObjectList.backwall2);
+	meshList[GEO_BACK2] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
 	meshList[GEO_BACK2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj", ObjectList.newcar1);
+	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar.obj", ObjectList.newcar1.getOffsetX(), ObjectList.newcar1.getOffsetY(), ObjectList.newcar1.getOffsetZ());
 	meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
 
-	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar2.obj", ObjectList.newcar2);
+	meshList[GEO_CAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar2.obj", ObjectList.newcar2.getOffsetX(), ObjectList.newcar2.getOffsetY(), ObjectList.newcar2.getOffsetZ());
 	meshList[GEO_CAR2]->textureID = LoadTGA("Image//192206L_KohKaiYang_A2_car texture.tga");
 
-	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj", ObjectList.newcar3);
+	meshList[GEO_CAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar3.obj", ObjectList.newcar3.getOffsetX(), ObjectList.newcar3.getOffsetY(), ObjectList.newcar3.getOffsetZ());
 	meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
 
-	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar4.obj", ObjectList.newcar4);
+	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar4.obj", ObjectList.newcar4.getOffsetX(), ObjectList.newcar4.getOffsetY(), ObjectList.newcar4.getOffsetZ());
 	meshList[GEO_CAR4]->textureID = LoadTGA("Image//180981D_JeromeYeo_A2_UvTextureLayout.tga");
 
-	meshList[GEO_TURNTABLE1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable1);
+	meshList[GEO_TURNTABLE1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable1.getOffsetX(), ObjectList.turntable1.getOffsetY(), ObjectList.turntable1.getOffsetZ());
 	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE1]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE1]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE1]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE1]->material.kShininess = 1.f;
 
-	meshList[GEO_TURNTABLE2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable2);
+	meshList[GEO_TURNTABLE2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable2.getOffsetX(), ObjectList.turntable2.getOffsetY(), ObjectList.turntable2.getOffsetZ());
 	meshList[GEO_TURNTABLE2]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE2]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE2]->material.kShininess = 1.f;
 
-	meshList[GEO_TURNTABLE3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable3);
+	meshList[GEO_TURNTABLE3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable3.getOffsetX(), ObjectList.turntable3.getOffsetY(), ObjectList.turntable3.getOffsetZ());
 	meshList[GEO_TURNTABLE3]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE3]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE3]->material.kShininess = 1.f;
 
-	meshList[GEO_TURNTABLE4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable4);
+	meshList[GEO_TURNTABLE4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable4.getOffsetX(), ObjectList.turntable4.getOffsetY(), ObjectList.turntable4.getOffsetZ());
 	meshList[GEO_TURNTABLE4]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_TURNTABLE4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TURNTABLE4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TURNTABLE4]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TURNTABLE4]->material.kShininess = 1.f;
 
-	meshList[GEO_PILLAR] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar1);
+	meshList[GEO_PILLAR] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar1.getOffsetX(), ObjectList.pillar1.getOffsetY(), ObjectList.pillar1.getOffsetZ());
 	meshList[GEO_PILLAR]->textureID = LoadTGA("Image//pillar.tga");
 	meshList[GEO_PILLAR]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR]->material.kShininess = 1.f;
 
-	meshList[GEO_PILLAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar2);
+	meshList[GEO_PILLAR2] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar2.getOffsetX(), ObjectList.pillar2.getOffsetY(), ObjectList.pillar2.getOffsetZ());
 	meshList[GEO_PILLAR2]->textureID = LoadTGA("Image//pillar.tga");
 	meshList[GEO_PILLAR2]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR2]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR2]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR2]->material.kShininess = 1.f;
 
-	meshList[GEO_PILLAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar3);
+	meshList[GEO_PILLAR3] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar3.getOffsetX(), ObjectList.pillar3.getOffsetY(), ObjectList.pillar3.getOffsetZ());
 	meshList[GEO_PILLAR3]->textureID = LoadTGA("Image//pillar.tga");
 	meshList[GEO_PILLAR3]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR3]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR3]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR3]->material.kShininess = 1.f;
 
-	meshList[GEO_PILLAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar4);
+	meshList[GEO_PILLAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//Pedestal.obj", ObjectList.pillar4.getOffsetX(), ObjectList.pillar4.getOffsetY(), ObjectList.pillar4.getOffsetZ());
 	meshList[GEO_PILLAR4]->textureID = LoadTGA("Image//pillar.tga");
 	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR4]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR4]->material.kShininess = 1.f;
 
-	meshList[GEO_DICE] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj", ObjectList.Character);
-	meshList[GEO_DICE]->textureID = LoadTGA("Image//doorman.tga");
+	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj", ObjectList.NPC.getOffsetX(), ObjectList.NPC.getOffsetY(), ObjectList.NPC.getOffsetZ());
+	meshList[GEO_NPC]->textureID = LoadTGA("Image//doorman.tga");
 
-	meshList[GEO_RING] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring.obj", ObjectList.ring1);
+	meshList[GEO_RING] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring.obj", ObjectList.ring1.getOffsetX(), ObjectList.ring2.getOffsetY(), ObjectList.ring2.getOffsetZ());
 	meshList[GEO_RING]->textureID = LoadTGA("Image//greenring.tga");
 
-	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj", ObjectList.ring2);
+	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj", ObjectList.ring2.getOffsetX(), ObjectList.ring2.getOffsetY(), ObjectList.ring2.getOffsetZ());
 	meshList[GEO_RING2]->textureID = LoadTGA("Image//greenring.tga");
 
-	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, ObjectList.LightSphere);
+	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 3.f, ObjectList.LightSphere.getOffsetX(), ObjectList.LightSphere.getOffsetY(), ObjectList.LightSphere.getOffsetZ());
 
-	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, ObjectList.LightSphere2);
+	meshList[GEO_LIGHTSPHERE2] = MeshBuilder::GenerateSphere("lightBall", Color(0.f, 1.f, 0.f), 9, 36, 3.f, ObjectList.LightSphere2.getOffsetX(), ObjectList.LightSphere2.getOffsetY(), ObjectList.LightSphere2.getOffsetZ());
 
-	meshList[GEO_FORTUNEWHEEL] = MeshBuilder::GenerateOBJ("Wheel Of Fortune", "OBJ//WheelOfFortune.obj", ObjectList.fortuneWheel);
+	meshList[GEO_FORTUNEWHEEL] = MeshBuilder::GenerateOBJ("Wheel Of Fortune", "OBJ//WheelOfFortune.obj", ObjectList.fortuneWheel.getOffsetX(), ObjectList.fortuneWheel.getOffsetY(), ObjectList.fortuneWheel.getOffsetZ());
 	meshList[GEO_FORTUNEWHEEL]->textureID = LoadTGA("Image//texture_wheeloffortune.tga");
 	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_PILLAR4]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_PILLAR4]->material.kShininess = 1.f;
+
+	meshList[GEO_TURNTABLE1_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE1]->vertices);
+	meshList[GEO_TURNTABLE2_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE2]->vertices);
+	meshList[GEO_TURNTABLE3_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE3]->vertices);
+	meshList[GEO_TURNTABLE4_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE4]->vertices);
+	meshList[GEO_PILLAR_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_PILLAR]->vertices);
+	meshList[GEO_PILLAR2_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_PILLAR2]->vertices);
+	meshList[GEO_PILLAR3_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_PILLAR3]->vertices);
+	meshList[GEO_PILLAR4_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_PILLAR4]->vertices);
+	meshList[GEO_FORTUNEWHEEL_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_FORTUNEWHEEL]->vertices);
+	meshList[GEO_NPC_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_NPC]->vertices);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
@@ -386,6 +397,8 @@ void SceneText::Init()
 
 	playerData.player1selectedcar = 0;
 	playerData.player2selectedcar = 4;
+
+	toggleBoundingBox = true;
 }
 
 void SceneText::Update(double dt)
@@ -473,6 +486,19 @@ void SceneText::Update(double dt)
 
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((camera.position - vNPC).Length()), Color(0, 1, 0), 1.75, 15, 23);
 
+	if (Application::IsKeyPressed('L') && abletoPress)
+	{
+		if (toggleBoundingBox)
+		{
+			toggleBoundingBox = false;
+		}
+		else
+		{
+			toggleBoundingBox = true;
+		}
+
+		keyPressed = true;
+	}
 
 	if (Application::IsKeyPressed(VK_DOWN) && selection != 3 && abletoPress)
 	{
@@ -584,7 +610,7 @@ void SceneText::Update(double dt)
 	CalculateFrameRate();
 	playerData.updateFile();
 
-	ObjectList.Character = replay->Replay();
+	//ObjectList.Character = replay->Replay();
 
 	if (keyPressed)
 	{
@@ -602,6 +628,7 @@ bool SceneText::skyboxcheck()
 
 void SceneText::Render()
 {
+
 	viewStack.LoadIdentity();
 	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
@@ -656,6 +683,11 @@ void SceneText::Render()
 	lightPos.x = light[0].position.x;
 	lightPos.y = light[0].position.y;
 	lightPos.z = light[0].position.z;
+
+	if (toggleBoundingBox)
+	{
+		RenderBoundingBox();
+	}
 
 	modelStack.PushMatrix();
 	modelStack.Translate(lightPos.x, lightPos.y, lightPos.z);
@@ -810,6 +842,24 @@ void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
 	}
 }
 
+void SceneText::VerticeUpdateNPC()
+{
+	if (ObjectList.NPC.getLastTranslationX() != ObjectList.NPC.getTranslationX() || ObjectList.NPC.getLastTranslationY() != ObjectList.NPC.getTranslationY() || ObjectList.NPC.getLastTranslationZ() != ObjectList.NPC.getTranslationZ()) // Updates the Bounding Box 8-vertices.
+	{
+		for (int counter = 0; counter <= 7; counter++)
+		{
+			meshList[GEO_NPC]->vertices[counter].x = meshList[GEO_NPC]->vertices[counter].x - ObjectList.NPC.getLastTranslationX() + ObjectList.NPC.getTranslationX();
+			meshList[GEO_NPC]->vertices[counter].y = meshList[GEO_NPC]->vertices[counter].y - ObjectList.NPC.getLastTranslationY() + ObjectList.NPC.getTranslationY();
+			meshList[GEO_NPC]->vertices[counter].z = meshList[GEO_NPC]->vertices[counter].z - ObjectList.NPC.getLastTranslationZ() + ObjectList.NPC.getTranslationZ();
+		}
+
+		meshList[GEO_NPC]->maxX = meshList[GEO_NPC]->vertices[6].x, meshList[GEO_NPC]->maxY = meshList[GEO_NPC]->vertices[6].y, meshList[GEO_NPC]->maxZ = meshList[GEO_NPC]->vertices[6].z, meshList[GEO_NPC]->minX = meshList[GEO_NPC]->vertices[0].x, meshList[GEO_NPC]->minY = meshList[GEO_NPC]->vertices[0].y, meshList[GEO_NPC]->minZ = meshList[GEO_NPC]->vertices[0].z;
+		ObjectList.NPC.setLastTranslationX(ObjectList.NPC.getTranslationX());
+		ObjectList.NPC.setLastTranslationY(ObjectList.NPC.getTranslationY());
+		ObjectList.NPC.setLastTranslationZ(ObjectList.NPC.getTranslationZ());
+	}
+}
+
 void SceneText::carShowInteraction(double dt)
 {
 	float NPC_SPEED = 50.f;
@@ -873,34 +923,42 @@ void SceneText::carShowInteraction(double dt)
 	if (ObjectList.NPC.getTranslationX() <= translateX)
 	{
 		ObjectList.NPC.setTranslationX(ObjectList.NPC.getTranslationX() + NPC_SPEED * dt);
+		VerticeUpdateNPC();
 		if (ObjectList.NPC.getTranslationX() > translateX)
 		{
 			ObjectList.NPC.setTranslationX(translateX);
+			VerticeUpdateNPC();
 		}
 	}
 	else
 	{
 		ObjectList.NPC.setTranslationX(ObjectList.NPC.getTranslationX() - NPC_SPEED * dt);
+		VerticeUpdateNPC();
 		if (ObjectList.NPC.getTranslationX() < translateX)
 		{
 			ObjectList.NPC.setTranslationX(translateX);
+			VerticeUpdateNPC();
 		}
 	}
 
 	if (ObjectList.NPC.getTranslationZ() <= translateZ)
 	{
 		ObjectList.NPC.setTranslationZ(ObjectList.NPC.getTranslationZ() + NPC_SPEED * dt);
+		VerticeUpdateNPC();
 		if (ObjectList.NPC.getTranslationZ() > translateZ)
 		{
 			ObjectList.NPC.setTranslationZ(translateZ);
+			VerticeUpdateNPC();
 		}
 	}
 	else
 	{
 		ObjectList.NPC.setTranslationZ(ObjectList.NPC.getTranslationZ() - NPC_SPEED * dt);
+		VerticeUpdateNPC();
 		if (ObjectList.NPC.getTranslationZ() < translateZ)
 		{
 			ObjectList.NPC.setTranslationZ(translateZ);
+			VerticeUpdateNPC();
 		}
 	}
 
@@ -947,7 +1005,63 @@ void SceneText::RenderNPC() // Code related to NPC
 		ObjectList.NPC.setRotationAmount(180 - rotation);
 	}
 
-	RenderObject(meshList[GEO_DICE], ObjectList.NPC, false); // Renders the NPC
+	RenderObject(meshList[GEO_NPC], ObjectList.NPC, false); // Renders the NPC
+	VerticeUpdateNPC();
+}
+
+void SceneText::RenderBoundingBox()
+{
+	meshList[GEO_TURNTABLE1_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE1]->vertices);
+	meshList[GEO_TURNTABLE2_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE2]->vertices);
+	meshList[GEO_TURNTABLE3_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE3]->vertices);
+	meshList[GEO_TURNTABLE4_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE4]->vertices);
+	meshList[GEO_PILLAR_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_PILLAR]->vertices);
+	meshList[GEO_PILLAR2_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_PILLAR2]->vertices);
+	meshList[GEO_PILLAR3_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_PILLAR3]->vertices);
+	meshList[GEO_PILLAR4_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_PILLAR4]->vertices);
+	meshList[GEO_FORTUNEWHEEL_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_FORTUNEWHEEL]->vertices);
+	meshList[GEO_NPC_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_NPC]->vertices);
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_TURNTABLE1_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_TURNTABLE2_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_TURNTABLE3_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_TURNTABLE4_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PILLAR_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PILLAR2_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PILLAR3_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_PILLAR4_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_NPC_BOX], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMesh(meshList[GEO_FORTUNEWHEEL_BOX], false);
+	modelStack.PopMatrix();
+
 }
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
@@ -1046,29 +1160,96 @@ void SceneText::cameraMovement(double dt)
 {
 	Vector3 view = (camera.target - camera.position).Normalized();
 	Vector3 right = view.Cross(camera.up);
+	float MOVEMENT_SPEED = 15.f;
 
 	if (Application::IsKeyPressed('A'))
 	{
-		camera.position -= right * (float)(15.f * dt);
-		camera.target = camera.position + view;
+		camera.position -= right * (float)(MOVEMENT_SPEED * dt);
+		if (ObjectList.PointToMeshCollision(camera.position, meshList[GEO_FORTUNEWHEEL]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE1]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE2]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE3]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE4]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_NPC]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_LEFT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_RIGHT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_BACK]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_FRONT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR2]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR3]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR4]))
+		{
+			camera.position += right * (float)(MOVEMENT_SPEED * dt);
+		}
 	}
 	if (Application::IsKeyPressed('D'))
 	{
-		camera.position += right * (float)(15.f * dt);
-		camera.target = camera.position + view;
+		camera.position += right * (float)(MOVEMENT_SPEED * dt);
+		if (ObjectList.PointToMeshCollision(camera.position, meshList[GEO_FORTUNEWHEEL]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE1]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE2]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE3]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE4]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_NPC]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_LEFT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_RIGHT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_BACK]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_FRONT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR2]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR3]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR4]))
+		{
+			camera.position -= right * (float)(MOVEMENT_SPEED * dt);
+		}
+
 	}
 	if (Application::IsKeyPressed('W'))
 	{
-		camera.position += view * (float)(15.f * dt);
-		camera.position.y = 15;
-		camera.target = camera.position + view;
+		camera.position += view * (float)(MOVEMENT_SPEED * dt);
+		if (ObjectList.PointToMeshCollision(camera.position, meshList[GEO_FORTUNEWHEEL]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE1]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE2]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE3]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE4]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_NPC]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_LEFT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_RIGHT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_BACK]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_FRONT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR2]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR3]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR4]))
+		{
+			camera.position -= view * (float)(MOVEMENT_SPEED * dt);
+		}
 	}
 	if (Application::IsKeyPressed('S'))
 	{
-		camera.position -= view * (float)(15.f * dt);
-		camera.position.y = 15;
-		camera.target = camera.position + view;
+		camera.position -= view * (float)(MOVEMENT_SPEED * dt);
+		if (ObjectList.PointToMeshCollision(camera.position, meshList[GEO_FORTUNEWHEEL]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE1]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE2]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE3]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_TURNTABLE4]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_NPC]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_LEFT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_RIGHT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_BACK]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_FRONT]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR2]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR3]) ||
+			ObjectList.PointToMeshCollision(camera.position, meshList[GEO_PILLAR4]))
+		{
+			camera.position += view * (float)(MOVEMENT_SPEED * dt);
+		}
 	}
+
+	camera.position.y = 15;
+	camera.target = camera.position + view;
 }
 
 void SceneText::CalculateFrameRate()

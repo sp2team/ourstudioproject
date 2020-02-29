@@ -6,7 +6,6 @@
 #include "Camera2.h"
 #include "Mesh.h"
 #include "Light.h"
-#include "Acceleration.h"
 #include "ObjectManager.h"
 #include <math.h>
 #include <irrKlang.h>
@@ -39,20 +38,30 @@ class SceneText : public Scene
 		GEO_CAR3,
 		GEO_CAR4,
 		GEO_TURNTABLE1,
+		GEO_TURNTABLE1_BOX,
 		GEO_TURNTABLE2,
+		GEO_TURNTABLE2_BOX,
 		GEO_TURNTABLE3,
+		GEO_TURNTABLE3_BOX,
 		GEO_TURNTABLE4,
+		GEO_TURNTABLE4_BOX,
 		GEO_PILLAR,
+		GEO_PILLAR_BOX,
 		GEO_PILLAR2,
+		GEO_PILLAR2_BOX,
 		GEO_PILLAR3,
+		GEO_PILLAR3_BOX,
 		GEO_PILLAR4,
+		GEO_PILLAR4_BOX,
 		GEO_RACETRACK,
 		GEO_RING,
 		GEO_RING2,
 		GEO_LIGHTSPHERE,
 		GEO_LIGHTSPHERE2,
 		GEO_NPC,
+		GEO_NPC_BOX,
 		GEO_FORTUNEWHEEL,
+		GEO_FORTUNEWHEEL_BOX,
 		GEO_TEXT,
 		GEO_TEXTBG,
 		NUM_GEOMETRY,
@@ -118,8 +127,6 @@ private:
 
 	Camera2 camera;
 
-	ReplayRace replay[2];
-
 	irrklang::ISoundEngine* SoundEngine;
 	irrklang::ISound* playMusic;
 	
@@ -127,8 +134,10 @@ private:
 	void RenderObject(Mesh* mesh, Object meshObject, bool enableLight);
 	void RenderSkybox();
 	void VerticeUpdate(Mesh* mesh, Object meshObject);
+	void VerticeUpdateNPC();
 	void carShowInteraction(double dt);
 	void RenderNPC();
+	void RenderBoundingBox();
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
@@ -137,6 +146,7 @@ private:
 	void ShopUI(int carnum);
 	void printIndicator(int carnum);
 
+	bool toggleBoundingBox;
 	bool toggleShop;
 	bool inrange;
 	bool keyPressed;
