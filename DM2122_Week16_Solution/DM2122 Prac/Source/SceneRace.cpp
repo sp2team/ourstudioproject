@@ -50,6 +50,12 @@ void SceneRace::Init()
 	ObjectList.Car3.init(5, 0.1, 0, 1, 1, 1, 0, 0, 1, 0);
 	ObjectList.Car4.init(10, 0.1, 0, 1, 1, 1, 0, 0, 1, 0);
 
+	ObjectList.obstacle1.init(5, 0, -180, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.obstacle2.init(-5, 0, -100, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.obstacle3.init(2, 0, 80, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.obstacle4.init(0, 0, 170, 1, 1, 1, 0, 0, 1, 0);
+
+	ObjectList.boundary.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0);
 	ObjectList.Racetrack.init(0, 0, 0, 1, 1, 1, 0, 0, 1, 0);
 
 	// For example you want to move 1 on the x-axis for your object.
@@ -96,18 +102,6 @@ void SceneRace::Init()
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 
-	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
-	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
-	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
-	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
-	m_parameters[U_LIGHT1_KL] = glGetUniformLocation(m_programID, "lights[1].kL");
-	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");
-	m_parameters[U_LIGHT1_TYPE] = glGetUniformLocation(m_programID, "lights[1].type");
-	m_parameters[U_LIGHT1_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[0].spotDirection");
-	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
-	m_parameters[U_LIGHT1_COSINNER] = glGetUniformLocation(m_programID, "lights[1].cosInner");
-	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
-
 	//Get a handle for our "colorTexture" uniform
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
 	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
@@ -132,18 +126,6 @@ void SceneRace::Init()
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);
 
-	light[1].type = Light::LIGHT_POINT;
-	light[1].position.Set(0, 0, 0);
-	light[1].color.Set(0.f, 0.f, 0.f);
-	light[1].power = 10;
-	light[1].kC = 1.f;
-	light[1].kL = 0.01f;
-	light[1].kQ = 0.001f;
-	light[1].cosCutoff = cos(Math::DegreeToRadian(35));
-	light[1].cosInner = cos(Math::DegreeToRadian(45));
-	light[1].exponent = 3.f;
-	light[1].spotDirection.Set(0.f, 1.f, 0.f);
-
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
 	glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
@@ -157,36 +139,23 @@ void SceneRace::Init()
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
 
-	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
-	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
-	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
-	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
-	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
-	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
-	glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &light[1].spotDirection.x);
-	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
-	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
-
-	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
-
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//space2.tga");
 
 	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//space2.tga");
 
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//space2.tga");
 
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//space2.tga");
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//space2.tga");
 
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//space2.tga");
 
 	meshList[GEO_CAR1] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar1.obj", 0, 0, 0);
 	meshList[GEO_CAR1]->textureID = LoadTGA("Image//newcar.tga");
@@ -200,8 +169,24 @@ void SceneRace::Init()
 	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("dice", "OBJ//racecar4.obj", 0, 0, 0);
 	meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
 
+	
+	meshList[GEO_OBSTACLE1] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle1.obj", 0, 0, 0);
+	meshList[GEO_OBSTACLE1]->textureID = LoadTGA("Image//newcar3.tga");
+
+	meshList[GEO_OBSTACLE2] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle2.obj", 0, 0, 0);
+	meshList[GEO_OBSTACLE2]->textureID = LoadTGA("Image//RocketColor.tga");
+	
+	meshList[GEO_OBSTACLE3] = MeshBuilder::GenerateOBJ("dice", "OBJ//cone.obj", 0, 0, 0);
+	meshList[GEO_OBSTACLE3]->textureID = LoadTGA("Image//cone.tga");
+
+	meshList[GEO_OBSTACLE4] = MeshBuilder::GenerateOBJ("dice", "OBJ//obstacle4.obj", 0, 0, 0);
+	meshList[GEO_OBSTACLE4]->textureID = LoadTGA("Image//buildingext.tga");
+
 	meshList[GEO_RACETRACK] = MeshBuilder::GenerateOBJ("dice", "OBJ//finaltrack.obj", 0, 0, 0);
 	meshList[GEO_RACETRACK]->textureID = LoadTGA("Image/roadtexture.tga");
+
+	meshList[GEO_BOUNDARY] = MeshBuilder::GenerateOBJ("dice", "OBJ//boundary.obj", 0, 0, 0);
+	meshList[GEO_BOUNDARY]->textureID = LoadTGA("Image/boundary.tga");
 
 	meshList[GEO_LIGHTSPHERE] = MeshBuilder::GenerateSphere("lightBall", Color(1.f, 1.f, 1.f), 9, 36, 1.f, 0, 5, 0);
 
@@ -369,6 +354,13 @@ void SceneRace::Render()
 
 	RenderObject(meshList[GEO_RACETRACK], ObjectList.Racetrack, false);
 
+	RenderObject(meshList[GEO_OBSTACLE1], ObjectList.obstacle1, false);
+    RenderObject(meshList[GEO_OBSTACLE2], ObjectList.obstacle2, false);
+	RenderObject(meshList[GEO_OBSTACLE3], ObjectList.obstacle3, false);
+	RenderObject(meshList[GEO_OBSTACLE4], ObjectList.obstacle4, false);
+
+	RenderObject(meshList[GEO_BOUNDARY], ObjectList.boundary, false);
+
 	//Render lap time
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Time:", Color(0, 1, 0), 2, 0, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(forwardDirection.z), Color(0, 1, 0), 2, 0, 27);
@@ -449,22 +441,22 @@ void SceneRace::RenderSkybox()
 {
 	modelStack.PushMatrix();
 		///scale, translate, rotate 
-		modelStack.Translate(-50.f, 0.f, 0.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
+		modelStack.Translate(-100.f, 0.f, 0.f);
+		modelStack.Scale(200.f, 200.f, 200.f);
 		modelStack.Rotate(90.f, 0.f, 1.f, 0.f);
 		RenderMesh(meshList[GEO_LEFT], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 		///scale, translate, rotate 
-		modelStack.Translate(50.f, 0.f, 0.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
+		modelStack.Translate(100.f, 0.f, 0.f);
+		modelStack.Scale(200.f, 200.f, 200.f);
 		modelStack.Rotate(-90.f, 0.f, 1.f, 0.f);
 		RenderMesh(meshList[GEO_RIGHT], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 		///scale, translate, rotate 
 		modelStack.Translate(0.f, 50.f, 0.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
+		modelStack.Scale(200.f, 200.f, 200.f);
 		modelStack.Rotate(90.f, 1.f, 0.f, 0.f);
 		modelStack.PushMatrix();
 			modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
@@ -474,7 +466,7 @@ void SceneRace::RenderSkybox()
 	modelStack.PushMatrix();
 		///scale, translate, rotate 
 		modelStack.Translate(0.f, 0.f, 0.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
+		modelStack.Scale(200.f, 200.f, 200.f);
 		modelStack.Rotate(-90.f, 1.f, 0.f, 0.f);
 		modelStack.PushMatrix();
 		modelStack.Rotate(90.f, 0.f, 0.f, 1.f);
@@ -483,14 +475,14 @@ void SceneRace::RenderSkybox()
 		modelStack.PopMatrix();
 	modelStack.PushMatrix();
 		///scale, translate, rotate 
-		modelStack.Translate(0.f, 0.f, -50.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
+		modelStack.Translate(0.f, 0.f, -100.f);
+		modelStack.Scale(200.f, 200.f, 200.f);
 		RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 		///scale, translate, rotate 
-		modelStack.Translate(0.f, 0.f, 50.f);
-		modelStack.Scale(100.f, 100.f, 100.f);
+		modelStack.Translate(0.f, 0.f, 100.f);
+		modelStack.Scale(200.f, 200.f, 200.f);
 		modelStack.Rotate(180.f, 0.f, 1.f, 0.f);
 		RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();

@@ -223,55 +223,55 @@ void SceneText::Init()
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
 	*/
 
-	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", 0, 0, 0);
+	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", ObjectList.leftwall);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_LEFT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_LEFT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_LEFT]->material.kSpecular.Set(2.f, 2.f, 2.f);
 	meshList[GEO_LEFT]->material.kShininess = 1.f;
 
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateOBJ("right", "OBJ//wallLR.obj", 0, 0, 0);
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateOBJ("right", "OBJ//wallLR.obj", ObjectList.rightwall);
 	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_RIGHT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_RIGHT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_RIGHT]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_RIGHT]->material.kShininess = 1.f;
 
-	meshList[GEO_TOP] = MeshBuilder::GenerateOBJ("top", "OBJ//top.obj", 0, 0, 0);
+	meshList[GEO_TOP] = MeshBuilder::GenerateOBJ("top", "OBJ//top.obj", ObjectList.roof);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//silver.tga");
 	meshList[GEO_TOP]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_TOP]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_TOP]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_TOP]->material.kShininess = 1.f;
 
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, ObjectList.floor);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//floortexture.tga");
 	meshList[GEO_BOTTOM]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_BOTTOM]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_BOTTOM]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BOTTOM]->material.kShininess = 1.f;
 
-	meshList[GEO_FRONT] = MeshBuilder::GenerateOBJ("front", "OBJ//wallFB.obj", 0, 0, 0);
+	meshList[GEO_FRONT] = MeshBuilder::GenerateOBJ("front", "OBJ//wallFB.obj", ObjectList.frontwall);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_FRONT]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_FRONT]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_FRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_FRONT]->material.kShininess = 1.f;
 
-	meshList[GEO_BACK] = MeshBuilder::GenerateOBJ("back", "OBJ//wallFB.obj", 0, 0, 0);
+	meshList[GEO_BACK] = MeshBuilder::GenerateOBJ("back", "OBJ//wallFB.obj", ObjectList.backwall);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//walltexture.tga");
 	meshList[GEO_BACK]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_BACK]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
 	meshList[GEO_BACK]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_BACK]->material.kShininess = 1.f;
 
-	meshList[GEO_LEFT2] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_LEFT2] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, ObjectList.leftwall2);
 	meshList[GEO_LEFT2]->textureID = LoadTGA("Image//space2.tga");
 
-	meshList[GEO_TEXTBG] = MeshBuilder::GenerateQuad("textbackground", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_TEXTBG] = MeshBuilder::GenerateQuad("textbackground", Color(1, 1, 1), 1.f, 1.f, ObjectList.Character);
 	meshList[GEO_TEXTBG]->textureID = LoadTGA("Image//textbg.tga");
 
-	meshList[GEO_RIGHT2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
+	meshList[GEO_RIGHT2] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, ObjectList.rightwall2);
 	meshList[GEO_RIGHT2]->textureID = LoadTGA("Image//space2.tga");
 
 	meshList[GEO_TOP2] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
@@ -472,7 +472,7 @@ void SceneText::Update(double dt)
 	}
 	currentTime += dt;
 
-	if (Application::IsKeyPressed('W'))
+	/*if (Application::IsKeyPressed('W'))
 	{
 		playerPos.z -= (float)(LSPEED * dt);
 		camera.position.z -= (float)(LSPEED * dt);
@@ -491,7 +491,7 @@ void SceneText::Update(double dt)
 	{
 		playerPos.x -= (float)(LSPEED * dt);
 		camera.position.x -= (float)(LSPEED * dt);
-	}
+	}*/
 
 	// For Shop Interface
 
@@ -624,9 +624,10 @@ void SceneText::Update(double dt)
 			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + 360);
 		}
 	}
-
+	
 	camera.MouseControl();
-	//camera->Update(dt);
+	//camera.Update(dt);
+	cameraMovement(dt);
 	CalculateFrameRate();
 
 }
@@ -976,6 +977,35 @@ void SceneText::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	modelStack.PopMatrix();
 
 	glEnable(GL_DEPTH_TEST);
+}
+
+void SceneText::cameraMovement(double dt)
+{
+	Vector3 view = (camera.target - camera.position).Normalized();
+	Vector3 right = view.Cross(camera.up);
+
+	if (Application::IsKeyPressed('A'))
+	{
+		camera.position -= right * (float)(15.f * dt);
+		camera.target = camera.position + view;
+	}
+	if (Application::IsKeyPressed('D'))
+	{
+		camera.position += right * (float)(15.f * dt);
+		camera.target = camera.position + view;
+	}
+	if (Application::IsKeyPressed('W'))
+	{
+		camera.position += view * (float)(15.f * dt);
+		camera.position.y = 10;
+		camera.target = camera.position + view;
+	}
+	if (Application::IsKeyPressed('S'))
+	{
+		camera.position -= view * (float)(15.f * dt);
+		camera.position.y = 10;
+		camera.target = camera.position + view;
+	}
 }
 
 void SceneText::CalculateFrameRate()

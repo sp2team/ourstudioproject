@@ -41,6 +41,14 @@ public:
 	Object newcar3;
 	Object newcar4;
 
+	// Scene 2
+	Object obstacle1;
+	Object obstacle2;
+	Object obstacle3;
+	Object obstacle4;
+	Object boundary;
+
+
 	// Any new models/objects just add it in here
 	// Object Car1;
 	// Object Turntable;

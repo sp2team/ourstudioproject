@@ -2,6 +2,9 @@
 #include "Application.h"
 #include "Mtx44.h"
 #include "Utility.h"
+#include "GLFW/glfw3.h"
+
+extern GLFWwindow* m_window;
 
 Camera2::Camera2()
 {
@@ -26,31 +29,10 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up,
 void Camera2::Update(double dt)
 {
 	static const float CAMERA_SPEED = 50.f;
+
 	if (camera == 0)
 	{
-		Vector3 view = (target - position).Normalized();
-		Vector3 right = view.Cross(up);
-
-		if (Application::IsKeyPressed('A'))
-		{
-			position -= right * (float)(15.f * dt);
-			target = position + view;
-		}
-		if (Application::IsKeyPressed('D'))
-		{
-			position += right * (float)(15.f * dt);
-			target = position + view;
-		}
-		if (Application::IsKeyPressed('W'))
-		{
-			position += view * (float)(15.f * dt);
-			target = position + view;
-		}
-		if (Application::IsKeyPressed('S'))
-		{
-			position -= view * (float)(15.f * dt);
-			target = position + view;
-		}
+		/*s
 
 		/*if (Application::IsKeyPressed('A'))
 		{
@@ -179,6 +161,9 @@ void Camera2::Reset()
 
 void Camera2::MouseControl()
 {
+	int width, height;
+	glfwGetWindowSize(m_window, &width, &height);
+
 	Vector3 view = (target - position).Normalized();
 	Vector3 right = view.Cross(up).Normalized();
 	POINT mouseposition;
@@ -222,4 +207,6 @@ void Camera2::MouseControl()
 	up = right.Cross(view).Normalized();
 	right = view.Cross(up).Normalized();
 	target = position + view;
+
+	//SetCursorPos(width / 2, height / 2);
 }

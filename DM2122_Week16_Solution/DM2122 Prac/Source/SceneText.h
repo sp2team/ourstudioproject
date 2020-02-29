@@ -130,6 +130,7 @@ private:
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderMeshOnScreen(Mesh* mesh, float x, float y, float sizex, float sizey);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void cameraMovement(double dt);
 	void CalculateFrameRate();
 	void ShopUI(int carnum);
 	void printIndicator();
