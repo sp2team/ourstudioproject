@@ -88,8 +88,8 @@ void SceneText::Init()
 	ObjectList.turntable4.init(-55, 10, -55, 1, 1, 1, 0, 0, 1, 0);
 
 	ObjectList.newcar1.init(53.f, 10.f, 50.f, 1, 1, 1, 0, 0, 1, 0);
-	ObjectList.newcar2.init(-55.f, 18.f, 55.f, 1, 1, 1, 0, 0, 1, 0);
-	ObjectList.newcar3.init(50.f, 15.f, -50.f, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.newcar2.init(50.f, 18.f, -50.f, 1, 1, 1, 0, 0, 1, 0);
+	ObjectList.newcar3.init(-55.f, 15.f, 55.f, 1, 1, 1, 0, 0, 1, 0);
 	ObjectList.newcar4.init(-60.f, 18.f, -60.f, 1, 1, 1, 0, 0, 1, 0);
 
 	ObjectList.fortuneWheel.init(30.f, 12.f, 95.f, 1, 1, 1, 0, 0, 0, 1);
@@ -202,26 +202,6 @@ void SceneText::Init()
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
-
-	/*
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
-
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
-
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
-
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
-
-	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
-
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f, 0, 0, 0);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
-	*/
 
 	meshList[GEO_LEFT] = MeshBuilder::GenerateOBJ("left", "OBJ//wallLR.obj", ObjectList.leftwall);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//walltexture.tga");
@@ -406,8 +386,8 @@ void SceneText::Init()
 	playerData.playerCar[6].setPrice(1000.0f);
 	playerData.playerCar[7].setPrice(100.0f);
 
-	playerData.player1selectedcar = 8;
-	playerData.player2selectedcar = 8;
+	playerData.player1selectedcar = 0;
+	playerData.player2selectedcar = 4;
 }
 
 void SceneText::Update(double dt)

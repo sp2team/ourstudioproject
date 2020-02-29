@@ -163,8 +163,6 @@ private:
 	
 	float currentTime;
 
-	Player playerData;
-
 	int atTurntable;
 
 	float ytranslate;
