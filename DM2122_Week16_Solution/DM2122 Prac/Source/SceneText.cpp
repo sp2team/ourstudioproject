@@ -273,7 +273,7 @@ void SceneText::Init()
 	meshList[GEO_CAR3]->textureID = LoadTGA("Image//newcar3.tga");
 
 	meshList[GEO_CAR4] = MeshBuilder::GenerateOBJ("Dice", "OBJ//newcar4.obj", ObjectList.newcar4);
-	meshList[GEO_CAR4]->textureID = LoadTGA("Image//newcar.tga");
+	meshList[GEO_CAR4]->textureID = LoadTGA("Image//180981D_JeromeYeo_A2_UvTextureLayout.tga");
 
 	meshList[GEO_TURNTABLE1] = MeshBuilder::GenerateOBJ("Dice", "OBJ//turntable.obj", ObjectList.turntable1);
 	meshList[GEO_TURNTABLE1]->textureID = LoadTGA("Image//walltexture.tga");
@@ -1232,6 +1232,9 @@ void SceneText::printIndicator(int carnum)
 
 void SceneText::Reset()
 {
-	Exit();
-	Init();
+	replay[0].resetReplay();
+	replay[1].resetReplay();
+
+	// Stop music
+	playMusic->setIsPaused();
 }
