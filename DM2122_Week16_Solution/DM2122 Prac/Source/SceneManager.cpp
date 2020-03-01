@@ -53,6 +53,7 @@ void SceneManager::SwitchScreen()
 		{
 			scene = scene2;
 			scene1->Reset();
+			scene2->Reset();
 		}
 		else
 		{
