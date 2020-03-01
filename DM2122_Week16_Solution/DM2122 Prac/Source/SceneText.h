@@ -61,6 +61,7 @@ class SceneText : public Scene
 		GEO_NPC,
 		GEO_NPC_BOX,
 		GEO_FORTUNEWHEEL,
+		GEO_FORTUNEWHEEL_INDICATOR,
 		GEO_FORTUNEWHEEL_BOX,
 		GEO_TEXT,
 		GEO_TEXTBG,
@@ -150,6 +151,7 @@ private:
 	bool toggleBoundingBox;
 	bool toggleShop;
 	bool toggleFortuneWheel;
+	int fortuneWheelSelection;
 	bool inrange;
 	bool keyPressed;
 	bool abletoPress;
@@ -164,6 +166,8 @@ private:
 
 	int texture;
 	int perviousLocation;
+
+	bool fortuneWheelPrizeGiven;
 
 	double bounceTime;
 	double elapsedTime;

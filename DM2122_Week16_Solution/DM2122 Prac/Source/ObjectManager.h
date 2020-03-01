@@ -9,6 +9,7 @@ public:
 	Object LightSphere;
 	Object LightSphere2;
 	Object fortuneWheel;
+	Object fortuneWheelIndicator;
 	Object Car1;
 	Object Car2;
 	Object Car3;

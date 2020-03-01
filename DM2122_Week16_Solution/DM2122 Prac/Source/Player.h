@@ -11,12 +11,13 @@ using namespace std;
 class Player
 {
 private:
-	float player1balance;
-	float player2balance;
+	int player1balance;
+	int player2balance;
 	string file = "gamedata.txt";
 
 public:
 	Cars playerCar[8];
+	bool playerCarUnlocked[8];
 	int player1selectedcar;
 	int player2selectedcar;
 
@@ -25,8 +26,8 @@ public:
 
 	void setPlayerOneBalance(float b);
 	void setPlayerTwoBalance(float b);
-	float getPlayerOneBalance();
-	float getPlayerTwoBalance();
+	int getPlayerOneBalance();
+	int getPlayerTwoBalance();
 	bool alreadyHaveFile();
 	void updateFile();
 	void readFile();

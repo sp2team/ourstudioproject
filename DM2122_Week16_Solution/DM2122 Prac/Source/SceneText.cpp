@@ -93,6 +93,7 @@ void SceneText::Init()
 	ObjectList.newcar4.init(-60.f, 18.f, -60.f, 1, 1, 1, 0, 0, 1, 0);
 
 	ObjectList.fortuneWheel.init(30.f, 12.f, 95.f, 1, 1, 1, 0, 0, 0, 1);
+	ObjectList.fortuneWheelIndicator.init(30.f, 12.f, 91.f, 1, 1, 1, 0, 0, 0, 1);
 
 	// For example you want to move 1 on the x-axis for your object.
 	//ObjectList.Character.setTranslationX(ObjectList.Character.getTranslationX() + 1);
@@ -346,10 +347,18 @@ void SceneText::Init()
 
 	meshList[GEO_FORTUNEWHEEL] = MeshBuilder::GenerateOBJ("Wheel Of Fortune", "OBJ//WheelOfFortune.obj", ObjectList.fortuneWheel.getOffsetX(), ObjectList.fortuneWheel.getOffsetY(), ObjectList.fortuneWheel.getOffsetZ());
 	meshList[GEO_FORTUNEWHEEL]->textureID = LoadTGA("Image//texture_wheeloffortune.tga");
-	meshList[GEO_PILLAR4]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_PILLAR4]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
-	meshList[GEO_PILLAR4]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_PILLAR4]->material.kShininess = 1.f;
+	meshList[GEO_FORTUNEWHEEL]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_FORTUNEWHEEL]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_FORTUNEWHEEL]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FORTUNEWHEEL]->material.kShininess = 1.f;
+
+	meshList[GEO_FORTUNEWHEEL_INDICATOR] = MeshBuilder::GenerateOBJ("Wheel Of Fortune", "OBJ//fortunewheelindicator.obj", 0, 0, 0);
+	meshList[GEO_FORTUNEWHEEL_INDICATOR]->textureID = LoadTGA("Image//boundary.tga");
+	meshList[GEO_FORTUNEWHEEL_INDICATOR]->material.kAmbient.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_FORTUNEWHEEL_INDICATOR]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_FORTUNEWHEEL_INDICATOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FORTUNEWHEEL_INDICATOR]->material.kShininess = 1.f;
+
 
 	meshList[GEO_TURNTABLE1_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE1]->vertices);
 	meshList[GEO_TURNTABLE2_BOX] = MeshBuilder::GenerateBoundingBox("boundingbox", meshList[GEO_TURNTABLE2]->vertices);
@@ -404,6 +413,8 @@ void SceneText::Init()
 
 	toggleBoundingBox = true;
 	toggleFortuneWheel = false;
+	fortuneWheelPrizeGiven = true;
+	fortuneWheelSelection = 1;
 }
 
 void SceneText::Update(double dt)
@@ -489,8 +500,6 @@ void SceneText::Update(double dt)
 	{
 		toggleShop = false;
 	}
-
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string((camera.position - vNPC).Length()), Color(0, 1, 0), 1.75, 15, 23);
 
 	if (Application::IsKeyPressed('L') && abletoPress)
 	{
@@ -760,15 +769,9 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_LIGHTSPHERE2], false);
 	modelStack.PopMatrix();
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + std::to_string(camera.position.x) + " Z:" + std::to_string(camera.position.z) , Color(0, 1, 0), 1.75, 15, 25);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.player1selectedcar) + " " + std::to_string(playerData.player2selectedcar), Color(0, 1, 0), 1.75, 15, 24);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(ObjectList.fortuneWheel.getRotationAmount()), Color(0, 1, 0), 1.75, 15, 24);
 
 	//=====================Shop Interface============================================
-	
-	for (int counter = 0; counter <= 7; counter++)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.playerCar[counter].getUnlocked()), Color(0, 1, 0), 1.75, 13 + counter, 28);
-	}
 	//RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.playerCar[0].getUnlocked()), Color(0, 1, 0), 1.75, 13, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], "P1 Balance:", Color(0, 1, 0), 2, 0, 28);
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(playerData.getPlayerOneBalance()), Color(0, 1, 0), 1.75, 13, 32);
@@ -883,6 +886,7 @@ void SceneText::RenderSkybox()
 	RenderObject(meshList[GEO_CAR4], ObjectList.newcar4, false);
 
 	RenderObject(meshList[GEO_FORTUNEWHEEL], ObjectList.fortuneWheel, false);
+	RenderObject(meshList[GEO_FORTUNEWHEEL_INDICATOR], ObjectList.fortuneWheelIndicator, false);
 }
 
 void SceneText::VerticeUpdate(Mesh* mesh, Object meshObject)
@@ -937,28 +941,24 @@ void SceneText::carShowInteraction(double dt)
 		(camera.position - vTurntable1).Length() <= (camera.position - vTurntable4).Length())
 	{
 		atTurntable = 1;
-		RenderTextOnScreen(meshList[GEO_TEXT], "turntable1", Color(0, 1, 0), 1.75, 13, 24);
 	}
 	else if ((camera.position - vTurntable2).Length() <= (camera.position - vTurntable1).Length() && 
 			 (camera.position - vTurntable2).Length() <= (camera.position - vTurntable3).Length() && 
 			 (camera.position - vTurntable2).Length() <= (camera.position - vTurntable4).Length())
 	{
 		atTurntable = 2;
-		RenderTextOnScreen(meshList[GEO_TEXT], "turntable2", Color(0, 1, 0), 1.75, 13, 24);
 	}
 	else if ((camera.position - vTurntable3).Length() <= (camera.position - vTurntable1).Length() && 
 		     (camera.position - vTurntable3).Length() <= (camera.position - vTurntable2).Length() && 
 		     (camera.position - vTurntable3).Length() <= (camera.position - vTurntable4).Length())
 	{
 		atTurntable = 3;
-		RenderTextOnScreen(meshList[GEO_TEXT], "turntable3", Color(0, 1, 0), 1.75, 13, 24);
 	}
 	else if ((camera.position - vTurntable4).Length() <= (camera.position - vTurntable1).Length() && 
 		     (camera.position - vTurntable4).Length() <= (camera.position - vTurntable2).Length() && 
 		     (camera.position - vTurntable4).Length() <= (camera.position - vTurntable3).Length())
 	{
 		atTurntable = 4;
-		RenderTextOnScreen(meshList[GEO_TEXT], "turntable4", Color(0, 1, 0), 1.75, 13, 24);
 	}
 
 	switch (atTurntable)
@@ -1045,12 +1045,39 @@ void SceneText::carShowInteraction(double dt)
 
 void SceneText::FortuneWheel(double dt)
 {
+	if (Application::IsKeyPressed(VK_DOWN) && fortuneWheelSelection == 1)
+	{
+		fortuneWheelSelection = 2;
+	}
+
+	if (Application::IsKeyPressed(VK_UP) && fortuneWheelSelection == 2)
+	{
+		fortuneWheelSelection = 1;
+	}
+
 	RenderTextOnScreen(meshList[GEO_TEXT], "Cost: 500", Color(1, 1, 1), 3, 0, 3);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Spin Fortune Wheel as Player 1", Color(1, 1, 1), 2, 0, 1);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Spin Fortune Wheel as Player 2", Color(1, 1, 1), 2, 0, 0);
+	if (fortuneWheelSelection == 1)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Spin Fortune Wheel as Player 1", Color(0, 1, 0), 2, 0, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Spin Fortune Wheel as Player 2", Color(1, 1, 1), 2, 0, 1);
+	}
+	else if (fortuneWheelSelection == 2)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Spin Fortune Wheel as Player 1", Color(1, 1, 1), 2, 0, 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Spin Fortune Wheel as Player 2", Color(0, 1, 0), 2, 0, 1);
+	}
 
 	if (Application::IsKeyPressed('F') && !isSpinning) // Activates the fortune wheel, sets a random angle to spin till using rng.
 	{
+		if (fortuneWheelSelection == 1)
+		{
+			playerData.setPlayerOneBalance(playerData.getPlayerOneBalance() - 500);
+		}
+		else if (fortuneWheelSelection == 2)
+		{
+			playerData.setPlayerTwoBalance(playerData.getPlayerTwoBalance() - 500);
+		}
+
 		ObjectList.fortuneWheel.setRotationAmount(0);
 		rotationSpeed = Math::RandIntMinMax(800, 1600);
 		isSpinning = true;
@@ -1074,11 +1101,93 @@ void SceneText::FortuneWheel(double dt)
 		if (ObjectList.fortuneWheel.getRotationAmount() > 360)
 		{
 			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() - 360);
+			fortuneWheelPrizeGiven = false;
 		}
 
 		if (ObjectList.fortuneWheel.getRotationAmount() < 0)
 		{
 			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + 360);
+			fortuneWheelPrizeGiven = false;
+		}
+
+		if (!fortuneWheelPrizeGiven)
+		{
+			float rotationValue = ObjectList.fortuneWheel.getRotationAmount();
+			float result = 0;
+
+			if ((rotationValue > 0 && rotationValue < 15) || (rotationValue < 360 && rotationValue > 345))
+			{
+				result = -500;
+			}
+			else if (rotationValue > 15 && rotationValue < 45)
+			{
+				result = 750;
+			}
+			else if (rotationValue > 45 && rotationValue < 75)
+			{
+				result = 300;
+			}
+			else if (rotationValue > 75 && rotationValue < 105)
+			{
+				if (fortuneWheelSelection == 1)
+				{
+					playerData.setPlayerOneBalance(2 * playerData.getPlayerOneBalance());
+				}
+				else if (fortuneWheelSelection == 2)
+				{
+					playerData.setPlayerTwoBalance(2 * playerData.getPlayerTwoBalance());
+				}
+			}
+			else if (rotationValue > 105 && rotationValue < 135)
+			{
+				result = 500;
+			}
+			else if (rotationValue > 135 && rotationValue < 165)
+			{
+				result = 1000;
+			}
+			else if (rotationValue > 165 && rotationValue < 195)
+			{
+				result = 100;
+			}
+			else if (rotationValue > 195 && rotationValue < 225)
+			{
+				result = -250;
+			}
+			else if (rotationValue > 225 && rotationValue < 255)
+			{
+				result = 2000;
+			}
+			else if (rotationValue > 255 && rotationValue < 285)
+			{
+				if (fortuneWheelSelection == 1)
+				{
+					playerData.setPlayerOneBalance(0);
+				}
+				else if (fortuneWheelSelection == 2)
+				{
+					playerData.setPlayerTwoBalance(0);
+				}
+			}
+			else if (rotationValue > 285 && rotationValue < 315)
+			{
+				result = -1000;
+			}
+			else if (rotationValue > 315 && rotationValue < 345)
+			{
+				result = 5000;
+			}
+
+			if (fortuneWheelSelection == 1)
+			{
+				playerData.setPlayerOneBalance(playerData.getPlayerOneBalance() + result);
+			}
+			else if (fortuneWheelSelection == 2)
+			{
+				playerData.setPlayerTwoBalance(playerData.getPlayerTwoBalance() + result);
+			}
+
+			fortuneWheelPrizeGiven = true;
 		}
 	}
 }
@@ -1421,27 +1530,27 @@ void SceneText::ShopUI(int carnum)
 
 	RenderMeshOnScreen(meshList[GEO_TEXTBG], 24.5, 7.5, 56, 17);
 
-	if (playerData.playerCar[carnum].getUnlocked() && playerData.player1selectedcar != carnum) // if the car is unlocked but not selected
+	if (playerData.playerCarUnlocked[carnum] && playerData.player1selectedcar != carnum) // if the car is unlocked but not selected
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 1", Color(1, 1, 1), 2, 0, 6);
 	}
-	else if (playerData.playerCar[carnum].getUnlocked() && playerData.player1selectedcar == carnum) // if car is selected 
+	else if (playerData.playerCarUnlocked[carnum] && playerData.player1selectedcar == carnum) // if car is selected 
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Car Selected for Player 1", Color(1, 1, 1), 2, 0, 6);
 	}
-	else if (!playerData.playerCar[carnum].getUnlocked()) // if car is still locked
+	else if (!playerData.playerCarUnlocked[carnum]) // if car is still locked
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 1", Color(1, 1, 1), 2, 0, 6);
 	}
-	if (playerData.playerCar[carnum + 4].getUnlocked() && playerData.player2selectedcar != carnum + 4) // refer above^
+	if (playerData.playerCarUnlocked[carnum + 4] && playerData.player2selectedcar != carnum + 4) // refer above^
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Select Car for Player 2", Color(1, 1, 1), 2, 0, 5);
 	}
-	else if (playerData.playerCar[carnum + 4].getUnlocked() && playerData.player2selectedcar == carnum + 4)
+	else if (playerData.playerCarUnlocked[carnum + 4] && playerData.player2selectedcar == carnum + 4)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Car Selected for Player 2", Color(1, 1, 1), 2, 0, 5);
 	}
-	else if (!playerData.playerCar[carnum + 4].getUnlocked())
+	else if (!playerData.playerCarUnlocked[carnum + 4])
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Purchase Car as Player 2", Color(1, 1, 1), 2, 0, 5);
 	}
@@ -1455,36 +1564,36 @@ void SceneText::ShopUI(int carnum)
 
 	printIndicator(carnum);
 
-	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerOneBalance() >= playerData.playerCar[carnum].getPrice() && !playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[0]) // when purchase car
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerOneBalance() >= playerData.playerCar[carnum].getPrice() && !playerData.playerCarUnlocked[carnum] && abletoPress && optionselected[0]) // when purchase car
 	{
 
 		playerData.setPlayerOneBalance(playerData.getPlayerOneBalance() - playerData.playerCar[carnum].getPrice());
-		playerData.playerCar[carnum].setUnlocked(true);
+		playerData.playerCarUnlocked[carnum] = true;
 		playerData.updateFile();
 		keyPressed = true;
 	}
-	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[0]) // selection of car
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCarUnlocked[carnum] && abletoPress && optionselected[0]) // selection of car
 	{
 		playerData.player1selectedcar = carnum;
 		keyPressed = true;
 	}
-	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerTwoBalance() >= playerData.playerCar[carnum + 4].getPrice() && !playerData.playerCar[carnum + 4].getUnlocked() && abletoPress && optionselected[1])
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.getPlayerTwoBalance() >= playerData.playerCar[carnum + 4].getPrice() && !playerData.playerCarUnlocked[carnum + 4] && abletoPress && optionselected[1])
 	{
 		playerData.setPlayerTwoBalance(playerData.getPlayerTwoBalance() - playerData.playerCar[carnum + 4].getPrice());
-		playerData.playerCar[carnum + 4].setUnlocked(true);
+		playerData.playerCarUnlocked[carnum + 4] = true;
 		playerData.updateFile();
 		keyPressed = true;
 	}
-	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum + 4].getUnlocked() && abletoPress && optionselected[1])
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCarUnlocked[carnum + 4] && abletoPress && optionselected[1])
 	{
 		playerData.player2selectedcar = carnum + 4;
 		keyPressed = true;
 	}
-	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum].getUnlocked() && abletoPress && optionselected[3])
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCarUnlocked[carnum] && abletoPress && optionselected[3])
 	{
 		playerData.player1Texture = texture;
 	}
-	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCar[carnum + 4].getUnlocked() && abletoPress && optionselected[4])
+	if (Application::IsKeyPressed(VK_RETURN) && playerData.playerCarUnlocked[carnum + 4] && abletoPress && optionselected[4])
 	{
 		playerData.player2Texture = texture;
 	}

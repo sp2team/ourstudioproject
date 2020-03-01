@@ -12,12 +12,12 @@ void Player::setPlayerTwoBalance(float b)
 	updateFile();
 }
 
-float Player::getPlayerOneBalance()
+int Player::getPlayerOneBalance()
 {
 	return player1balance;
 }
 
-float Player::getPlayerTwoBalance()
+int Player::getPlayerTwoBalance()
 {
 	return player2balance;
 }
@@ -45,7 +45,7 @@ void Player::updateFile()
 	update << to_string(player2balance) + "\n";
 	for (int counter = 0; counter <= 7; counter++)
 	{
-		update << to_string(playerCar[counter].getUnlocked()) + "\n";
+		update << to_string(playerCarUnlocked[counter]) + "\n";
 	}
 }
 
@@ -72,49 +72,35 @@ void Player::readFile()
 		}
 		if (lineCounter == DataLine + 3)
 		{
-			if (stoi(line) == 1)
-			{
-				playerCar[0].setUnlocked(true);
-			}
-			else
-			{
-				playerCar[0].setUnlocked(false);
-			}
+			playerCarUnlocked[0] = stoi(line);
 		}
 		if (lineCounter == DataLine + 4)
 		{
-			if (stoi(line) == 1)
-			{
-				playerCar[1].setUnlocked(true);
-			}
-			else
-			{
-				playerCar[1].setUnlocked(false);
-			}
+			playerCarUnlocked[1] = stoi(line);
 		}
 		if (lineCounter == DataLine + 5)
 		{
-			playerCar[2].setUnlocked(stoi(line));
+			playerCarUnlocked[2] = stoi(line);
 		}
 		if (lineCounter == DataLine + 6)
 		{
-			playerCar[3].setUnlocked(stoi(line));
+			playerCarUnlocked[3] = stoi(line);
+		}
+		if (lineCounter == DataLine + 7)
+		{
+			playerCarUnlocked[4] = stoi(line);
 		}
 		if (lineCounter == DataLine + 8)
 		{
-			playerCar[4].setUnlocked(stoi(line));
+			playerCarUnlocked[5] = stoi(line);
 		}
 		if (lineCounter == DataLine + 9)
 		{
-			playerCar[5].setUnlocked(stoi(line));
+			playerCarUnlocked[6] = stoi(line);
 		}
 		if (lineCounter == DataLine + 10)
 		{
-			playerCar[6].setUnlocked(stoi(line));
-		}
-		if (lineCounter == DataLine + 11)
-		{
-			playerCar[7].setUnlocked(stoi(line));
+			playerCarUnlocked[7] = stoi(line);
 		}
 
 		lineCounter++;
