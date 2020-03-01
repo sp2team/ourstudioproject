@@ -136,6 +136,7 @@ private:
 	void VerticeUpdate(Mesh* mesh, Object meshObject);
 	void VerticeUpdateNPC();
 	void carShowInteraction(double dt);
+	void FortuneWheel(double dt);
 	void RenderNPC();
 	void RenderBoundingBox();
 	void RenderText(Mesh* mesh, std::string text, Color color);
@@ -148,6 +149,7 @@ private:
 
 	bool toggleBoundingBox;
 	bool toggleShop;
+	bool toggleFortuneWheel;
 	bool inrange;
 	bool keyPressed;
 	bool abletoPress;

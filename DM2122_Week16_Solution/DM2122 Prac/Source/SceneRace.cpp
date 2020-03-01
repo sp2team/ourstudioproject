@@ -303,6 +303,11 @@ void SceneRace::Update(double dt)
 	elapsedTime += dt;
 	Vector3 cameraPos(0, 15, 20);
 	Vector3 PlayerCam = (0, 0, 0);
+	float ACCELERATION_MAX = -0.35f;
+	float ACCELERATION_INCREMENT = 0.05f;
+	float YAW_SPEED = 0.5;
+
+
 	playerPos.Set(ObjectList.Character.getTranslationX(), ObjectList.Character.getTranslationY(), ObjectList.Character.getTranslationZ());
 	playerTwoPos.Set(ObjectList.Character2.getTranslationX(), ObjectList.Character2.getTranslationY(), ObjectList.Character2.getTranslationZ());
 	float addition = (float)(LSPEED * dt);
@@ -341,9 +346,9 @@ void SceneRace::Update(double dt)
 		{
 			Mtx44 rotation;
 			rotation.SetToRotation(-playerOneYaw, 0, 1, 0);
-			if (forwardDirection.z > -0.35)
+			if (forwardDirection.z > ACCELERATION_MAX)
 			{
-				forwardDirection.z -= 0.05 * dt;
+				forwardDirection.z -= ACCELERATION_INCREMENT * dt;
 			}
 			playerPos = playerPos + rotation * forwardDirection;
 
@@ -404,11 +409,11 @@ void SceneRace::Update(double dt)
 
 			if (Application::IsKeyPressed('D'))
 			{
-				playerOneYaw++;
+				playerOneYaw += YAW_SPEED;
 			}
 			if (Application::IsKeyPressed('A'))
 			{
-				playerOneYaw--;
+				playerOneYaw -= YAW_SPEED;
 			}
 		}
 		if (Application::IsKeyPressed('D') && forwardDirection.z != 0)
@@ -428,9 +433,9 @@ void SceneRace::Update(double dt)
 		{
 			Mtx44 rotation;
 			rotation.SetToRotation(-playerTwoYaw, 0, 1, 0);
-			if (forwardTwoDirection.z > -0.35)
+			if (forwardTwoDirection.z > ACCELERATION_MAX)
 			{
-				forwardTwoDirection.z -= 0.05 * dt;
+				forwardTwoDirection.z -= ACCELERATION_INCREMENT * dt;
 			}
 			playerTwoPos = playerTwoPos + rotation * forwardTwoDirection;
 
@@ -491,11 +496,11 @@ void SceneRace::Update(double dt)
 
 			if (Application::IsKeyPressed(VK_RIGHT))
 			{
-				playerTwoYaw++;
+				playerTwoYaw += YAW_SPEED;
 			}
 			if (Application::IsKeyPressed(VK_LEFT))
 			{
-				playerTwoYaw--;
+				playerTwoYaw -= YAW_SPEED;
 			}
 		}
 		if (Application::IsKeyPressed(VK_RIGHT) && forwardTwoDirection.z != 0)
@@ -1035,15 +1040,11 @@ void SceneRace::RenderRightScreen()
 
 bool SceneRace::SwitchScene()
 {
-	if (Application::IsKeyPressed('P'))
+	if (Application::IsKeyPressed('P') || gameOver)
 		return true;
 	else
 		return false;
 
-	if (gameOver)
-	{
-
-	}
 }
 
 void SceneRace::Reset()

@@ -100,7 +100,7 @@ void SceneText::Init()
 	camera.Init(Vector3(0, 15, 10), Vector3(0, 10, 0), Vector3(0, 1, 0), 0);
 
 	Mtx44 projection;
-	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
+	projection.SetToPerspective(90.f , 4.f / 3.f, 0.1f, 1000.f);
 	projectionStack.LoadMatrix(projection);
 	
 	m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
@@ -334,7 +334,7 @@ void SceneText::Init()
 	meshList[GEO_NPC] = MeshBuilder::GenerateOBJ("Dice","OBJ//doorman.obj", ObjectList.NPC.getOffsetX(), ObjectList.NPC.getOffsetY(), ObjectList.NPC.getOffsetZ());
 	meshList[GEO_NPC]->textureID = LoadTGA("Image//doorman.tga");
 
-	meshList[GEO_RING] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring.obj", ObjectList.ring1.getOffsetX(), ObjectList.ring2.getOffsetY(), ObjectList.ring2.getOffsetZ());
+	meshList[GEO_RING] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring.obj", ObjectList.ring1.getOffsetX(), ObjectList.ring1.getOffsetY(), ObjectList.ring1.getOffsetZ());
 	meshList[GEO_RING]->textureID = LoadTGA("Image//greenring.tga");
 
 	meshList[GEO_RING2] = MeshBuilder::GenerateOBJ("ring", "OBJ//ring2.obj", ObjectList.ring2.getOffsetX(), ObjectList.ring2.getOffsetY(), ObjectList.ring2.getOffsetZ());
@@ -403,11 +403,13 @@ void SceneText::Init()
 	playerData.player2selectedcar = 4;
 
 	toggleBoundingBox = true;
+	toggleFortuneWheel = false;
 }
 
 void SceneText::Update(double dt)
 {
 	Vector3 vNPC(ObjectList.NPC.getTranslationX(), ObjectList.NPC.getTranslationY(), ObjectList.NPC.getTranslationZ());
+	Vector3 vFortuneWheel(ObjectList.fortuneWheel.getTranslationX(), ObjectList.fortuneWheel.getTranslationY(), ObjectList.fortuneWheel.getTranslationZ());
 	currentTime += dt;
 
 	keyPressed = false;
@@ -575,37 +577,18 @@ void SceneText::Update(double dt)
 	ObjectList.newcar2.setRotationAmount(rotation2);
 	ObjectList.newcar4.setRotationAmount(rotation2);
 
-	if (Application::IsKeyPressed('F') && !isSpinning) // Activates the fortune wheel, sets a random angle to spin till using rng.
+	if ((camera.position - vFortuneWheel).Length() <= 35)
 	{
-		ObjectList.fortuneWheel.setRotationAmount(0);
-		rotationSpeed = Math::RandIntMinMax(800, 1600);
-		isSpinning = true;
+		toggleFortuneWheel = true;
+	}
+	else
+	{
+		toggleFortuneWheel = false;
 	}
 
-	if (isSpinning) // During the spinning process
+	if (toggleFortuneWheel)
 	{
-
-		ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + dt * rotationSpeed);
-		rotationSpeed -= 10;
-
-		if (rotationSpeed <= 0)
-		{
-			rotationSpeed = 0;
-			isSpinning = false;
-		}
-	}
-	
-	if (!isSpinning)// When it's done spinning
-	{
-		if (ObjectList.fortuneWheel.getRotationAmount() > 360)
-		{
-			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() - 360);
-		}
-
-		if (ObjectList.fortuneWheel.getRotationAmount() < 0)
-		{
-			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + 360);
-		}
+		FortuneWheel(dt);
 	}
 
 	if (Application::IsKeyPressed('Y') && abletoPress) {
@@ -1060,6 +1043,46 @@ void SceneText::carShowInteraction(double dt)
 	}
 }
 
+void SceneText::FortuneWheel(double dt)
+{
+	RenderTextOnScreen(meshList[GEO_TEXT], "Cost: 500", Color(1, 1, 1), 3, 0, 3);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Spin Fortune Wheel as Player 1", Color(1, 1, 1), 2, 0, 1);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Spin Fortune Wheel as Player 2", Color(1, 1, 1), 2, 0, 0);
+
+	if (Application::IsKeyPressed('F') && !isSpinning) // Activates the fortune wheel, sets a random angle to spin till using rng.
+	{
+		ObjectList.fortuneWheel.setRotationAmount(0);
+		rotationSpeed = Math::RandIntMinMax(800, 1600);
+		isSpinning = true;
+	}
+
+	if (isSpinning) // During the spinning process
+	{
+
+		ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + dt * rotationSpeed);
+		rotationSpeed -= 10;
+
+		if (rotationSpeed <= 0)
+		{
+			rotationSpeed = 0;
+			isSpinning = false;
+		}
+	}
+
+	if (!isSpinning)// When it's done spinning
+	{
+		if (ObjectList.fortuneWheel.getRotationAmount() > 360)
+		{
+			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() - 360);
+		}
+
+		if (ObjectList.fortuneWheel.getRotationAmount() < 0)
+		{
+			ObjectList.fortuneWheel.setRotationAmount(ObjectList.fortuneWheel.getRotationAmount() + 360);
+		}
+	}
+}
+
 void SceneText::RenderNPC() // Code related to NPC
 {
 	modelView.x = 0; // A general direction for the NPC to dot product from
@@ -1358,10 +1381,11 @@ void SceneText::RenderRightScreen()
 
 bool SceneText::SwitchScene()
 {
-	if (Application::IsKeyPressed('O'))
+	if (ObjectList.PointToMeshCollision(camera.position, meshList[GEO_RING]))
 		return true;
 	else
 		return false;
+
 }
 
 void SceneText::ShopUI(int carnum)
